@@ -1,19 +1,10 @@
-"use client";
-import LogoSvg from "@/components/images/Logo";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import LogoSvg from "@/components/images/Logo";
+import Carousel3D from "@/components/Carousel3D";
+import NewsletterForm from "@/components/NewsletterForm";
+import ImageFallback from "@/components/ImageFallback";
 
 export default function Home() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
-
   return (
     <div className="w-full">
       {/* Hero Section */}
@@ -26,14 +17,26 @@ export default function Home() {
       >
         <div className="absolute inset-0 hero-overlay"></div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12 sm:py-16 md:py-20">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-center">
-            <div className="md:col-span-6 lg:col-span-6">
-              <h1 className="hero-title mb-6 sm:mb-8 md:mb-10">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-start">
+            <div className="md:col-span-6 lg:col-span-6 -mt-4 sm:-mt-6 md:-mt-8">
+              <h1
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight sm:leading-normal mb-4 sm:mb-6 md:mb-8"
+                style={{
+                  textShadow: "2px 2px 8px rgba(0, 0, 0, 0.5)",
+                  letterSpacing: "-0.02em",
+                }}
+              >
                 Saving Lives <br /> in Disaster
                 <br /> Using
                 <br /> Technology & AI
               </h1>
-              <div className="flex gap-4 sm:gap-5 mt-8 sm:mt-10 md:mt-12">
+              <p className="text-white text-sm sm:text-base md:text-lg mb-4 sm:mb-6 max-w-2xl">
+                An end-to-end Disaster Management Technology Ecosystem that
+                saves lives through real-time intelligence, connected devices,
+                and unified response coordination.
+              </p>
+              <hr className="border-white/30 mb-6 sm:mb-8 md:mb-10" />
+              <div className="flex gap-4 sm:gap-5">
                 <a
                   href="https://facebook.com"
                   target="_blank"
@@ -88,41 +91,137 @@ export default function Home() {
                     Join our newsletter to get latest updates on our launch &
                     offers!
                   </h3>
-                  <form className="space-y-4 sm:space-y-5">
-                    <div>
-                      <label className="block text-white text-sm sm:text-base mb-2">
-                        Email*
-                      </label>
-                      <input
-                        type="email"
-                        placeholder="Enter your email"
-                        className="w-full px-4 py-2.5 sm:py-3 bg-transparent border border-white rounded-md text-white placeholder:text-white/40 focus:outline-none focus:border-white text-sm sm:text-base"
-                        required
-                      />
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <input
-                        type="checkbox"
-                        id="newsletter-consent"
-                        className="mt-1 w-4 h-4 sm:w-5 sm:h-5 border-white rounded focus:ring-2 focus:ring-white flex-shrink-0"
-                        required
-                      />
-                      <label
-                        htmlFor="newsletter-consent"
-                        className="text-white text-sm sm:text-base cursor-pointer leading-relaxed"
-                      >
-                        Yes, subscribe to your newsletter*
-                      </label>
-                    </div>
-                    <button
-                      type="submit"
-                      className="w-full text-white px-4 py-3 sm:py-3.5 rounded-md font-semibold transition-opacity hover:opacity-90 text-sm sm:text-base"
-                      style={{ backgroundColor: "#BF0637" }}
-                    >
-                      Submit
-                    </button>
-                  </form>
+                  <NewsletterForm />
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* The True Cost of Delayed Emergency Response */}
+      <section className="relative w-full pt-16 sm:pt-20 md:pt-24 pb-12 sm:pb-16 md:pb-20 overflow-hidden">
+        {/* Content - Constrained */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-center text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-4 sm:mb-6">
+            The True Cost of{" "}
+            <span className="text-[#BF0637]">Delayed Emergency Response</span>
+          </h2>
+          <p className="text-center text-slate-600 mt-3 sm:mt-4 max-w-3xl mx-auto text-sm sm:text-base px-4 mb-12 sm:mb-16">
+            Disasters don't just destroy infrastructure – they steal time,
+            lives, and hope.
+          </p>
+
+          {/* Background Image - Full Width, starts from behind statistics */}
+          <div className="relative w-full pb-8 sm:pb-12">
+            <div
+              className="absolute left-1/2 -translate-x-1/2 w-screen bg-cover bg-center bg-no-repeat opacity-30"
+              style={{
+                backgroundImage: "url('/CrisisBG.png')",
+                top: 0,
+                bottom: 0,
+              }}
+            ></div>
+            {/* Gradient overlay - fades from white at top and bottom */}
+            <div
+              className="absolute left-1/2 -translate-x-1/2 w-screen"
+              style={{
+                top: 0,
+                bottom: 0,
+                background:
+                  "linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.85) 15%, rgba(255, 255, 255, 0.85) 85%, rgba(255, 255, 255, 1) 100%)",
+              }}
+            ></div>
+
+            {/* Statistics Cards Section */}
+            <div className="relative z-10 pt-8 sm:pt-12 pb-8 sm:pb-12">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+                <div
+                  className="text-center p-4 sm:p-6 rounded-lg"
+                  style={{ backgroundColor: "#FFFFFF33" }}
+                >
+                  <div className="bg-[#FFF5F8] py-2 mx-2">
+                    <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#BF0637] mb-2">
+                      $100+
+                    </div>
+                    <div className="text-lg sm:text-xl font-bold text-black mb-2">
+                      Billions
+                    </div>
+                  </div>
+                  <h3 className="text-sm sm:text-base font-semibold text-black mb-2 mt-3">
+                    Average annual disaster damage in the United States
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-600">
+                    Climate-driven disasters are increasing in frequency and
+                    severity every year.
+                  </p>
+                </div>
+                <div
+                  className="text-center p-4 sm:p-6 rounded-lg"
+                  style={{ backgroundColor: "#FFFFFF33" }}
+                >
+                  <div className="bg-[#FFF5F8] py-2 mx-2">
+                    <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#BF0637] mb-2">
+                      16,000+
+                    </div>
+                    <div className="text-lg sm:text-xl font-bold text-black mb-2">
+                      Lives Lost
+                    </div>
+                  </div>
+                  <h3 className="text-sm sm:text-base font-semibold text-black mb-2 mt-3">
+                    In U.S. disasters since 1980
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-600">
+                    Climate-driven disasters are increasing in frequency and
+                    severity every year.
+                  </p>
+                </div>
+                <div
+                  className="text-center p-4 sm:p-6 rounded-lg"
+                  style={{ backgroundColor: "#FFFFFF33" }}
+                >
+                  <div className="bg-[#FFF5F8] py-2 mx-2">
+                    <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#BF0637] mb-2">
+                      5,000+
+                    </div>
+                    <div className="text-lg sm:text-xl font-bold text-black mb-2">
+                      Missing
+                    </div>
+                  </div>
+                  <h3 className="text-sm sm:text-base font-semibold text-black mb-2 mt-3">
+                    During floods, hurricanes, fires, and earthquakes
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-600">
+                    Families lose contact. Responders lack precise location
+                    data.
+                  </p>
+                </div>
+                <div
+                  className="text-center p-4 sm:p-6 rounded-lg"
+                  style={{ backgroundColor: "#FFFFFF33" }}
+                >
+                  <div className="bg-[#FFF5F8] py-2 mx-2">
+                    <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#BF0637] mb-2">
+                      30-40%
+                    </div>
+                    <div className="text-lg sm:text-xl font-bold text-black mb-2">
+                      Lost Lives
+                    </div>
+                  </div>
+                  <h3 className="text-sm sm:text-base font-semibold text-black mb-2 mt-3">
+                    Could be avoided with faster location, communication, and
+                    response
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-600">
+                    Minutes matter. Technology saves lives.
+                  </p>
+                </div>
+              </div>
+              <div className="text-center mt-12 sm:mt-16">
+                <p className="text-xl sm:text-2xl md:text-3xl font-bold text-black">
+                  When help is late,{" "}
+                  <span className="text-[#BF0637]">R.SULTS</span> shows up!
+                </p>
               </div>
             </div>
           </div>
@@ -135,7 +234,7 @@ export default function Home() {
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 md:pt-24 pb-12 sm:pb-16 md:pb-20"
       >
         <h2 className="text-center text-3xl sm:text-4xl md:text-5xl font-bold text-black mb-4 sm:mb-6">
-          What we are building?
+          What we are <span className="text-[#BF0637]">building?</span>
         </h2>
         <p className="text-center text-slate-600 mt-3 sm:mt-4 max-w-3xl mx-auto text-base sm:text-lg px-4">
           An easy-to-use disaster management platform that provides
@@ -143,139 +242,41 @@ export default function Home() {
           recover from any crisis.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mt-12 sm:mt-16 md:mt-20">
-          <div className="bg-gray-200 rounded-lg p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <svg className="w-8 h-8 shrink-0" viewBox="0 0 24 24" fill="none">
-                <rect
-                  x="6"
-                  y="3"
-                  width="12"
-                  height="18"
-                  rx="2"
-                  fill="#BF0637"
-                />
-                <rect x="8.5" y="6" width="2" height="2" fill="white" />
-                <rect x="11.5" y="6" width="2" height="2" fill="white" />
-                <rect x="14.5" y="6" width="2" height="2" fill="white" />
-                <rect x="8.5" y="9" width="2" height="2" fill="white" />
-                <rect x="11.5" y="9" width="2" height="2" fill="white" />
-                <rect x="14.5" y="9" width="2" height="2" fill="white" />
-                <rect x="8.5" y="12" width="2" height="2" fill="white" />
-                <rect x="11.5" y="12" width="2" height="2" fill="white" />
-                <rect x="14.5" y="12" width="2" height="2" fill="white" />
-              </svg>
-              <h4 className="font-bold text-xl text-black">
-                Consumer <span className="text-[#BF0637]">Mobile App</span>
-              </h4>
+        <div className="relative mt-12 sm:mt-16 md:mt-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            {/* Left Half - 3D Carousel (client) */}
+            <Carousel3D />
+
+            {/* Right Half - Fixed iPad Image */}
+            <div className="hidden lg:flex justify-center items-center">
+              <Image
+                src="/IPadImg.png"
+                alt="Tablet/Smartphone Visual"
+                width={650}
+                height={295}
+                className="w-full max-w-[650px] h-auto"
+              />
             </div>
-            <ul className="space-y-2 text-gray-700">
-              <li className="flex items-start">
-                <span className="text-gray-700 mr-2 mt-1">✓</span>
-                <span>Real-time disaster alerts powered by AI</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-gray-700 mr-2 mt-1">✓</span>
-                <span>Preparedness checklists and safety protocols</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-gray-700 mr-2 mt-1">✓</span>
-                <span>Shelter & evacuation mapping</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-gray-700 mr-2 mt-1">✓</span>
-                <span>Insurance guidance & emergency supplies</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-gray-700 mr-2 mt-1">✓</span>
-                <span>Medical & first-aid support</span>
-              </li>
-            </ul>
           </div>
 
-          <div className="bg-gray-200 rounded-lg p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <svg className="w-8 h-8 shrink-0" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                  stroke="#BF0637"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  fill="none"
-                />
-              </svg>
-              <h4 className="font-bold text-xl text-black">
-                Family <span className="text-[#BF0637]">Finder System</span>
-              </h4>
-            </div>
-            <ul className="space-y-2 text-gray-700">
-              <li className="flex items-start">
-                <span className="text-gray-700 mr-2 mt-1">✓</span>
-                <span>Locate loved ones</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-gray-700 mr-2 mt-1">✓</span>
-                <span>Share status</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-gray-700 mr-2 mt-1">✓</span>
-                <span>Connect with family</span>
-              </li>
-            </ul>
+          {/* iPad Image for Mobile/Tablet - Below carousel */}
+          <div className="lg:hidden flex justify-center mt-8 sm:mt-10">
+            <Image
+              src="/IPadImg.png"
+              alt="Tablet/Smartphone Visual"
+              width={650}
+              height={295}
+              className="w-full max-w-[90%] sm:max-w-[80%] md:max-w-[600px] h-auto"
+            />
           </div>
-
-          <div className="bg-gray-200 rounded-lg p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <svg className="w-8 h-8 shrink-0" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                  stroke="#BF0637"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  fill="none"
-                />
-              </svg>
-              <h4 className="font-bold text-xl text-black">
-                Smart Safety <span className="text-[#BF0637]">Wearable</span>
-              </h4>
-            </div>
-            <ul className="space-y-2 text-gray-700">
-              <li className="flex items-start">
-                <span className="text-gray-700 mr-2 mt-1">✓</span>
-                <span>Real-time vitals</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-gray-700 mr-2 mt-1">✓</span>
-                <span>Long battery</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-gray-700 mr-2 mt-1">✓</span>
-                <span>Emergency comms</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-gray-700 mr-2 mt-1">✓</span>
-                <span>Distress signal</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div className="flex justify-center mt-12 sm:mt-16 md:mt-20 px-4">
-          <Image
-            src="/IPadImg.png"
-            alt="Tablet/Smartphone Visual"
-            width={650}
-            height={295}
-            className="w-full max-w-[90%] sm:max-w-[80%] md:max-w-[650px] h-auto"
-          />
         </div>
       </section>
 
       {/* Your Lifeline in Crisis */}
-      <section className="lifeline-section relative py-12 sm:py-16 md:py-20 mt-12 sm:mt-16 md:mt-20">
+      <section className="lifeline-section relative py-12 sm:py-16 md:py-20 mt-12 sm:mt-16 md:mt-20 overflow-hidden">
         <div className="absolute inset-0 lifeline-bg"></div>
-        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-transparent to-black"></div>
+        <div className="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
           <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-3 sm:mb-4">
             Your <span className="accent-color">Lifeline</span> in Crisis
@@ -413,17 +414,12 @@ export default function Home() {
             <div className="flex-1 flex justify-center md:justify-start w-full md:w-auto">
               <div className="watch-container relative">
                 <div className="watch-glow"></div>
-                <img
+                <ImageFallback
                   alt="Smart Safety Wearable"
                   src="/WatchImg.png"
                   className="w-56 sm:w-64 md:w-72 lg:w-80 h-auto relative z-10 watch-image"
                   loading="lazy"
-                  onError={(e) => {
-                    const target = e.currentTarget as HTMLImageElement;
-                    if (target && !target.src.includes("placeholder")) {
-                      target.style.display = "none";
-                    }
-                  }}
+                  hideOnError
                 />
               </div>
             </div>
@@ -496,18 +492,14 @@ export default function Home() {
                 className="team-card bg-transparent text-center rounded-lg md:p-8"
               >
                 <div className="team-headshot-container bg-transparent mb-6">
-                  <img
+                  <ImageFallback
                     src={p.img}
                     alt={p.name}
                     className="team-headshot bg-transparent w-full h-auto object-cover rounded-lg"
                     loading="lazy"
-                    onError={(e) => {
-                      const target = e.currentTarget as HTMLImageElement;
-                      if (target && !target.src.includes("placeholder")) {
-                        target.src =
-                          "https://via.placeholder.com/400x500/CCCCCC/666666?text=Team+Member";
-                      }
-                    }}
+                    fallbackSrc={
+                      "https://via.placeholder.com/400x500/CCCCCC/666666?text=Team+Member"
+                    }
                   />
                 </div>
                 <h4 className="font-bold text-center text-xl md:text-2xl text-white mb-2">
@@ -583,18 +575,14 @@ export default function Home() {
               }`}
               style={{ opacity: idx === 3 ? 0.6 : 1 }}
             >
-              <img
+              <ImageFallback
                 src={item.image}
                 alt={item.title}
                 className="w-full m-5 sm:w-28 h-44 sm:h-28 object-cover shrink-0 rounded"
                 loading="lazy"
-                onError={(e) => {
-                  const target = e.currentTarget as HTMLImageElement;
-                  if (target && !target.src.includes("placeholder")) {
-                    target.src =
-                      "https://via.placeholder.com/200x150/CCCCCC/666666?text=Image";
-                  }
-                }}
+                fallbackSrc={
+                  "https://via.placeholder.com/200x150/CCCCCC/666666?text=Image"
+                }
               />
               <div className="p-6 flex-1">
                 <h4 className="font-bold text-lg mb-2 accent-color">
@@ -681,18 +669,14 @@ export default function Home() {
                 key={i}
                 className="bg-white/5 backdrop-blur-sm rounded-lg overflow-hidden border border-white/10 hover:shadow-xl transition-shadow"
               >
-                <img
+                <ImageFallback
                   src={item.image}
                   alt={item.title}
                   className="w-full h-44 object-cover p-4"
                   loading="lazy"
-                  onError={(e) => {
-                    const target = e.currentTarget as HTMLImageElement;
-                    if (target && !target.src.includes("placeholder")) {
-                      target.src =
-                        "https://via.placeholder.com/400x200/CCCCCC/666666?text=Guide";
-                    }
-                  }}
+                  fallbackSrc={
+                    "https://via.placeholder.com/400x200/CCCCCC/666666?text=Guide"
+                  }
                 />
                 <div className="p-6">
                   <div className="font-bold text-lg mb-2 text-white">
@@ -740,17 +724,12 @@ export default function Home() {
                   ])
                   .map((img, i) => (
                     <div key={i} className="agency-carousel-item">
-                      <img
+                      <ImageFallback
                         src={img}
                         alt="Government Agency"
                         className="agency-logo-image"
                         loading="lazy"
-                        onError={(e) => {
-                          const target = e.currentTarget as HTMLImageElement;
-                          if (target && !target.src.includes("placeholder")) {
-                            target.style.display = "none";
-                          }
-                        }}
+                        hideOnError
                       />
                     </div>
                   ))}
@@ -802,17 +781,12 @@ export default function Home() {
                   ])
                   .map((logo, i) => (
                     <div key={`left-${i}`} className="partner-logo-item">
-                      <img
+                      <ImageFallback
                         src={logo}
                         alt={`Partner ${(i % 6) + 1}`}
                         className="partner-logo-image"
                         loading="lazy"
-                        onError={(e) => {
-                          const target = e.currentTarget as HTMLImageElement;
-                          if (target && !target.src.includes("placeholder")) {
-                            target.style.display = "none";
-                          }
-                        }}
+                        hideOnError
                       />
                     </div>
                   ))}
@@ -847,17 +821,12 @@ export default function Home() {
                   ])
                   .map((logo, i) => (
                     <div key={`right-${i}`} className="partner-logo-item">
-                      <img
+                      <ImageFallback
                         src={logo}
                         alt={`Partner ${(i % 6) + 7}`}
                         className="partner-logo-image"
                         loading="lazy"
-                        onError={(e) => {
-                          const target = e.currentTarget as HTMLImageElement;
-                          if (target && !target.src.includes("placeholder")) {
-                            target.style.display = "none";
-                          }
-                        }}
+                        hideOnError
                       />
                     </div>
                   ))}
