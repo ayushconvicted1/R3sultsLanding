@@ -37,7 +37,7 @@
 }
 
 .hero-title {
-  @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-white leading-tight sm:leading-normal;
+  @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-white leading-tight sm:leading-normal;
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
   letter-spacing: -0.02em;
 }
