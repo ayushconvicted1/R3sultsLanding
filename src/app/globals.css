@@ -562,12 +562,23 @@ button:disabled {
   max-height: 100%;
   object-fit: contain;
   background: transparent;
-  filter: grayscale(100%);
+  /* Colored on mobile, grayscale on desktop */
+  filter: grayscale(0%);
   transition: filter 0.3s ease;
 }
 
-.partner-logo-item:hover .partner-logo-image {
-  filter: grayscale(0%);
+/* Desktop: grayscale by default */
+@media (min-width: 768px) {
+  .partner-logo-image {
+    filter: grayscale(100%);
+  }
+}
+
+/* Desktop: remove grayscale on hover */
+@media (min-width: 768px) {
+  .partner-logo-item:hover .partner-logo-image {
+    filter: grayscale(0%);
+  }
 }
 
 .partners-carousel-fade-left,
