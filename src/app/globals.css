@@ -121,7 +121,7 @@
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
-  z-index: 1;
+  z-index: 2;
 }
 
 .lifeline-card {
@@ -680,6 +680,14 @@ button:disabled {
 
   .carousel-arrow-right::before {
     transform: skewX(-10deg);
+  }
+
+  .carousel-3d-container {
+    overflow: hidden !important;
+  }
+
+  .carousel-3d-wrapper {
+    overflow: hidden;
   }
 }
 

@@ -8,7 +8,17 @@ export default function Carousel3D() {
   const [animatingFromRight, setAnimatingFromRight] = useState<number | null>(
     null
   );
+  const [isMobile, setIsMobile] = useState(false);
   const CARD_COUNT = 3;
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -28,49 +38,111 @@ export default function Carousel3D() {
   }, [animatingFromRight]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentCardIndex((prev) => {
-        setPrevCardIndex(prev);
-        const n = CARD_COUNT;
-        const newIndex = (prev - 1 + n) % n;
-        const cardComingFromInvisible = (newIndex + 1) % n;
-        setAnimatingFromRight(cardComingFromInvisible);
-        return newIndex;
-      });
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
+    if (!isMobile) {
+      const interval = setInterval(() => {
+        setCurrentCardIndex((prev) => {
+          setPrevCardIndex(prev);
+          const n = CARD_COUNT;
+          const newIndex = (prev - 1 + n) % n;
+          const cardComingFromInvisible = (newIndex + 1) % n;
+          setAnimatingFromRight(cardComingFromInvisible);
+          return newIndex;
+        });
+      }, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [isMobile]);
+
+  const goToNext = () => {
+    setPrevCardIndex(currentCardIndex);
+    const n = CARD_COUNT;
+    const newIndex = (currentCardIndex + 1) % n;
+    const cardComingFromInvisible = (newIndex + 1) % n;
+    setAnimatingFromRight(cardComingFromInvisible);
+    setCurrentCardIndex(newIndex);
+  };
+
+  const goToPrev = () => {
+    setPrevCardIndex(currentCardIndex);
+    const n = CARD_COUNT;
+    const newIndex = (currentCardIndex - 1 + n) % n;
+    setCurrentCardIndex(newIndex);
+  };
 
   return (
     <div className="relative w-full lg:w-1/2">
-      <button
-        onClick={() => {
-          setPrevCardIndex(currentCardIndex);
-          const n = CARD_COUNT;
-          const newIndex = (currentCardIndex + 1) % n;
-          const cardComingFromInvisible = (newIndex + 1) % n;
-          setAnimatingFromRight(cardComingFromInvisible);
-          setCurrentCardIndex(newIndex);
-        }}
-        className="absolute -left-8 sm:-left-10 md:-left-12 top-1/2 -translate-y-1/2 z-30 w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center bg-gray-300/80 hover:bg-gray-300 rounded-full shadow-md transition-all duration-300 hover:scale-110"
-        aria-label="Next card"
-      >
-        <svg
-          className="w-3 h-3 sm:w-4 sm:h-4 text-[#BF0637]"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
+      {/* Desktop navigation button */}
+      {!isMobile && (
+        <button
+          onClick={goToNext}
+          className="absolute -left-8 sm:-left-10 md:-left-12 top-1/2 -translate-y-1/2 z-30 w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center bg-gray-300/80 hover:bg-gray-300 rounded-full shadow-md transition-all duration-300 hover:scale-110"
+          aria-label="Next card"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M15 19l-7-7 7-7"
-          />
-        </svg>
-      </button>
+          <svg
+            className="w-3 h-3 sm:w-4 sm:h-4 text-[#BF0637]"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+        </button>
+      )}
 
-      <div className="carousel-3d-container relative h-[250px] sm:h-[270px] md:h-[280px] lg:h-[300px] overflow-hidden w-full">
+      {/* Mobile navigation buttons */}
+      {isMobile && (
+        <>
+          <button
+            onClick={goToPrev}
+            className="absolute left-2 top-1/2 -translate-y-1/2 z-30 w-10 h-10 flex items-center justify-center bg-white/90 hover:bg-white rounded-full shadow-lg transition-all duration-300"
+            aria-label="Previous card"
+          >
+            <svg
+              className="w-5 h-5 text-[#BF0637]"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </button>
+          <button
+            onClick={goToNext}
+            className="absolute right-2 top-1/2 -translate-y-1/2 z-30 w-10 h-10 flex items-center justify-center bg-white/90 hover:bg-white rounded-full shadow-lg transition-all duration-300"
+            aria-label="Next card"
+          >
+            <svg
+              className="w-5 h-5 text-[#BF0637]"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
+        </>
+      )}
+
+      <div
+        className={`carousel-3d-container relative h-[250px] sm:h-[270px] md:h-[280px] lg:h-[300px] ${
+          isMobile ? "overflow-hidden" : "overflow-visible"
+        } w-full`}
+      >
         <div className="carousel-3d-wrapper relative w-full h-full">
           {[
             {
@@ -192,30 +264,54 @@ export default function Carousel3D() {
             let opacity = 1;
             let zIndex = 10;
 
-            if (signed === 0) {
-              left = "0%";
-              rotateY = "0deg";
-              translateZ = "0px";
-              opacity = 1;
-              zIndex = 40;
-            } else if (signed === 1) {
-              left = isAnimatingFromRight ? "150%" : "100%";
-              rotateY = "-45deg";
-              translateZ = "0px";
-              opacity = 0.85;
-              zIndex = 25;
-            } else if (signed === -1) {
-              left = "-120%";
-              rotateY = "0deg";
-              translateZ = "0px";
-              opacity = 0;
-              zIndex = 5;
+            // Mobile: show only one card at a time
+            if (isMobile) {
+              if (signed === 0) {
+                left = "0%";
+                rotateY = "0deg";
+                translateZ = "0px";
+                opacity = 1;
+                zIndex = 40;
+              } else if (signed === 1) {
+                left = "100%";
+                rotateY = "0deg";
+                translateZ = "0px";
+                opacity = 0;
+                zIndex = 5;
+              } else {
+                left = "-100%";
+                rotateY = "0deg";
+                translateZ = "0px";
+                opacity = 0;
+                zIndex = 5;
+              }
             } else {
-              left = "150%";
-              rotateY = "0deg";
-              translateZ = "0px";
-              opacity = 0;
-              zIndex = 1;
+              // Desktop: 3D carousel effect
+              if (signed === 0) {
+                left = "0%";
+                rotateY = "0deg";
+                translateZ = "0px";
+                opacity = 1;
+                zIndex = 40;
+              } else if (signed === 1) {
+                left = isAnimatingFromRight ? "150%" : "100%";
+                rotateY = "-45deg";
+                translateZ = "0px";
+                opacity = 0.85;
+                zIndex = 25;
+              } else if (signed === -1) {
+                left = "-120%";
+                rotateY = "0deg";
+                translateZ = "0px";
+                opacity = 0;
+                zIndex = 5;
+              } else {
+                left = "150%";
+                rotateY = "0deg";
+                translateZ = "0px";
+                opacity = 0;
+                zIndex = 1;
+              }
             }
 
             return (
@@ -229,11 +325,14 @@ export default function Carousel3D() {
                   transform: `rotateY(${rotateY}) translateZ(${translateZ})`,
                   opacity,
                   zIndex,
-                  width: "95%",
+                  width: isMobile ? "100%" : "95%",
                   height: "100%",
-                  transition: shouldAnimate
-                    ? "left 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s"
-                    : "none",
+                  transition:
+                    shouldAnimate || isMobile
+                      ? isMobile
+                        ? "left 0.4s ease-in-out, opacity 0.4s ease-in-out"
+                        : "left 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s"
+                      : "none",
                 }}
               >
                 <div className="bg-gray-200 rounded-lg p-6 sm:p-7 border-2 border-[#696969] h-full flex flex-col justify-between">
