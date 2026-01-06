@@ -15,7 +15,7 @@
   body {
     @apply bg-white text-slate-800 antialiased;
     font-family: var(--font-cabin), ui-sans-serif, system-ui, -apple-system,
-      "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, var(--font-lato);
   }
 }
 
@@ -105,23 +105,12 @@
 }
 
 .lifeline-bg {
-  background-image: url("/CrisisBG.png");
+  background-image: url("/CrisisBG.webp");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
-  filter: blur(4px);
-  -webkit-filter: blur(4px);
   transform: scale(1.05);
-}
-
-.lifeline-section::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
-  z-index: 2;
+  background-color: #fff;
 }
 
 .lifeline-card {
@@ -335,6 +324,71 @@ html {
   line-height: 1;
   position: relative;
   white-space: nowrap;
+}
+
+/* Torch reveal styles */
+.coming-soon-container {
+  --torch-x: 0%;
+  --torch-size: 22rem; /* visual size of torch; adjust per design */
+  position: relative;
+  overflow: hidden;
+}
+
+.coming-soon-container .coming-soon-bg-text {
+  /* Smooth, feathered transition from white -> muted across the glyphs.
+     Multiple small alpha stops reduce banding and avoid hard edges showing as background. */
+  color: rgba(255, 255, 255, 0.08); /* fallback color */
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 1) calc(var(--torch-x) - 8%),
+    rgba(255, 255, 255, 0.95) calc(var(--torch-x) - 6%),
+    rgba(255, 255, 255, 0.8) calc(var(--torch-x) - 4%),
+    rgba(255, 255, 255, 0.6) calc(var(--torch-x) - 2%),
+    rgba(255, 255, 255, 0.4) var(--torch-x),
+    rgba(255, 255, 255, 0.25) calc(var(--torch-x) + 2%),
+    rgba(255, 255, 255, 0.12) calc(var(--torch-x) + 5%),
+    rgba(255, 255, 255, 0.08) calc(var(--torch-x) + 8%),
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
+  z-index: 1;
+  -webkit-font-smoothing: antialiased;
+  transition: background 160ms linear;
+}
+
+.coming-soon-container img {
+  display: block;
+  width: 100%;
+  height: auto;
+  position: relative;
+  z-index: 2;
+  object-fit: cover;
+}
+
+.torch-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  /* radial torch center controlled by --torch-x (percentage) */
+  background: radial-gradient(
+    circle at var(--torch-x) 50%,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0.5) 8%,
+    rgba(255, 255, 255, 0.12) 18%,
+    transparent 32%
+  );
+  mix-blend-mode: screen;
+  transition: background 120ms linear;
+}
+
+/* When torch passes, slightly brighten the background text via filter */
+.coming-soon-container[style] .coming-soon-bg-text {
+  filter: drop-shadow(0 8px 40px rgba(255, 255, 255, 0.05));
 }
 
 @media (min-width: 768px) {

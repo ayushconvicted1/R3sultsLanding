@@ -326,7 +326,7 @@ export default function Carousel3D() {
                   opacity,
                   zIndex,
                   width: isMobile ? "100%" : "95%",
-                  height: "100%",
+                  height: "92%",
                   transition:
                     shouldAnimate || isMobile
                       ? isMobile
@@ -335,14 +335,14 @@ export default function Carousel3D() {
                       : "none",
                 }}
               >
-                <div className="bg-gray-200 rounded-lg p-6 sm:p-7 border-2 border-[#696969] h-full flex flex-col justify-between">
+                <div className="bg-gray-200 rounded-lg p-6 sm:p-7 w-[102%] h-full flex flex-col justify-between">
                   <div className="flex items-center gap-3 mb-4">
                     {card.icon}
                     <h4 className="font-bold text-base sm:text-lg text-black">
                       {card.title}
                     </h4>
                   </div>
-                  <ul className="space-y-2 sm:space-y-2.5 text-gray-700 text-sm flex-1">
+                  <ul className="space-y-2 sm:space-y-0.5 text-gray-700 text-sm flex-1">
                     {card.bullets.map((b, i) => (
                       <li className="flex items-start" key={i}>
                         <span className="text-gray-700 mr-2 mt-0.5 text-sm shrink-0">

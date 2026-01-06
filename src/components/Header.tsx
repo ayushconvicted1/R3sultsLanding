@@ -38,7 +38,7 @@ export default function Header() {
   return (
     <>
       <header className="w-[90%] ml-[5%] mt-[10px] rounded-md fixed top-0 z-50 bg-white/30 backdrop-blur-md border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-6 py-2 flex items-center justify-between">
+        <div className="mx-auto px-6 py-2 flex items-center justify-between">
           <div className="flex items-center">
             <LogoSvg height={30} width={100} color="#000" />
           </div>
@@ -73,10 +73,9 @@ export default function Header() {
             </a>
             <button
               onClick={() => setShowContactForm(true)}
-              className="text-white px-5 py-2 rounded-md text-sm transition-opacity hover:opacity-90"
-              style={{ backgroundColor: "#BF0637" }}
+              className="hover:opacity-70 transition-opacity"
             >
-              Join Us
+              Login
             </button>
             {/* Notification Icon */}
             <div className="absolute right-[-40px] cursor-pointer">
@@ -132,13 +131,13 @@ export default function Header() {
           onClick={() => setShowMobileMenu(false)}
         />
       )}
-      
+
       {/* Slide-in menu - outside header to avoid padding issues */}
       <div
         ref={menuRef}
         className={`fixed top-0 h-full w-80 max-w-[85vw] bg-white/95 backdrop-blur-md md:hidden z-50 shadow-2xl transition-all duration-300 ease-in-out ${
-          showMobileMenu 
-            ? "right-0 opacity-100 pointer-events-auto" 
+          showMobileMenu
+            ? "right-0 opacity-100 pointer-events-auto"
             : "-right-full opacity-0 pointer-events-none"
         }`}
       >

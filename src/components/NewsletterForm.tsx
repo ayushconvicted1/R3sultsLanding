@@ -32,7 +32,7 @@ export default function NewsletterForm() {
           placeholder="Enter your email"
         />
         <button
-          className="bg-pink-600 px-4 py-2 rounded text-white"
+          className="bg-[#BF0637] px-4 py-2 rounded text-white"
           type="submit"
         >
           {status === "loading" ? "..." : "Submit"}

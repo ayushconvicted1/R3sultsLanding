@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cabin } from "next/font/google";
+import { Cabin, Lato } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 
@@ -7,6 +7,12 @@ const cabin = Cabin({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-cabin",
+});
+
+const lato = Lato({
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "700", "900"],
+  variable: "--font-lato",
 });
 
 export const metadata: Metadata = {
@@ -21,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={cabin.variable}>
+    <html lang="en" className={`${cabin.variable} ${lato.variable}`}>
       <body className="antialiased bg-white text-slate-900">
         <Header />
         <main>{children}</main>
