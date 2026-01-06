@@ -12,10 +12,17 @@ export default function Home() {
       <section
         id="hero"
         className="hero relative min-h-screen flex items-center pt-24 sm:pt-28 md:pt-32 lg:pt-40"
-        style={{
-          backgroundImage: "url('/HeroBG.png')",
-        }}
       >
+        {/* Video Background */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="/HeroVid.mp4" type="video/mp4" />
+        </video>
         <div className="absolute inset-0 hero-overlay"></div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12 sm:py-16 md:py-20">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-start">
@@ -1045,7 +1052,7 @@ export default function Home() {
       </section>
 
       {/* Trusted by Government Agencies */}
-      <section className="agency-carousel-section bg-gradient-to-b from-white to-slate-50 py-12 sm:py-16 md:py-20 overflow-hidden relative">
+      {/* <section className="agency-carousel-section bg-gradient-to-b from-white to-slate-50 py-12 sm:py-16 md:py-20 overflow-hidden relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h4 className="text-center text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 text-black">
             Trusted by <span className="accent-color">Government Agencies</span>
@@ -1086,7 +1093,7 @@ export default function Home() {
             <div className="agency-carousel-fade-right"></div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Our Partners */}
       <section className="partners-section bg-gradient-to-b from-slate-50 to-white py-12 sm:py-16 md:py-20 overflow-hidden relative">

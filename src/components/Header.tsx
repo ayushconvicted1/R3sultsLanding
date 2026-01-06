@@ -39,7 +39,7 @@ export default function Header() {
     <>
       <header className="w-[90%] ml-[5%] mt-[10px] rounded-md fixed top-0 z-50 bg-white/30 backdrop-blur-md border-b border-white/10">
         <div className="mx-auto px-6 py-2 flex items-center justify-between">
-          <div className="flex items-center">
+          <div className="flex pt-0.5 items-center">
             <LogoSvg height={30} width={100} color="#000" />
           </div>
           <nav className="hidden md:flex items-center gap-6 text-sm text-black">
