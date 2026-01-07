@@ -9,13 +9,45 @@ export default function Contact() {
     email: "",
     message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "success" | "error"
+  >("idle");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log(formData);
-    // Reset form
-    setFormData({ name: "", email: "", message: "" });
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+
+    try {
+      // Save email to Google Sheets
+      const emailResponse = await fetch("/api/email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          source: "contact",
+        }),
+      });
+
+      if (!emailResponse.ok) {
+        throw new Error("Failed to save email");
+      }
+
+      // Here you could also send the full form data to another endpoint
+      // For now, we're just saving the email
+      console.log("Form submitted:", formData);
+      
+      setSubmitStatus("success");
+      setFormData({ name: "", email: "", message: "" });
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -157,10 +189,21 @@ export default function Contact() {
                 </div>
                 <button
                   type="submit"
-                  className="bg-[#696969] hover:bg-slate-900 w-full text-white px-8 py-3 rounded-md font-semibold transition-colors text-sm sm:text-base"
+                  disabled={isSubmitting}
+                  className="bg-[#696969] hover:bg-slate-900 w-full text-white px-8 py-3 rounded-md font-semibold transition-colors text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Send
+                  {isSubmitting ? "Sending..." : "Send"}
                 </button>
+                {submitStatus === "success" && (
+                  <div className="mt-4 text-sm text-green-600">
+                    Thank you! We've received your message and will get back to you soon.
+                  </div>
+                )}
+                {submitStatus === "error" && (
+                  <div className="mt-4 text-sm text-red-600">
+                    Something went wrong. Please try again.
+                  </div>
+                )}
               </form>
             </div>
 

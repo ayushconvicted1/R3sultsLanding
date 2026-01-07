@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cabin, Lato } from "next/font/google";
+import { Cabin, Lato, Rajdhani } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 
@@ -15,8 +15,14 @@ const lato = Lato({
   variable: "--font-lato",
 });
 
+const rajdhani = Rajdhani({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-rajdhani",
+});
+
 export const metadata: Metadata = {
-  title: "R.sults — Saving Lives in Disaster Using Technology & AI",
+  title: "R3sults — Saving Lives in Disaster Using Technology & AI",
   description:
     "An end-to-end Disaster Management platform that saves lives through real-time intel, proactive alerts, and immediate response.",
 };
@@ -27,7 +33,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${cabin.variable} ${lato.variable}`}>
+    <html
+      lang="en"
+      className={`${cabin.variable} ${lato.variable} ${rajdhani.variable}`}
+    >
       <body className="antialiased bg-white text-slate-900 font-cabin">
         <Header />
         <main>{children}</main>

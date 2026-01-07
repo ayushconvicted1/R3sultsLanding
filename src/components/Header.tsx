@@ -1,20 +1,19 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import LogoSvg from "./images/Logo";
 
 export default function Header() {
-  const [showContactForm, setShowContactForm] = useState(false);
+  const pathname = usePathname();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const [showLoginTooltip, setShowLoginTooltip] = useState(false);
+  const loginButtonRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    if (showMobileMenu || showContactForm) {
+    if (showMobileMenu) {
       document.body.style.overflow = "hidden";
       document.documentElement.style.overflowX = "hidden";
     } else {
@@ -26,42 +25,91 @@ export default function Header() {
       document.body.style.overflow = "";
       document.documentElement.style.overflowX = "";
     };
-  }, [showMobileMenu, showContactForm]);
+  }, [showMobileMenu]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission
-    console.log(formData);
-    setShowContactForm(false);
-    setFormData({ email: "", password: "" });
-  };
+  useEffect(() => {
+    // Close tooltip when clicking outside
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        loginButtonRef.current &&
+        !loginButtonRef.current.contains(event.target as Node) &&
+        showLoginTooltip
+      ) {
+        setShowLoginTooltip(false);
+      }
+    };
+
+    if (showLoginTooltip) {
+      document.addEventListener("mousedown", handleClickOutside);
+      // Auto-close after 3 seconds
+      const timer = setTimeout(() => {
+        setShowLoginTooltip(false);
+      }, 3000);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+        clearTimeout(timer);
+      };
+    }
+  }, [showLoginTooltip]);
 
   return (
     <>
       <header className="w-[90%] ml-[5%] mt-[10px] rounded-md fixed top-0 z-50 bg-white/30 backdrop-blur-md border-b border-white/10">
-        <div className="mx-auto px-6 py-2 flex items-center justify-between">
+        <div className="mx-auto px-6 py-3 flex items-center justify-between">
           <div className="flex pt-0.5 items-center">
             <LogoSvg height={30} width={100} color="#000" />
           </div>
-          <nav className="hidden md:flex items-center gap-6 text-sm text-black">
-            <Link className="hover:opacity-70 transition-opacity" href="/">
+          <nav className="hidden md:flex items-center gap-8 text-base font-medium">
+            <Link
+              className={`transition-colors ${
+                pathname === "/"
+                  ? "text-[#BF0637]"
+                  : "text-black hover:text-[#BF0637]"
+              }`}
+              href="/"
+            >
               Home
             </Link>
-            <Link className="hover:opacity-70 transition-opacity" href="/about">
+            <Link
+              className={`transition-colors ${
+                pathname === "/about"
+                  ? "text-[#BF0637]"
+                  : "text-black hover:text-[#BF0637]"
+              }`}
+              href="/about"
+            >
               About
             </Link>
             <Link
-              className="hover:opacity-70 transition-opacity"
+              className={`transition-colors ${
+                pathname === "/contact"
+                  ? "text-[#BF0637]"
+                  : "text-black hover:text-[#BF0637]"
+              }`}
               href="/contact"
             >
               Contact
             </Link>
-            <button
-              onClick={() => setShowContactForm(true)}
-              className="hover:opacity-70 transition-opacity"
-            >
-              Login
-            </button>
+            <div className="relative">
+              <button
+                ref={loginButtonRef}
+                onClick={() => setShowLoginTooltip(!showLoginTooltip)}
+                className="text-black hover:text-[#BF0637] transition-colors relative"
+              >
+                Login
+              </button>
+              {showLoginTooltip && (
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="bg-white/95 backdrop-blur-md rounded-md px-4 py-2.5 shadow-xl border border-gray-200/50 min-w-[140px] relative">
+                    <p className="text-[#BF0637] font-semibold text-sm text-center whitespace-nowrap">
+                      Coming Soon
+                    </p>
+                    {/* Arrow pointing up */}
+                    <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white/95 border-l border-t border-gray-200/50 rotate-45"></div>
+                  </div>
+                </div>
+              )}
+            </div>
             {/* Notification Icon */}
             <div className="absolute right-[-40px] cursor-pointer">
               <svg
@@ -154,28 +202,40 @@ export default function Header() {
           {/* Menu Items */}
           <nav className="flex flex-col flex-1 p-6 gap-2">
             <Link
-              className="text-black hover:bg-gray-100 px-4 py-3 rounded-md transition-colors font-medium"
+              className={`px-4 py-3 rounded-md transition-colors font-medium text-base ${
+                pathname === "/"
+                  ? "text-[#BF0637] bg-gray-100"
+                  : "text-black hover:bg-gray-100 hover:text-[#BF0637]"
+              }`}
               href="/"
               onClick={() => setShowMobileMenu(false)}
             >
               Home
             </Link>
             <a
-              className="text-black hover:bg-gray-100 px-4 py-3 rounded-md transition-colors font-medium"
+              className="text-black hover:bg-gray-100 hover:text-[#BF0637] px-4 py-3 rounded-md transition-colors font-medium text-base"
               href="#team"
               onClick={() => setShowMobileMenu(false)}
             >
               Team
             </a>
             <Link
-              className="text-black hover:bg-gray-100 px-4 py-3 rounded-md transition-colors font-medium"
+              className={`px-4 py-3 rounded-md transition-colors font-medium text-base ${
+                pathname === "/about"
+                  ? "text-[#BF0637] bg-gray-100"
+                  : "text-black hover:bg-gray-100 hover:text-[#BF0637]"
+              }`}
               href="/about"
               onClick={() => setShowMobileMenu(false)}
             >
               About
             </Link>
             <Link
-              className="text-black hover:bg-gray-100 px-4 py-3 rounded-md transition-colors font-medium"
+              className={`px-4 py-3 rounded-md transition-colors font-medium text-base ${
+                pathname === "/contact"
+                  ? "text-[#BF0637] bg-gray-100"
+                  : "text-black hover:bg-gray-100 hover:text-[#BF0637]"
+              }`}
               href="/contact"
               onClick={() => setShowMobileMenu(false)}
             >
@@ -184,85 +244,29 @@ export default function Header() {
             <div className="mt-4 pt-4 border-t border-gray-200">
               <button
                 onClick={() => {
-                  setShowContactForm(true);
+                  setShowLoginTooltip(true);
                   setShowMobileMenu(false);
                 }}
                 className="w-full text-white px-5 py-3 rounded-md text-sm font-semibold transition-opacity hover:opacity-90"
                 style={{ backgroundColor: "#BF0637" }}
               >
-                Join Us
+                Login
               </button>
             </div>
           </nav>
         </div>
       </div>
 
-      {/* Login Modal */}
-      {showContactForm && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
-          onClick={() => setShowContactForm(false)}
-        >
+      {/* Login Tooltip for Mobile */}
+      {showLoginTooltip && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm md:hidden">
           <div
-            className="bg-white/20 backdrop-blur-md rounded-lg p-6 sm:p-8 w-full max-w-md mx-4 relative"
-            onClick={(e) => e.stopPropagation()}
+            className="bg-white/95 backdrop-blur-md rounded-lg px-6 py-4 shadow-lg border border-white/20 mx-4"
+            onClick={() => setShowLoginTooltip(false)}
           >
-            {/* Close Button */}
-            <button
-              onClick={() => setShowContactForm(false)}
-              className="absolute top-4 right-4 text-white/80 hover:text-white transition-colors p-1"
-              aria-label="Close modal"
-            >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-
-            {/* Login Options */}
-            <div className="space-y-0">
-              {/* Log in as customer */}
-              <button
-                onClick={() => {
-                  // Handle customer login
-                  setShowContactForm(false);
-                }}
-                className="w-full text-center py-4 px-4 text-white/90 hover:text-white hover:bg-white/10 rounded-md transition-colors text-base sm:text-lg"
-              >
-                Log in as customer
-              </button>
-              <hr className="border-white/20 my-0" />
-
-              {/* Log in as volunteer */}
-              <div className="py-4 px-4">
-                <div className="text-center text-white/90 text-base sm:text-lg opacity-60">
-                  Log in as volunteer
-                </div>
-                <p className="text-white/60 text-xs sm:text-sm text-right mt-1">
-                  Coming Soon
-                </p>
-              </div>
-              <hr className="border-white/20 my-0" />
-
-              {/* Log in as vendor */}
-              <div className="py-4 px-4">
-                <div className="text-center text-white/90 text-base sm:text-lg opacity-60">
-                  Log in as vendor
-                </div>
-                <p className="text-white/60 text-xs sm:text-sm text-right mt-1">
-                  Coming Soon
-                </p>
-              </div>
-            </div>
+            <p className="text-[#BF0637] font-medium text-base text-center">
+              Coming Soon
+            </p>
           </div>
         </div>
       )}

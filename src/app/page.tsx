@@ -4,6 +4,7 @@ import Carousel3D from "@/components/Carousel3D";
 import NewsletterForm from "@/components/NewsletterForm";
 import ImageFallback from "@/components/ImageFallback";
 import RevealOnScroll from "@/components/RevealOnScroll";
+import GuidesSection from "@/components/GuidesSection";
 
 export default function Home() {
   return (
@@ -28,7 +29,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-start">
             <div className="md:col-span-6 lg:col-span-6 -mt-4 sm:-mt-6 md:-mt-8">
               <h1
-                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight sm:leading-normal mb-4 sm:mb-6 md:mb-8"
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-extrabold text-white leading-tight sm:leading-normal mb-4 sm:mb-6 md:mb-8"
                 style={{
                   textShadow: "2px 2px 8px rgba(0, 0, 0, 0.5)",
                   letterSpacing: "-0.02em",
@@ -131,7 +132,7 @@ export default function Home() {
       </section>
 
       {/* The True Cost of Delayed Emergency Response */}
-      <section className="relative w-full pt-16 sm:pt-20 md:pt-24 pb-12 sm:pb-16 md:pb-20 overflow-hidden">
+      <section className="relative w-full pt-16 sm:pt-20 md:pt-24 overflow-hidden">
         {/* Content - Constrained */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-center text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-4 sm:mb-6">
@@ -172,10 +173,10 @@ export default function Home() {
                   style={{ backgroundColor: "#FFFFFF33" }}
                 >
                   <div className="bg-[#FFF5F8] py-2 mx-2">
-                    <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#BF0637] mb-2">
+                    <div className="text-2xl font-rajdhani sm:text-3xl md:text-4xl font-bold text-gray-700">
                       $100+
                     </div>
-                    <div className="text-lg sm:text-xl font-bold text-black mb-2">
+                    <div className="text-lg sm:text-xl font-bold italic accent-color mb-2">
                       Billions
                     </div>
                   </div>
@@ -192,10 +193,10 @@ export default function Home() {
                   style={{ backgroundColor: "#FFFFFF33" }}
                 >
                   <div className="bg-[#FFF5F8] py-2 mx-2">
-                    <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#BF0637] mb-2">
+                    <div className="text-2xl font-rajdhani sm:text-3xl md:text-4xl font-bold text-gray-700">
                       16,000+
                     </div>
-                    <div className="text-lg sm:text-xl font-bold text-black mb-2">
+                    <div className="text-lg sm:text-xl font-bold italic accent-color mb-2">
                       Lives Lost
                     </div>
                   </div>
@@ -212,10 +213,10 @@ export default function Home() {
                   style={{ backgroundColor: "#FFFFFF33" }}
                 >
                   <div className="bg-[#FFF5F8] py-2 mx-2">
-                    <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#BF0637] mb-2">
+                    <div className="text-2xl font-rajdhani sm:text-3xl md:text-4xl font-bold text-gray-700">
                       5,000+
                     </div>
-                    <div className="text-lg sm:text-xl font-bold text-black mb-2">
+                    <div className="text-lg sm:text-xl font-bold italic accent-color mb-2">
                       Missing
                     </div>
                   </div>
@@ -232,10 +233,10 @@ export default function Home() {
                   style={{ backgroundColor: "#FFFFFF33" }}
                 >
                   <div className="bg-[#FFF5F8] py-2 mx-2">
-                    <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#BF0637] mb-2">
+                    <div className="text-2xl font-rajdhani sm:text-3xl md:text-4xl font-bold text-gray-700">
                       30-40%
                     </div>
-                    <div className="text-lg sm:text-xl font-bold text-black mb-2">
+                    <div className="text-lg sm:text-xl font-bold italic accent-color mb-2">
                       Lost Lives
                     </div>
                   </div>
@@ -249,9 +250,9 @@ export default function Home() {
                 </div>
               </div>
               <div className="text-center mt-12 sm:mt-16">
-                <p className="text-xl font-lato italic font-light sm:text-2xl md:text-3xl text-black">
+                <p className="text-xl font-lato italic sm:text-2xl md:text-3xl text-black">
                   When help is late,{" "}
-                  <span className="text-[#BF0637] underline">
+                  <span className="text-[#BF0637]">
                     R<sub>3</sub>SULTS
                   </span>{" "}
                   shows up!
@@ -270,7 +271,7 @@ export default function Home() {
         <h2 className="text-center text-3xl sm:text-4xl md:text-5xl font-bold text-black mb-4 sm:mb-6">
           What we are <span className="text-[#BF0637]">building?</span>
         </h2>
-        <p className="text-center text-slate-600 mt-3 sm:mt-4 max-w-3xl mx-auto text-base sm:text-lg px-4">
+        <p className="text-center font-lato italic text-black mt-3 sm:mt-4 max-w-3xl mx-auto text-base sm:text-lg px-4">
           An easy-to-use disaster management platform that provides
           comprehensive tools and resources to help you prepare, respond, and
           recover from any crisis.
@@ -889,7 +890,7 @@ export default function Home() {
                 <p className="text-sm text-slate-600 mb-4">
                   {item.description}
                 </p>
-                <div className="flex justify-between text-lg font-bold accent-color">
+                <div className="flex justify-between text-lg font-bold text-gray-700">
                   <div>
                     <span className="text-lg font-bold">
                       Active Relief Partners:{" "}
@@ -897,10 +898,10 @@ export default function Home() {
                     {item.partners}
                   </div>
                   <div>
-                    <span className="accent-color font-lg font-bold">
+                    <span className="text-gray-700 font-lg font-bold">
                       Donations Raised:{" "}
                     </span>
-                    <span className="font-semibold accent-color">
+                    <span className="font-semibold text-gray-700">
                       ${item.donations.toLocaleString()}
                     </span>
                   </div>
@@ -910,150 +911,14 @@ export default function Home() {
           ))}
         </div>
         <div className="live-impact-fade-overlay"></div>
-        <div className="text-center mt-8">
+        {/* <div className="text-center mt-8">
           <a href="#" className="accent-color hover:opacity-80 font-semibold">
             View more →
           </a>
-        </div>
+        </div> */}
       </section>
 
-      {/* Disaster Preparedness Guides & Resources */}
-      <section
-        id="resources"
-        className="resources-section relative py-12 sm:py-16 md:py-20 bg-black"
-      >
-        <div className="absolute inset-0 resources-bg opacity-40"></div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
-          <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-3 sm:mb-4">
-            Disaster Preparedness{" "}
-            <span className="accent-color">Guides & Resources</span>
-          </h3>
-          <p className="text-center text-slate-300 mt-4 sm:mt-5 max-w-3xl mx-auto text-base sm:text-lg px-4">
-            Stay informed and be ready for any situation.
-          </p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mt-10 sm:mt-12 md:mt-16">
-            {[
-              {
-                title: "Emergency Kit Preparation Guide",
-                image:
-                  "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?auto=format&fit=crop&w=600&q=80",
-                description:
-                  "Essential items and supplies checklist for emergency preparedness.",
-              },
-              {
-                title: "Community Preparedness Toolkit",
-                image:
-                  "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80",
-                description:
-                  "Resources for building resilient communities and neighborhood networks.",
-              },
-              {
-                title: "Disaster Risk Planning Handbook",
-                image:
-                  "https://images.unsplash.com/photo-1540979388789-6cee28a1cdc9?auto=format&fit=crop&w=600&q=80",
-                description:
-                  "Comprehensive guide for disaster risk planning and mitigation strategies.",
-              },
-              {
-                title: "Emergency Communication Guide",
-                image:
-                  "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80",
-                description:
-                  "Essential communication protocols and tools for emergency situations.",
-              },
-              {
-                title: "Emergency Kit Preparation Guide",
-                image:
-                  "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?auto=format&fit=crop&w=600&q=80",
-                description:
-                  "Essential items and supplies checklist for emergency preparedness.",
-              },
-              {
-                title: "Community Preparedness Toolkit",
-                image:
-                  "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80",
-                description:
-                  "Resources for building resilient communities and neighborhood networks.",
-              },
-              {
-                title: "Disaster Risk Planning Handbook",
-                image:
-                  "https://images.unsplash.com/photo-1540979388789-6cee28a1cdc9?auto=format&fit=crop&w=600&q=80",
-                description:
-                  "Comprehensive guide for disaster risk planning and mitigation strategies.",
-              },
-              {
-                title: "Emergency Communication Guide",
-                image:
-                  "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80",
-                description:
-                  "Essential communication protocols and tools for emergency situations.",
-              },
-            ].map((item, i) => (
-              <div
-                key={i}
-                className="bg-white/5 backdrop-blur-sm rounded-lg overflow-hidden border border-white/10 hover:shadow-xl transition-shadow"
-              >
-                <ImageFallback
-                  src={item.image}
-                  alt={item.title}
-                  className="w-full h-44 object-cover p-4"
-                  loading="lazy"
-                  fallbackSrc={
-                    "https://via.placeholder.com/400x200/CCCCCC/666666?text=Guide"
-                  }
-                />
-                <div className="p-6">
-                  <p className="text-xs text-slate-300">Dec 27, 2025</p>
-                  <div className="font-bold text-lg mb-2 text-white">
-                    {item.title}
-                  </div>
-                  <div className="text-sm text-slate-300">
-                    {item.description}
-                  </div>
-                  <div className="absolute bottom-4 right-4">
-                    <svg
-                      width="27"
-                      height="27"
-                      viewBox="0 0 30 30"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <rect
-                        width="30"
-                        height="30"
-                        rx="7"
-                        fill="white"
-                        fill-opacity="0.12"
-                      />
-                      <path
-                        d="M15 8V22"
-                        stroke="white"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M22 15L15 22L8 15"
-                        stroke="white"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="text-center mt-8">
-            <a href="#" className="accent-color hover:opacity-80 font-semibold">
-              View more →
-            </a>
-          </div>
-        </div>
-      </section>
+      <GuidesSection />
 
       {/* Trusted by Government Agencies */}
       {/* <section className="agency-carousel-section bg-gradient-to-b from-white to-slate-50 py-12 sm:py-16 md:py-20 overflow-hidden relative">

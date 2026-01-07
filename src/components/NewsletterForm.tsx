@@ -12,11 +12,25 @@ export default function NewsletterForm() {
     if (!email) return;
     setStatus("loading");
     try {
-      // Simulate async submit (replace with real API call if desired)
-      await new Promise((r) => setTimeout(r, 800));
+      const response = await fetch("/api/email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          source: "newsletter",
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit email");
+      }
+
       setStatus("success");
       setEmail("");
     } catch (err) {
+      console.error("Error submitting email:", err);
       setStatus("error");
     }
   }

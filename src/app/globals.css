@@ -19,6 +19,17 @@
   }
 }
 
+@layer utilities {
+  .font-lato {
+    font-family: var(--font-lato, "Lato", ui-sans-serif, system-ui, -apple-system,
+      "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif) !important;
+  }
+  .font-rajdhani {
+    font-family: var(--font-rajdhani, "Rajdhani", ui-sans-serif, system-ui, -apple-system,
+      "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif) !important;
+  }
+}
+
 /* Hero Section */
 .hero {
   background-size: cover;
