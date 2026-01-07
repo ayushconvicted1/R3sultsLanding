@@ -28,7 +28,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${cabin.variable} ${lato.variable}`}>
-      <body className="antialiased bg-white text-slate-900">
+      <body className="antialiased bg-white text-slate-900 font-cabin">
         <Header />
         <main>{children}</main>
       </body>

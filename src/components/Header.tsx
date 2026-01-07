@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import LogoSvg from "./images/Logo";
 
 export default function Header() {
@@ -13,7 +14,7 @@ export default function Header() {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    if (showMobileMenu) {
+    if (showMobileMenu || showContactForm) {
       document.body.style.overflow = "hidden";
       document.documentElement.style.overflowX = "hidden";
     } else {
@@ -25,7 +26,7 @@ export default function Header() {
       document.body.style.overflow = "";
       document.documentElement.style.overflowX = "";
     };
-  }, [showMobileMenu]);
+  }, [showMobileMenu, showContactForm]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,34 +44,18 @@ export default function Header() {
             <LogoSvg height={30} width={100} color="#000" />
           </div>
           <nav className="hidden md:flex items-center gap-6 text-sm text-black">
-            <a
-              className="hover:opacity-70 transition-opacity"
-              href="#home"
-              style={{ color: "inherit" }}
-            >
+            <Link className="hover:opacity-70 transition-opacity" href="/">
               Home
-            </a>
-            <a
-              className="hover:opacity-70 transition-opacity"
-              href="#team"
-              style={{ color: "inherit" }}
-            >
-              Team
-            </a>
-            <a
-              className="hover:opacity-70 transition-opacity"
-              href="#about"
-              style={{ color: "inherit" }}
-            >
+            </Link>
+            <Link className="hover:opacity-70 transition-opacity" href="/about">
               About
-            </a>
-            <a
+            </Link>
+            <Link
               className="hover:opacity-70 transition-opacity"
-              href="#contact"
-              style={{ color: "inherit" }}
+              href="/contact"
             >
               Contact
-            </a>
+            </Link>
             <button
               onClick={() => setShowContactForm(true)}
               className="hover:opacity-70 transition-opacity"
@@ -168,13 +153,13 @@ export default function Header() {
 
           {/* Menu Items */}
           <nav className="flex flex-col flex-1 p-6 gap-2">
-            <a
+            <Link
               className="text-black hover:bg-gray-100 px-4 py-3 rounded-md transition-colors font-medium"
-              href="#home"
+              href="/"
               onClick={() => setShowMobileMenu(false)}
             >
               Home
-            </a>
+            </Link>
             <a
               className="text-black hover:bg-gray-100 px-4 py-3 rounded-md transition-colors font-medium"
               href="#team"
@@ -182,20 +167,20 @@ export default function Header() {
             >
               Team
             </a>
-            <a
+            <Link
               className="text-black hover:bg-gray-100 px-4 py-3 rounded-md transition-colors font-medium"
-              href="#about"
+              href="/about"
               onClick={() => setShowMobileMenu(false)}
             >
               About
-            </a>
-            <a
+            </Link>
+            <Link
               className="text-black hover:bg-gray-100 px-4 py-3 rounded-md transition-colors font-medium"
-              href="#contact"
+              href="/contact"
               onClick={() => setShowMobileMenu(false)}
             >
               Contact
-            </a>
+            </Link>
             <div className="mt-4 pt-4 border-t border-gray-200">
               <button
                 onClick={() => {
@@ -212,49 +197,72 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Contact Form Overlay */}
+      {/* Login Modal */}
       {showContactForm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-end bg-black/50 backdrop-blur-sm">
-          <div className="contact-form-overlay bg-white/90 backdrop-blur-md p-8 w-full max-w-md h-full flex flex-col justify-center shadow-2xl">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+          onClick={() => setShowContactForm(false)}
+        >
+          <div
+            className="bg-white/20 backdrop-blur-md rounded-lg p-6 sm:p-8 w-full max-w-md mx-4 relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
             <button
               onClick={() => setShowContactForm(false)}
-              className="absolute top-4 right-4 text-black hover:opacity-70 text-2xl transition-opacity"
+              className="absolute top-4 right-4 text-white/80 hover:text-white transition-colors p-1"
+              aria-label="Close modal"
             >
-              ×
-            </button>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <input
-                type="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
-                className="w-full px-4 py-3 bg-white border border-slate-300 rounded-md text-black placeholder:text-slate-500 focus:outline-none"
-                onFocus={(e) => (e.target.style.borderColor = "#BF0637")}
-                onBlur={(e) => (e.target.style.borderColor = "#cbd5e1")}
-                required
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
-                className="w-full px-4 py-3 bg-white border border-slate-300 rounded-md text-black placeholder:text-slate-500 focus:outline-none"
-                onFocus={(e) => (e.target.style.borderColor = "#BF0637")}
-                onBlur={(e) => (e.target.style.borderColor = "#cbd5e1")}
-                required
-              />
-              <button
-                type="submit"
-                className="w-full text-white px-5 py-3 rounded-md font-semibold transition-opacity hover:opacity-90"
-                style={{ backgroundColor: "#BF0637" }}
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
-                Sign In
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+
+            {/* Login Options */}
+            <div className="space-y-0">
+              {/* Log in as customer */}
+              <button
+                onClick={() => {
+                  // Handle customer login
+                  setShowContactForm(false);
+                }}
+                className="w-full text-center py-4 px-4 text-white/90 hover:text-white hover:bg-white/10 rounded-md transition-colors text-base sm:text-lg"
+              >
+                Log in as customer
               </button>
-            </form>
+              <hr className="border-white/20 my-0" />
+
+              {/* Log in as volunteer */}
+              <div className="py-4 px-4">
+                <div className="text-center text-white/90 text-base sm:text-lg opacity-60">
+                  Log in as volunteer
+                </div>
+                <p className="text-white/60 text-xs sm:text-sm text-right mt-1">
+                  Coming Soon
+                </p>
+              </div>
+              <hr className="border-white/20 my-0" />
+
+              {/* Log in as vendor */}
+              <div className="py-4 px-4">
+                <div className="text-center text-white/90 text-base sm:text-lg opacity-60">
+                  Log in as vendor
+                </div>
+                <p className="text-white/60 text-xs sm:text-sm text-right mt-1">
+                  Coming Soon
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       )}

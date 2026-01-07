@@ -477,6 +477,17 @@ textarea:focus-visible {
   outline-offset: 2px;
 }
 
+/* Contact form inputs - only bottom border on focus */
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-left: none !important;
+  border-right: none !important;
+  border-top: none !important;
+  border-bottom: 2px solid #bf0637 !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 /* Loading states */
 button:disabled {
   opacity: 0.6;

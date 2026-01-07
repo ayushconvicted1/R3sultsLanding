@@ -251,7 +251,7 @@ export default function Home() {
               <div className="text-center mt-12 sm:mt-16">
                 <p className="text-xl font-lato italic font-light sm:text-2xl md:text-3xl text-black">
                   When help is late,{" "}
-                  <span className="text-[#BF0637]">
+                  <span className="text-[#BF0637] underline">
                     R<sub>3</sub>SULTS
                   </span>{" "}
                   shows up!
