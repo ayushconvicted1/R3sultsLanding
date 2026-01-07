@@ -705,6 +705,10 @@ export default function Home() {
             <div className="flex-1 flex justify-center pt-5 items-center w-full lg:w-1/2 order-2 lg:order-1">
               <div className="relative">
                 <div className="watch-container relative">
+                  {/* White glow circle behind watch */}
+                  <div className="absolute inset-0 flex items-center justify-center z-0 pointer-events-none">
+                    <div className="w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[28rem] lg:h-[28rem] xl:w-[32rem] xl:h-[32rem] rounded-full bg-white/30 blur-[60px] sm:blur-[80px]"></div>
+                  </div>
                   <div className="watch-glow"></div>
                   <ImageFallback
                     alt="Smart Safety Wearable"
