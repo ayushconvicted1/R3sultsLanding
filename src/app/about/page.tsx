@@ -128,7 +128,7 @@ export default function About() {
                     alt="S. Robert August"
                     width={500}
                     height={600}
-                    className="w-full h-full"
+                    className="w-full h-full object-cover"
                   />
                 </div>
               </div>
@@ -265,7 +265,7 @@ export default function About() {
                     alt="KT Caitlin"
                     width={450}
                     height={550}
-                    className="w-full h-full"
+                    className="w-full h-full object-cover object-top"
                   />
                 </div>
               </div>

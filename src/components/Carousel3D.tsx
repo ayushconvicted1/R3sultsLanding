@@ -209,9 +209,10 @@ export default function Carousel3D() {
                 </svg>
               ),
               bullets: [
-                "Locate loved ones",
-                "Share status",
-                "Connect with family",
+                "Real-Time Location Tracking",
+                "Status Sharing & Safety Check-Ins",
+                "Offline & Low-Network Functionality",
+                "Rescue Coordination Support",
               ],
             },
             {
@@ -238,10 +239,13 @@ export default function Carousel3D() {
                 </svg>
               ),
               bullets: [
-                "Real-time vitals",
-                "Long battery",
-                "Emergency comms",
-                "Distress signal",
+                "GPS enable live tracking",
+                "Live Family Finder",
+                "Emergency SOS",
+                "Heart Rate, Temperature and step counts",
+                "Fall detection for seniors",
+                "Waterproof",
+                "Up to 7 days battery life",
               ],
             },
           ].map((card) => {

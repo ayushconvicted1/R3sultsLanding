@@ -36,9 +36,9 @@ export default function Home() {
                   letterSpacing: "-0.02em",
                 }}
               >
-                Saving Lives <br /> in Disaster
-                <br /> Using
-                <br /> Technology & AI
+                Saving Lives <br /> in Disaster Using
+                <br />
+                Technology & AI
               </h1>
               <p className="text-white text-sm sm:text-base md:text-lg mb-4 sm:mb-6 max-w-2xl">
                 An end-to-end Disaster Management Technology Ecosystem that
@@ -46,7 +46,7 @@ export default function Home() {
                 and unified response coordination.
               </p>
               <hr className="border-white/30 mb-6 sm:mb-8 md:mb-10" />
-              <div className="flex gap-4 sm:gap-5">
+              {/* <div className="flex gap-4 sm:gap-5">
                 <a
                   href="https://facebook.com"
                   target="_blank"
@@ -115,7 +115,7 @@ export default function Home() {
                     />
                   </svg>
                 </a>
-              </div>
+              </div> */}
             </div>
             <div className="md:col-span-6 lg:col-span-5 lg:col-start-8 mt-8 md:mt-0">
               <div className="lg:max-w-[85%] ml-auto">
@@ -136,11 +136,11 @@ export default function Home() {
       <section className="relative w-full pt-16 sm:pt-20 md:pt-24 overflow-hidden">
         {/* Content - Constrained */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-center text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-4 sm:mb-6">
+          <h2 className="text-center text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-2">
             The True Cost of{" "}
             <span className="text-[#BF0637]">Delayed Emergency Response</span>
           </h2>
-          <p className="text-center font-lato italic text-black mt-3 sm:mt-4 max-w-3xl mx-auto text-md sm:text-base px-4 mb-12 sm:mb-16">
+          <p className="text-center font-lato italic text-black max-w-3xl mx-auto text-md sm:text-base px-4 mb-12 sm:mb-16">
             Disasters don't just destroy infrastructure – they steal time,
             lives, and hope.
           </p>
@@ -168,16 +168,16 @@ export default function Home() {
 
             {/* Statistics Cards Section */}
             <div className="relative z-10 pt-8 sm:pt-12 pb-8 sm:pb-12">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 max-w-7xl mx-auto">
                 <div
-                  className="text-center p-4 sm:p-6 rounded-lg"
+                  className="text-center p-4 sm:p-6 rounded-lg w-full"
                   style={{ backgroundColor: "#FFFFFF33" }}
                 >
-                  <div className="bg-[#FFF5F8] py-2 mx-2">
+                  <div className="bg-[#FFF5F8] py-3 mx-2">
                     <div className="text-2xl font-rajdhani sm:text-3xl md:text-4xl font-bold text-gray-700">
                       $100+
                     </div>
-                    <div className="text-lg sm:text-xl font-bold italic accent-color mb-2">
+                    <div className="text-lg sm:text-xl font-bold italic accent-color">
                       Billions
                     </div>
                   </div>
@@ -190,14 +190,14 @@ export default function Home() {
                   </p>
                 </div>
                 <div
-                  className="text-center p-4 sm:p-6 rounded-lg"
+                  className="text-center p-4 sm:p-6 rounded-lg w-full"
                   style={{ backgroundColor: "#FFFFFF33" }}
                 >
-                  <div className="bg-[#FFF5F8] py-2 mx-2">
+                  <div className="bg-[#FFF5F8] py-3 mx-2">
                     <div className="text-2xl font-rajdhani sm:text-3xl md:text-4xl font-bold text-gray-700">
                       16,000+
                     </div>
-                    <div className="text-lg sm:text-xl font-bold italic accent-color mb-2">
+                    <div className="text-lg sm:text-xl font-bold italic accent-color">
                       Lives Lost
                     </div>
                   </div>
@@ -210,14 +210,14 @@ export default function Home() {
                   </p>
                 </div>
                 <div
-                  className="text-center p-4 sm:p-6 rounded-lg"
+                  className="text-center p-4 sm:p-6 rounded-lg w-full"
                   style={{ backgroundColor: "#FFFFFF33" }}
                 >
-                  <div className="bg-[#FFF5F8] py-2 mx-2">
+                  <div className="bg-[#FFF5F8] py-3 mx-2">
                     <div className="text-2xl font-rajdhani sm:text-3xl md:text-4xl font-bold text-gray-700">
                       5,000+
                     </div>
-                    <div className="text-lg sm:text-xl font-bold italic accent-color mb-2">
+                    <div className="text-lg sm:text-xl font-bold italic accent-color">
                       Missing
                     </div>
                   </div>
@@ -230,14 +230,14 @@ export default function Home() {
                   </p>
                 </div>
                 <div
-                  className="text-center p-4 sm:p-6 rounded-lg"
+                  className="text-center p-4 sm:p-6 rounded-lg w-full"
                   style={{ backgroundColor: "#FFFFFF33" }}
                 >
-                  <div className="bg-[#FFF5F8] py-2 mx-2">
+                  <div className="bg-[#FFF5F8] py-3 mx-2">
                     <div className="text-2xl font-rajdhani sm:text-3xl md:text-4xl font-bold text-gray-700">
                       30-40%
                     </div>
-                    <div className="text-lg sm:text-xl font-bold italic accent-color mb-2">
+                    <div className="text-lg sm:text-xl font-bold italic accent-color">
                       Lost Lives
                     </div>
                   </div>
@@ -254,7 +254,7 @@ export default function Home() {
                 <p className="text-xl font-lato italic sm:text-2xl md:text-3xl text-black">
                   When help is late,{" "}
                   <span className="text-[#BF0637]">
-                    R<sub>3</sub>SULTS
+                    R<sub className="text-black">3</sub>SULTS
                   </span>{" "}
                   shows up!
                 </p>
@@ -267,7 +267,7 @@ export default function Home() {
       {/* What we are building? */}
       <section
         id="features"
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 md:pt-24 pb-0"
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-10 md:pt-12 pb-0"
       >
         <h2 className="text-center text-3xl sm:text-4xl md:text-5xl font-bold text-black mb-4 sm:mb-6">
           What we are <span className="text-[#BF0637]">building?</span>
@@ -284,13 +284,13 @@ export default function Home() {
             <Carousel3D />
 
             {/* Right Half - Fixed iPad Image */}
-            <div className="hidden lg:flex justify-center items-center">
+            <div className="hidden lg:pt-10 lg:flex justify-center items-center">
               <Image
                 src="/IPadImg.png"
                 alt="Tablet/Smartphone Visual"
-                width={650}
-                height={295}
-                className="w-full max-w-[650px] h-auto"
+                width={400}
+                height={155}
+                className="w-full max-w-[400px] h-auto"
               />
             </div>
           </div>
@@ -315,7 +315,7 @@ export default function Home() {
           className="absolute top-0 left-0 right-0 bg-white"
           style={{ height: "400px" }}
         ></div> */}
-        <div className="absolute top-31 inset-0 lifeline-bg"></div>
+        <div className="absolute lg:top-31 inset-0 lifeline-bg"></div>
         {/* Smooth gradient: white at top, gradually reveals image, then darkens at bottom */}
         {/* <div
           className="absolute inset-0"
@@ -329,7 +329,7 @@ export default function Home() {
             <h3 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-center mb-3 sm:mb-4 text-black">
               Your <span className="accent-color">Lifeline</span> in Crisis
             </h3>
-            <p className="text-center text-black font-lato italic font-light mt-4 sm:mt-5 max-w-3xl mx-auto text-base sm:text-lg px-4">
+            <p className="text-center text-black font-lato italic mt-4 sm:mt-5 max-w-3xl mx-auto text-base sm:text-lg px-4">
               Comprehensive disaster preparedness and response features designed
               to keep you and your loved ones safe.
             </p>
@@ -695,22 +695,23 @@ export default function Home() {
           {/* eslint-disable-next-line @next/next/no-before-interactive-script-outside-document */}
           {/* Client component imported below */}
           <RevealOnScroll>
-            <p className="text-4xl pb-5 sm:text-7xl md:text-8xl lg:text-9xl xl:text-10xl font-bold leading-none text-center">
+            <p className="text-4xl  pb-5 sm:text-7xl md:text-8xl lg:text-9xl xl:text-10xl font-bold leading-none text-center">
               Revealing soon
             </p>
           </RevealOnScroll>
         </div>
 
         <div className="relative z-10 w-full h-full">
-          <div className="flex flex-col lg:flex-row items-center justify-around min-h-[500px] sm:min-h-[600px] md:min-h-[700px] px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col lg:flex-row items-center justify-around min-h-[600px] sm:min-h-[700px] md:min-h-[800px] px-4 pt-4 lg:pt-0 sm:px-6 lg:px-8">
             {/* Left half - Watch image centered */}
             <div className="flex-1 flex justify-center pt-5 items-center w-full lg:w-1/2 order-1 lg:order-1">
               <div className="relative">
                 <div className="watch-container relative">
                   {/* White glow circle behind watch */}
                   <div className="absolute inset-0 flex items-center justify-center z-0 pointer-events-none">
-                    <div className="w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[28rem] lg:h-[28rem] xl:w-[32rem] xl:h-[32rem] rounded-full bg-white/30 blur-[60px] sm:blur-[80px]"></div>
+                    <div className="w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-md lg:h-112 xl:w-lg xl:h-128 rounded-full bg-white/30 blur-[60px] sm:blur-[80px]"></div>
                   </div>
+
                   <div className="watch-glow"></div>
                   <ImageFallback
                     alt="Smart Safety Wearable"
@@ -724,7 +725,7 @@ export default function Home() {
             </div>
 
             {/* Right half - Text content centered */}
-            <div className="flex-1 flex flex-col justify-center items-center lg:items-start w-full lg:w-1/2 order-2 lg:order-2">
+            <div className="flex-1 flex flex-col justify-center items-center pt-2 lg:pt-0 lg:items-start w-full lg:w-1/2 order-2 lg:order-2">
               <h2 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight text-center lg:text-left">
                 IOT-powered Wearable
                 <br />
@@ -837,7 +838,7 @@ export default function Home() {
                 "Flash floods devastate coastal cities, emergency services overwhelmed",
               description:
                 "Floods devastate coastal cities, infrastructure overwhelmed, emergency systems over-stressed.",
-              image: "/Impact1.png",
+              image: "/Impact3.jpeg",
               partners: 12,
               donations: 198500,
             },
@@ -845,7 +846,7 @@ export default function Home() {
               title: "Wildfires spread rapidly, communities evacuated",
               description:
                 "Wildfires spread rapidly, communities evacuated, homes lost and people struggling.",
-              image: "/Impact2.png",
+              image: "/Impact1.jpg",
               partners: 15,
               donations: 128300,
             },
@@ -854,7 +855,7 @@ export default function Home() {
                 "Earthquake strikes urban region, buildings damaged, rescue operations underway",
               description:
                 "Earthquake strikes urban region, buildings damaged, rescue operations underway.",
-              image: "/Impact3.png",
+              image: "/Impact4.jpg",
               partners: 8,
               donations: 450000,
             },
@@ -863,22 +864,19 @@ export default function Home() {
                 "Hurricane causes widespread power outages, relief efforts mobilized",
               description:
                 "Hurricane causes widespread power outages, relief efforts mobilized across affected regions.",
-              image: "/Impact1.png",
+              image: "/Impact2.jpg",
               partners: 20,
               donations: 320000,
             },
           ].map((item, idx) => (
             <div
               key={idx}
-              className={`bg-white rounded-lg overflow-hidden shadow-lg border border-slate-100 flex flex-col sm:flex-row gap-6 live-impact-item ${
-                idx === 3 ? "live-impact-fade" : ""
-              }`}
-              style={{ opacity: idx === 3 ? 0.6 : 1 }}
+              className={`bg-white rounded-lg overflow-hidden shadow-lg border border-slate-100 flex flex-col sm:flex-row gap-6 live-impact-item`}
             >
               <ImageFallback
                 src={item.image}
                 alt={item.title}
-                className="w-full m-5 sm:w-28 h-44 sm:h-28 object-cover shrink-0 rounded"
+                className="w-full px-6 pt-6 sm:w-28 sm:px-0 sm:pt-0 sm:m-5 h-48 sm:h-28 object-cover shrink-0 rounded"
                 loading="lazy"
                 fallbackSrc={
                   "https://via.placeholder.com/200x150/CCCCCC/666666?text=Image"
@@ -891,15 +889,83 @@ export default function Home() {
                 <p className="text-sm text-slate-600 mb-4">
                   {item.description}
                 </p>
-                <div className="flex justify-between text-lg font-bold text-gray-700">
-                  <div>
-                    <span className="text-lg font-bold">
+                <div className="flex justify-between text-md font-bold text-gray-700">
+                  <div className="flex items-center gap-2">
+                    <svg
+                      width="17"
+                      height="14"
+                      viewBox="0 0 17 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <g clip-path="url(#clip0_399_3578)">
+                        <path
+                          d="M8.7913 13.8503C7.40463 13.8314 6.30521 13.7824 5.24788 13.4402C4.90022 13.3278 4.57039 13.149 4.24997 12.9692C4.0078 12.8335 3.92906 12.5983 3.97215 12.3165C4.12715 11.2978 4.23165 10.2697 4.43321 9.26089C4.76898 7.58402 6.31165 6.35138 8.02417 6.33355C8.64025 6.32711 9.2588 6.29145 9.86646 6.45141C11.3403 6.84018 12.4397 8.08124 12.6532 9.60558C12.7789 10.5039 12.9013 11.4028 13.0384 12.2992C13.087 12.6161 12.9726 12.8375 12.7205 13.0093C12.3055 13.2926 11.8385 13.4491 11.3551 13.5581C11.0248 13.6324 10.6905 13.7027 10.3538 13.7359C9.73968 13.7958 9.12311 13.827 8.7913 13.8503Z"
+                          fill="#3C3C3C"
+                        />
+                        <path
+                          d="M8.50256 5.93101C6.86036 5.92952 5.53708 4.60377 5.53906 2.96107C5.54055 1.32728 6.88462 -0.00936013 8.51643 4.93773e-05C10.1482 0.00945888 11.4705 1.33719 11.471 2.96602C11.4715 4.60773 10.1453 5.932 8.50256 5.93101Z"
+                          fill="#3C3C3C"
+                        />
+                        <path
+                          d="M11.9966 6.78728C13.569 5.85772 15.6925 6.40397 16.5518 8.15661C16.7984 8.65977 16.8321 9.21394 16.9648 9.74434C17.0866 10.2302 16.8856 10.5387 16.5112 10.7933C15.9654 11.1642 15.3474 11.3227 14.7055 11.4049C14.4302 11.44 14.1509 11.4425 13.8745 11.4702C13.7443 11.4831 13.7086 11.4356 13.6908 11.3113C13.5888 10.5902 13.4962 9.86716 13.3639 9.15204C13.2035 8.28537 12.7835 7.54499 12.1684 6.91555C12.1258 6.87196 12.0694 6.84176 11.9961 6.78777L11.9966 6.78728Z"
+                          fill="#3C3C3C"
+                        />
+                        <path
+                          d="M4.98484 6.77052C4.56537 7.16819 4.23901 7.61291 3.98892 8.11508C3.6893 8.71729 3.58629 9.36754 3.49863 10.0237C3.4397 10.464 3.3773 10.9043 3.30599 11.3425C3.29806 11.3911 3.21981 11.4654 3.17524 11.4644C2.40564 11.448 1.64199 11.3713 0.938257 11.0335C0.675782 10.9072 0.438563 10.7205 0.208773 10.5378C0.0542593 10.415 -0.0289405 10.2288 0.00919274 10.0242C0.104278 9.51561 0.16024 8.99165 0.322183 8.50434C0.956581 6.59669 3.28023 5.73349 4.98434 6.77002L4.98484 6.77052Z"
+                          fill="#3C3C3C"
+                        />
+                        <path
+                          d="M3.36745 5.93107C2.43789 5.93206 1.61678 5.35313 1.31122 4.48102C1.00467 3.60643 1.27953 2.64666 2.00554 2.0603C2.71472 1.48781 3.71857 1.42887 4.50402 1.90579C4.62931 1.98205 4.66051 2.05485 4.6308 2.20243C4.44261 3.13992 4.58375 4.03234 5.04382 4.86978C5.11118 4.9926 5.10622 5.06837 5.01411 5.17386C4.59266 5.6577 4.01274 5.93008 3.36745 5.93058V5.93107Z"
+                          fill="#3C3C3C"
+                        />
+                        <path
+                          d="M12.4608 2.8237C12.4435 2.69444 12.4202 2.43543 12.3707 2.18236C12.3445 2.04915 12.3816 1.98229 12.4911 1.91444C13.276 1.42762 14.2838 1.48457 15.0049 2.06202C15.7245 2.63848 16.0018 3.61063 15.6952 4.48324C15.3862 5.36228 14.5656 5.93676 13.6192 5.92933C12.9561 5.92438 12.4158 5.65348 11.981 5.15676C11.8988 5.06266 11.8943 4.99234 11.9567 4.88339C12.2974 4.28613 12.4524 3.63787 12.4608 2.8237Z"
+                          fill="#3C3C3C"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_399_3578">
+                          <rect width="17" height="13.8503" fill="white" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+
+                    <span className="text-md font-bold">
                       Active Relief Partners:{" "}
                     </span>
                     {item.partners}
                   </div>
-                  <div>
-                    <span className="text-gray-700 font-lg font-bold">
+                  <div className="flex items-center gap-2">
+                    <svg
+                      width="20"
+                      height="16"
+                      viewBox="0 0 20 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <g clip-path="url(#clip0_399_3588)">
+                        <path
+                          d="M0 8.37641C0.151087 8.05624 0.4049 7.94186 0.752965 7.96163C1.14374 7.98422 1.53947 7.94539 1.92707 7.98775C2.80606 8.08377 3.41958 8.74531 3.42982 9.62747C3.44747 11.1327 3.44853 12.6386 3.42982 14.1439C3.41782 15.086 2.70545 15.7747 1.7608 15.8033C1.36932 15.8153 0.977125 15.804 0.584934 15.8065C0.290525 15.8083 0.125671 15.6311 0.000353008 15.3956V8.37641H0Z"
+                          fill="#3C3C3C"
+                        />
+                        <path
+                          d="M4.55591 15.3404V15.1501C4.55591 12.9788 4.55732 10.8074 4.55273 8.63571C4.55273 8.49909 4.60004 8.42743 4.71194 8.35718C6.13386 7.46337 7.9642 7.56186 9.26115 8.62159C9.65016 8.93965 10.0727 9.10379 10.5789 9.08967C11.1819 9.07273 11.7859 9.07908 12.3891 9.08861C12.8685 9.09603 13.2265 9.32301 13.4185 9.76356C13.6038 10.1889 13.5336 10.5938 13.2286 10.9461C12.9893 11.2229 12.673 11.3277 12.3125 11.327C11.2175 11.3249 10.1225 11.3249 9.02746 11.327C8.67692 11.3277 8.44041 11.5413 8.42735 11.8573C8.41323 12.1965 8.64939 12.4411 9.00698 12.4447C9.47366 12.4496 9.94034 12.4461 10.407 12.4461C11.334 12.4461 12.261 12.4411 13.188 12.4478C13.8065 12.4524 14.3003 12.2269 14.7035 11.7496C15.4818 10.8275 16.2807 9.92242 17.0711 9.01025C17.4852 8.53227 18.0394 8.39495 18.5177 8.653C19.0119 8.91988 19.2329 9.46668 19.0539 10.0647C18.9858 10.2917 18.8743 10.5183 18.7334 10.7093C17.8731 11.8753 17.0044 13.0352 16.1279 14.1892C15.3099 15.2662 14.2149 15.8028 12.8629 15.8056C11.2514 15.8088 9.63993 15.8088 8.02845 15.8056C6.89176 15.8035 5.77167 15.6644 4.6717 15.3725C4.63675 15.3633 4.60251 15.3531 4.55591 15.3404Z"
+                          fill="#3C3C3C"
+                        />
+                        <path
+                          d="M11.8287 4.71651e-06C13.7971 -0.00317235 15.4019 1.59913 15.4019 3.56785C15.4019 5.53057 13.8031 7.13111 11.8404 7.13429C9.8727 7.13747 8.26687 5.53375 8.26758 3.56609C8.26793 1.60337 9.866 0.00318178 11.8287 4.71651e-06ZM11.4337 1.58042C11.3998 1.5836 11.374 1.58571 11.3486 1.58819C10.7443 1.64502 10.2755 2.12511 10.2508 2.71251C10.2247 3.3264 10.6384 3.85414 11.2537 3.93957C11.565 3.98299 11.8859 3.95793 12.2022 3.96322C12.4482 3.96746 12.6251 4.1309 12.6265 4.35682C12.6283 4.58346 12.4518 4.7529 12.2075 4.75537C11.9876 4.75749 11.7673 4.75572 11.5474 4.75572C11.224 4.75572 11.1153 4.67418 11.0299 4.36706H10.2504C10.2557 4.64382 10.3397 4.88386 10.5064 5.0939C10.7415 5.39078 11.0581 5.53057 11.4425 5.55423V6.33049H12.2357V5.55317C12.2742 5.54999 12.3042 5.54787 12.3342 5.54469C12.9389 5.48045 13.4 4.99718 13.419 4.40766C13.4388 3.79943 13.0261 3.27874 12.4158 3.19366C12.1044 3.1506 11.7835 3.17531 11.4672 3.17001C11.2226 3.16578 11.0443 3.00092 11.0429 2.77606C11.0415 2.55013 11.2187 2.37998 11.4623 2.37786C11.6822 2.37575 11.9025 2.37751 12.1224 2.37751C12.4461 2.37751 12.5538 2.45835 12.6399 2.76617H13.4197C13.4141 2.48941 13.3301 2.24972 13.1638 2.03933C12.9287 1.7421 12.6131 1.60054 12.2276 1.57936V0.802744H11.4344V1.58007L11.4337 1.58042Z"
+                          fill="#3C3C3C"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_399_3588">
+                          <rect width="19.1161" height="15.8091" fill="white" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+
+                    <span className="text-gray-700 font-md font-bold">
                       Donations Raised:{" "}
                     </span>
                     <span className="font-semibold text-gray-700">
@@ -911,7 +977,6 @@ export default function Home() {
             </div>
           ))}
         </div>
-        <div className="live-impact-fade-overlay"></div>
         {/* <div className="text-center mt-8">
           <a href="#" className="accent-color hover:opacity-80 font-semibold">
             View more →
