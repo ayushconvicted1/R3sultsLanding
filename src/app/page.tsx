@@ -704,7 +704,7 @@ export default function Home() {
         <div className="relative z-10 w-full h-full">
           <div className="flex flex-col lg:flex-row items-center justify-around min-h-[500px] sm:min-h-[600px] md:min-h-[700px] px-4 sm:px-6 lg:px-8">
             {/* Left half - Watch image centered */}
-            <div className="flex-1 flex justify-center pt-5 items-center w-full lg:w-1/2 order-2 lg:order-1">
+            <div className="flex-1 flex justify-center pt-5 items-center w-full lg:w-1/2 order-1 lg:order-1">
               <div className="relative">
                 <div className="watch-container relative">
                   {/* White glow circle behind watch */}
@@ -724,7 +724,7 @@ export default function Home() {
             </div>
 
             {/* Right half - Text content centered */}
-            <div className="flex-1 flex flex-col justify-center items-center lg:items-start w-full lg:w-1/2 order-1 lg:order-2">
+            <div className="flex-1 flex flex-col justify-center items-center lg:items-start w-full lg:w-1/2 order-2 lg:order-2">
               <h2 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight text-center lg:text-left">
                 IOT-powered Wearable
                 <br />

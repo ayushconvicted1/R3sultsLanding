@@ -203,24 +203,6 @@ export default function Header() {
           <nav className="flex flex-col flex-1 p-6 gap-2">
             <Link
               className={`px-4 py-3 rounded-md transition-colors font-medium text-base ${
-                pathname === "/"
-                  ? "text-[#BF0637] bg-gray-100"
-                  : "text-black hover:bg-gray-100 hover:text-[#BF0637]"
-              }`}
-              href="/"
-              onClick={() => setShowMobileMenu(false)}
-            >
-              Home
-            </Link>
-            <a
-              className="text-black hover:bg-gray-100 hover:text-[#BF0637] px-4 py-3 rounded-md transition-colors font-medium text-base"
-              href="#team"
-              onClick={() => setShowMobileMenu(false)}
-            >
-              Team
-            </a>
-            <Link
-              className={`px-4 py-3 rounded-md transition-colors font-medium text-base ${
                 pathname === "/about"
                   ? "text-[#BF0637] bg-gray-100"
                   : "text-black hover:bg-gray-100 hover:text-[#BF0637]"
