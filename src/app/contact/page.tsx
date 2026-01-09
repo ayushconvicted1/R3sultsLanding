@@ -40,7 +40,7 @@ export default function Contact() {
       // Here you could also send the full form data to another endpoint
       // For now, we're just saving the email
       console.log("Form submitted:", formData);
-      
+
       setSubmitStatus("success");
       setFormData({ name: "", email: "", message: "" });
     } catch (error) {
@@ -197,7 +197,8 @@ export default function Contact() {
                 </button>
                 {submitStatus === "success" && (
                   <div className="mt-4 text-sm text-green-600">
-                    Thank you! We've received your message and will get back to you soon.
+                    Thank you! We've received your message and will get back to
+                    you soon.
                   </div>
                 )}
                 {submitStatus === "error" && (
@@ -216,8 +217,19 @@ export default function Contact() {
                     Visit us
                   </h3>
                   <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-                    47 W 13th St, New York, NY 10011, USA
+                    200 W Prospect Rd, Oakland Park, FL 33309
                   </p>
+                </div>
+                <div>
+                  <h3 className="text-lg sm:text-xl font-semibold text-slate-800 mb-4">
+                    Call us
+                  </h3>
+                  <a
+                    href="tel:+19542311750"
+                    className="text-slate-600 text-sm sm:text-base leading-relaxed hover:text-[#BF0637] transition-colors"
+                  >
+                    +1 954-231-1750
+                  </a>
                 </div>
                 <div>
                   <h3 className="text-lg sm:text-xl font-semibold text-slate-800 mb-4">
