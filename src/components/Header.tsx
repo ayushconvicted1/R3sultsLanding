@@ -56,9 +56,9 @@ export default function Header() {
     <>
       <header className="w-[90%] ml-[5%] mt-[10px] rounded-md fixed top-0 z-50 bg-white/30 backdrop-blur-md border-b border-white/10">
         <div className="mx-auto px-6 py-3 flex items-center justify-between">
-          <div className="flex pt-0.5 items-center">
+          <Link href="/" className="flex pt-0.5 items-center">
             <LogoSvg height={30} width={100} color="#000" />
-          </div>
+          </Link>
           <nav className="hidden md:flex items-center gap-8 text-base font-medium">
             <Link
               className={`transition-colors ${
@@ -164,7 +164,9 @@ export default function Header() {
         <div className="flex flex-col h-full">
           {/* Menu Header */}
           <div className="flex items-center justify-between p-6 border-b border-gray-200">
-            <LogoSvg height={30} width={100} color="#000" />
+            <Link href="/" onClick={() => setShowMobileMenu(false)}>
+              <LogoSvg height={30} width={100} color="#000" />
+            </Link>
             <button
               onClick={() => setShowMobileMenu(false)}
               className="text-black hover:opacity-70 transition-opacity p-2"

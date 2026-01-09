@@ -79,7 +79,7 @@ export default function Contact() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12 sm:py-16 md:py-20">
           <div className="max-w-2xl lg:pb-30">
             <h1
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight sm:leading-normal mb-1 sm:mb-2 md:mb-4"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-extrabold text-white leading-tight sm:leading-normal mb-4 sm:mb-6 md:mb-8"
               style={{
                 textShadow: "2px 2px 8px rgba(0, 0, 0, 0.5)",
                 letterSpacing: "-0.02em",
@@ -88,7 +88,7 @@ export default function Contact() {
               Connect with us
             </h1>
             <p
-              className="text-white text-lg sm:text-base md:text-xl font-lato italic mb-2 sm:mb-6 max-w-xl"
+              className="text-white text-sm sm:text-base md:text-lg font-lato italic mb-4 sm:mb-6 max-w-xl"
               style={{
                 textShadow: "1px 1px 4px rgba(0, 0, 0, 0.5)",
               }}

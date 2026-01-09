@@ -11,7 +11,7 @@ export default function About() {
       {/* Hero Section */}
       <section
         id="hero"
-        className="hero relative min-h-screen flex items-center pt-24 sm:pt-28 md:pt-32 lg:pt-40"
+        className="hero relative min-h-screen flex items-center pt-24 sm:pt-28 md:pt-32 lg:pt-40 pb-20"
         style={{
           backgroundImage: "url('/AboutHeroBG.png')",
           backgroundSize: "cover",
@@ -20,10 +20,10 @@ export default function About() {
         }}
       >
         <div className="absolute inset-0 hero-overlay"></div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12 sm:py-16 md:py-20">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-20">
           <div className="max-w-2xl">
             <h1
-              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight sm:leading-normal mb-4 sm:mb-6 md:mb-8"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-extrabold text-white leading-tight sm:leading-normal mb-4 sm:mb-6 md:mb-8"
               style={{
                 textShadow: "2px 2px 8px rgba(0, 0, 0, 0.5)",
                 letterSpacing: "-0.02em",
@@ -64,7 +64,7 @@ export default function About() {
                 </p>
               </div>
             </div>
-            <div className="flex items-center justify-end pl-0 lg:pl-6">
+            <div className="flex items-center justify-start lg:justify-end pl-0 lg:pl-6">
               <div className="w-48 sm:w-56 md:w-64 lg:w-72 h-36 sm:h-44 md:h-52 lg:h-60 rounded-lg overflow-hidden shadow-md">
                 <Image
                   src="/OurMission.png"
@@ -111,7 +111,7 @@ export default function About() {
       <section className="py-16 sm:py-20 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-center text-3xl sm:text-4xl md:text-5xl font-bold text-black mb-4">
-            Meet Our <span className="text-[#BF0637]">Founders</span>
+            Meet The <span className="text-[#BF0637]">Team</span>
           </h2>
           <p className="text-center text-slate-600 italic font-lato text-sm sm:text-base mb-16 sm:mb-20">
             Unified by a shared vision to transform disaster response through
@@ -171,7 +171,7 @@ export default function About() {
                   </p>
                 </div>
               </div>
-              <div className="flex items-center justify-end pl-0 lg:pl-6">
+              <div className="flex items-center justify-start lg:justify-end pl-0 lg:pl-6">
                 <div className="w-64 sm:w-72 md:w-80 lg:w-96 h-72 sm:h-80 md:h-96 lg:h-104 rounded-lg shrink-0">
                   <Image
                     src="/Team2.png"
@@ -222,10 +222,6 @@ export default function About() {
       {/* Meet Our Team */}
       <section className="py-16 sm:py-20 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-center text-3xl sm:text-4xl md:text-5xl font-bold text-black mb-16 sm:mb-20">
-            Meet Our <span className="text-[#BF0637]">Team</span>
-          </h2>
-
           <div className="space-y-16 sm:space-y-20">
             {/* Team Member 1 - Text Left, Image Right */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 space-y-0">
@@ -243,7 +239,7 @@ export default function About() {
                   </p>
                 </div>
               </div>
-              <div className="flex items-center justify-end pl-0 lg:pl-6">
+              <div className="flex items-center justify-start lg:justify-end pl-0 lg:pl-6">
                 <div className="w-56 sm:w-64 md:w-72 lg:w-80 h-64 sm:h-72 md:h-80 lg:h-88 rounded-lg shrink-0">
                   <Image
                     src="/Team4.png"
@@ -302,7 +298,7 @@ export default function About() {
                   </p>
                 </div>
               </div>
-              <div className="flex items-center justify-end pl-0 lg:pl-6">
+              <div className="flex items-center justify-start lg:justify-end pl-0 lg:pl-6">
                 <div className="w-56 sm:w-64 md:w-72 lg:w-80 h-64 sm:h-72 md:h-80 lg:h-88 rounded-lg shrink-0">
                   <Image
                     src="/Team6.png"

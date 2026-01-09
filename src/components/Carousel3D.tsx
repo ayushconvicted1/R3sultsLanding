@@ -330,7 +330,7 @@ export default function Carousel3D() {
                   opacity,
                   zIndex,
                   width: isMobile ? "100%" : "95%",
-                  height: "92%",
+                  height: "100%",
                   transition:
                     shouldAnimate || isMobile
                       ? isMobile
