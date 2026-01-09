@@ -10,8 +10,8 @@ export default function Footer() {
           <div>
             <LogoSvg height={30} width={100} color="white" />
             <p className="text-slate-400 text-sm leading-relaxed mt-4">
-              R3sults is an end-to-end Disaster Management platform that saves
-              lives through real-time intelligence, proactive alerts, and
+              R3sults Group is an end-to-end Disaster Management platform that
+              saves lives through real-time intelligence, proactive alerts, and
               immediate response coordination.
             </p>
           </div>
@@ -28,17 +28,33 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/#team"
+                  href="/contact"
                   className="hover:text-white transition-colors"
                 >
-                  Team
+                  Contact
                 </Link>
               </li>
             </ul>
           </div>
           <div>
+            <h5 className="font-semibold mb-4">Contact</h5>
+            <ul className="space-y-2 text-sm text-slate-400">
+              <li>
+                <a
+                  href="tel:+19542311750"
+                  className="hover:text-white transition-colors"
+                >
+                  +1 954-231-1750
+                </a>
+              </li>
+              <li className="leading-relaxed">
+                200 W Prospect Rd, Oakland Park, FL 33309
+              </li>
+            </ul>
+          </div>
+          <div>
             <h5 className="font-semibold mb-4">Connect</h5>
-            <div className="flex gap-4">
+            <div className="flex gap-4 mb-4">
               <a
                 href="https://facebook.com"
                 target="_blank"
@@ -99,12 +115,12 @@ export default function Footer() {
                 </svg>
               </a>
             </div>
-          </div>
-          <div>
-            <h5 className="font-semibold mb-4">
-              Subscribe to our newsletter
-            </h5>
-            <NewsletterForm />
+            <div className="mt-6">
+              <h5 className="font-semibold mb-4">
+                Subscribe to our newsletter
+              </h5>
+              <NewsletterForm />
+            </div>
           </div>
         </div>
         <div className="border-t border-slate-800 pt-8 text-center text-sm text-slate-400">
@@ -114,4 +130,3 @@ export default function Footer() {
     </footer>
   );
 }
-

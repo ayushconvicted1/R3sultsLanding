@@ -286,7 +286,7 @@ export default function Home() {
             {/* Right Half - Fixed iPad Image */}
             <div className="hidden lg:pt-10 lg:flex justify-center items-center">
               <Image
-                src="/IPadImg.png"
+                src="/IPadImg.webp"
                 alt="Tablet/Smartphone Visual"
                 width={400}
                 height={155}
@@ -298,7 +298,7 @@ export default function Home() {
           {/* iPad Image for Mobile/Tablet - Below carousel */}
           <div className="lg:hidden flex justify-center mt-8 sm:mt-10">
             <Image
-              src="/IPadImg.png"
+              src="/IPadImg.webp"
               alt="Tablet/Smartphone Visual"
               width={650}
               height={295}
@@ -749,6 +749,126 @@ export default function Home() {
                   Submit
                 </button>
               </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="hero"
+        className="hero hidden lg:flex relative min-h-screen items-center pt-24 sm:pt-28 md:pt-32 lg:pt-40"
+      >
+        {/* Video Background */}
+        <video
+          autoPlay
+          loop
+          playsInline
+          muted
+          controls
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="/Action.mp4" type="video/mp4" />
+        </video>
+        {/* <div className="absolute inset-0 hero-overlay"></div> */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12 sm:py-16 md:py-20">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-start">
+            <div className="md:col-span-6 lg:col-span-6 -mt-4 sm:-mt-6 md:-mt-8">
+              {/* <h1
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-extrabold text-white leading-tight sm:leading-normal mb-4 sm:mb-6 md:mb-8"
+                style={{
+                  textShadow: "2px 2px 8px rgba(0, 0, 0, 0.5)",
+                  letterSpacing: "-0.02em",
+                }}
+              >
+                See R3sults <br /> in Action
+              </h1> */}
+              {/* <p className="text-white text-sm sm:text-base md:text-lg mb-4 sm:mb-6 max-w-2xl">
+                An end-to-end Disaster Management Technology Ecosystem that
+                saves lives through real-time intelligence, connected devices,
+                and unified response coordination.
+              </p> */}
+              {/* <hr className="border-white/30 mb-6 sm:mb-8 md:mb-10" /> */}
+              {/* <div className="flex gap-4 sm:gap-5">
+                <a
+                  href="https://facebook.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white hover:opacity-80 transition-colors"
+                  aria-label="Facebook"
+                >
+                  <svg
+                    width="15"
+                    height="27"
+                    viewBox="0 0 15 27"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M4.30117 26.9382C4.29666 26.8251 4.28762 26.712 4.28762 26.5968C4.28762 22.7394 4.28762 18.8821 4.28762 15.0269V14.6572H0V9.86706H4.28536C4.28536 9.73225 4.28536 9.63005 4.28536 9.52785C4.28988 8.27541 4.25825 7.01861 4.31247 5.76834C4.37798 4.25931 4.84108 2.8764 5.948 1.7479C6.79061 0.891188 7.8388 0.4063 9.02479 0.160594C9.98713 -0.035101 10.963 -0.0111827 11.9367 0.0236074C12.7273 0.0518745 13.518 0.11928 14.3064 0.169291C14.3674 0.17364 14.4306 0.191035 14.5052 0.204082V4.47458C14.4103 4.47458 14.3154 4.47458 14.2205 4.47458C13.2469 4.48762 12.271 4.47458 11.2996 4.52241C10.1498 4.57895 9.50144 5.1943 9.45174 6.30759C9.40204 7.46219 9.43367 8.62113 9.43141 9.77791C9.43141 9.79313 9.4427 9.80835 9.46303 9.85401H14.3448C14.1302 11.4652 13.9178 13.0395 13.7055 14.6442H9.44948C9.44044 14.7464 9.42689 14.8225 9.42689 14.8964C9.42689 18.8495 9.42689 22.8025 9.42689 26.7555C9.42689 26.8164 9.43593 26.8773 9.44044 26.9382H4.30343H4.30117Z"
+                      fill="white"
+                    />
+                  </svg>
+                </a>
+                <a
+                  href="https://instagram.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white hover:opacity-80 transition-colors"
+                  aria-label="Instagram"
+                >
+                  <svg
+                    width="27"
+                    height="27"
+                    viewBox="0 0 27 27"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M26.9926 13.4666C26.9926 15.9388 27.0027 18.4118 26.9901 20.884C26.974 23.8328 25.0315 26.2156 22.1587 26.8136C21.7496 26.8988 21.322 26.9291 20.9036 26.93C15.9694 26.9376 11.0351 26.9426 6.10085 26.9325C3.1268 26.9266 0.725462 24.9833 0.12576 22.1104C0.0422567 21.7123 0.0110485 21.2965 0.0102051 20.8891C8.351e-05 15.9439 -0.00497727 10.9986 0.00683121 6.05426C0.0135789 3.11226 1.97041 0.7202 4.83903 0.123028C5.24811 0.0386814 5.67575 0.00831669 6.0941 0.00747323C11.0284 -0.000117943 15.9635 -0.0034918 20.8977 0.00494284C23.8709 0.0100036 26.2723 1.94997 26.8703 4.82786C26.9639 5.27659 26.9858 5.7464 26.9875 6.20693C26.9985 8.62682 26.9926 11.0467 26.9926 13.4666ZM13.4921 22.1914C18.3252 22.1939 22.2405 18.2904 22.2397 13.4683C22.2397 8.65887 18.3395 4.76039 13.52 4.75027C8.68522 4.74014 4.76396 8.6361 4.75637 13.4565C4.74962 18.2769 8.66161 22.188 13.4921 22.1914ZM24.2741 4.48457C24.2724 3.45977 23.4526 2.64076 22.4286 2.64161C21.4055 2.64161 20.5831 3.4623 20.5814 4.48457C20.5797 5.5001 21.4114 6.33007 22.4286 6.33007C23.45 6.33007 24.2758 5.50432 24.2741 4.48542V4.48457Z"
+                      fill="white"
+                    />
+                    <path
+                      d="M18.4491 13.4742C18.4457 16.2053 16.2409 18.4051 13.5039 18.4093C10.7567 18.4127 8.546 16.1986 8.55275 13.4506C8.56034 10.7211 10.7719 8.52726 13.5123 8.53401C16.2502 8.53992 18.4525 10.7439 18.4491 13.475V13.4742Z"
+                      fill="white"
+                    />
+                  </svg>
+                </a>
+                <a
+                  href="https://linkedin.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white hover:opacity-80 transition-colors"
+                  aria-label="LinkedIn"
+                >
+                  <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 28 28"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M0 24.5115C0 17.1863 0 9.86114 0 2.53564C0.016173 2.49653 0.0399915 2.45889 0.0473429 2.41831C0.193488 1.60907 0.595756 0.948034 1.28943 0.516949C1.66641 0.282587 2.11778 0.168494 2.53564 0C9.86084 0 17.1863 0 24.5115 0C24.5333 0.0135265 24.5539 0.0361688 24.5771 0.0391093C25.8189 0.194664 27.0598 1.3406 27.0551 3.08875C27.0363 10.0429 27.0484 16.9973 27.044 23.9514C27.044 24.2307 27.0263 24.5177 26.9625 24.7883C26.6361 26.17 25.4816 27.0463 24.0049 27.0466C17.8956 27.0478 11.7866 27.0472 5.67732 27.0469C4.72664 27.0469 3.77478 27.0739 2.82558 27.0369C1.68817 26.9925 0.837175 26.4403 0.316697 25.4237C0.171434 25.1399 0.103507 24.8165 0 24.5115ZM4.31291 22.9331C4.86073 22.9331 5.33592 22.9404 5.81023 22.9263C5.89698 22.9237 6.00225 22.851 6.06342 22.7799C7.60515 20.9946 9.14188 19.205 10.6801 17.4169C11.1903 16.8238 11.7016 16.2318 12.2245 15.6255C12.298 15.7302 12.3585 15.8152 12.4177 15.9013C13.982 18.1779 15.5479 20.4539 17.1075 22.734C17.2081 22.881 17.3119 22.9381 17.491 22.9375C19.1459 22.9304 20.8009 22.9334 22.4558 22.9334C22.5352 22.9334 22.6146 22.9334 22.7384 22.9334C20.226 19.2768 17.7524 15.6761 15.2779 12.0745C17.5616 9.41947 19.8252 6.78738 22.1391 4.09736C21.6366 4.09736 21.2093 4.10736 20.7829 4.09295C20.5868 4.08619 20.4609 4.15235 20.3345 4.29967C18.5308 6.4054 16.7211 8.50584 14.9127 10.6072C14.7992 10.7392 14.6842 10.8703 14.5572 11.0165C14.4854 10.9159 14.4287 10.8386 14.3743 10.7595C12.899 8.61346 11.4223 6.46892 9.95347 4.31849C9.84026 4.15294 9.7247 4.09178 9.52562 4.09266C7.88832 4.1006 6.25102 4.09707 4.61372 4.09795C4.5308 4.09795 4.44788 4.10707 4.33025 4.11412C4.40789 4.23381 4.46199 4.32143 4.52021 4.40642C6.79179 7.71306 9.0616 11.0209 11.3411 14.322C11.4799 14.5228 11.4605 14.6319 11.3088 14.8074C9.40212 17.0102 7.5037 19.22 5.60351 21.4284C5.18654 21.9127 4.77134 22.3988 4.3132 22.9331H4.31291Z"
+                      fill="white"
+                    />
+                    <path
+                      d="M6.5332 5.32623C7.35185 5.32623 8.11728 5.31946 8.88241 5.33505C8.97592 5.33711 9.09384 5.44091 9.15559 5.52913C10.7632 7.81835 12.3649 10.1117 13.9678 12.4041C16.0847 15.432 18.2019 18.4596 20.3185 21.4878C20.3726 21.5651 20.4226 21.6454 20.5026 21.7668H19.344C18.992 21.7668 18.6395 21.7551 18.2881 21.7716C18.0893 21.781 17.9731 21.7154 17.8584 21.5504C16.297 19.3041 14.7273 17.0634 13.1597 14.8216C11.0175 11.7575 8.87565 8.69345 6.73404 5.6294C6.67494 5.54501 6.61995 5.45738 6.5335 5.32682L6.5332 5.32623Z"
+                      fill="white"
+                    />
+                  </svg>
+                </a>
+              </div> */}
+            </div>
+            <div className="md:col-span-6 lg:col-span-5 lg:col-start-8 mt-8 md:mt-0">
+              {/* <div className="lg:max-w-[85%] ml-auto">
+                <div className="bg-white/30 backdrop-blur-md p-6 sm:p-8 rounded-lg">
+                  <h3 className="text-white font-semibold text-base sm:text-lg mb-4 sm:mb-6">
+                    Join our newsletter to get latest updates on our launch &
+                    offers!
+                  </h3>
+                  <NewsletterForm />
+                </div>
+              </div> */}
             </div>
           </div>
         </div>

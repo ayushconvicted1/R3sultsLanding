@@ -173,6 +173,70 @@ export default function About() {
 
           <div className="space-y-16 sm:space-y-20">
             {/* Founder 1 - Image Left, Text Right */}
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 space-y-0">
+              {/* Mobile: Box with image and content */}
+              <div className="lg:hidden">
+                <div className="bg-white border border-slate-200 shadow-md rounded-lg overflow-hidden">
+                  <div className="w-full h-80 sm:h-96 md:h-112 overflow-hidden">
+                    <Image
+                      src="/Team2.png"
+                      alt="Ajay Verma"
+                      width={500}
+                      height={600}
+                      className="w-full h-full object-cover object-top"
+                    />
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-2xl sm:text-3xl font-bold text-black">
+                      Ajay Verma
+                    </h3>
+                    <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
+                      CEO and Founder
+                      <br />
+                      Technology, Engineering & Product
+                    </p>
+                    <p className="text-slate-700 mt-6 text-base leading-relaxed">
+                      An accomplished tech leader with 24 years of international
+                      experience in tech, AI, operations, marketing and business
+                      strategy. Engineering graduate from IIT, MBA from Harvard
+                      University. Lived and worked across 4 countries, bringing
+                      a global perspective to disaster tech innovation.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              {/* Desktop: Text only */}
+              <div className="hidden lg:flex lg:items-center lg:order-1 lg:pr-6">
+                <div>
+                  <h3 className="text-2xl sm:text-3xl font-bold text-black">
+                    Ajay Verma
+                  </h3>
+                  <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
+                    Technology, Engineering & Product
+                  </p>
+                  <p className="text-slate-700 mt-6 text-base leading-relaxed">
+                    An accomplished tech leader with 24 years of international
+                    experience in tech, AI, operations, marketing and business
+                    strategy. Engineering graduate from IIT, MBA from Harvard
+                    University. Lived and worked across 4 countries, bringing a
+                    global perspective to disaster tech innovation.
+                  </p>
+                </div>
+              </div>
+              {/* Desktop: Image only */}
+              <div className="hidden lg:flex lg:items-center lg:justify-end lg:order-2 lg:pl-6">
+                <div className="w-96 h-96 rounded-lg overflow-hidden">
+                  <Image
+                    src="/Team2.png"
+                    alt="Ajay Verma"
+                    width={500}
+                    height={600}
+                    className="w-full h-full object-cover object-top"
+                  />
+                </div>
+              </div>
+            </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 space-y-0">
               {/* Mobile: Box with image and content */}
               <div className="lg:hidden">
@@ -212,7 +276,7 @@ export default function About() {
                     alt="S. Robert August"
                     width={500}
                     height={600}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover object-top"
                   />
                 </div>
               </div>
@@ -238,67 +302,6 @@ export default function About() {
             </div>
 
             {/* Founder 2 - Text Left, Image Right */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 space-y-0">
-              {/* Mobile: Box with image and content */}
-              <div className="lg:hidden">
-                <div className="bg-white border border-slate-200 shadow-md rounded-lg overflow-hidden">
-                  <div className="w-full h-80 sm:h-96 md:h-112 overflow-hidden">
-                    <Image
-                      src="/Team2.png"
-                      alt="Ajay Verma"
-                      width={500}
-                      height={600}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-2xl sm:text-3xl font-bold text-black">
-                      Ajay Verma
-                    </h3>
-                    <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                      Technology, Engineering & Product
-                    </p>
-                    <p className="text-slate-700 mt-6 text-base leading-relaxed">
-                      An accomplished tech leader with 24 years of international
-                      experience in tech, AI, operations, marketing and business
-                      strategy. Engineering graduate from IIT, MBA from Harvard
-                      University. Lived and worked across 4 countries, bringing
-                      a global perspective to disaster tech innovation.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              {/* Desktop: Text only */}
-              <div className="hidden lg:flex lg:items-center lg:order-1 lg:pr-6">
-                <div>
-                  <h3 className="text-2xl sm:text-3xl font-bold text-black">
-                    Ajay Verma
-                  </h3>
-                  <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                    Technology, Engineering & Product
-                  </p>
-                  <p className="text-slate-700 mt-6 text-base leading-relaxed">
-                    An accomplished tech leader with 24 years of international
-                    experience in tech, AI, operations, marketing and business
-                    strategy. Engineering graduate from IIT, MBA from Harvard
-                    University. Lived and worked across 4 countries, bringing a
-                    global perspective to disaster tech innovation.
-                  </p>
-                </div>
-              </div>
-              {/* Desktop: Image only */}
-              <div className="hidden lg:flex lg:items-center lg:justify-end lg:order-2 lg:pl-6">
-                <div className="w-96 h-96 rounded-lg overflow-hidden">
-                  <Image
-                    src="/Team2.png"
-                    alt="Ajay Verma"
-                    width={500}
-                    height={600}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
-            </div>
 
             {/* Founder 3 - Image Left, Text Right */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 space-y-0">
