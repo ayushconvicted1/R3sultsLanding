@@ -247,7 +247,7 @@ export default function About() {
                       alt="S. Robert August"
                       width={500}
                       height={600}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover object-top"
                     />
                   </div>
                   <div className="p-6">
@@ -314,7 +314,7 @@ export default function About() {
                       alt="Herbert V. Tremble II"
                       width={500}
                       height={600}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover object-top"
                     />
                   </div>
                   <div className="p-6">
@@ -343,7 +343,7 @@ export default function About() {
                     alt="Herbert V. Tremble II"
                     width={500}
                     height={600}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover object-top"
                   />
                 </div>
               </div>
@@ -385,7 +385,7 @@ export default function About() {
                       alt="Jeff Wilson"
                       width={450}
                       height={550}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover object-top"
                     />
                   </div>
                   <div className="p-6">
@@ -425,7 +425,7 @@ export default function About() {
                     alt="Jeff Wilson"
                     width={450}
                     height={550}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover object-top"
                   />
                 </div>
               </div>
@@ -442,7 +442,7 @@ export default function About() {
                       alt="KT Caitlin"
                       width={450}
                       height={550}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover object-top"
                     />
                   </div>
                   <div className="p-6">
@@ -468,7 +468,7 @@ export default function About() {
                     alt="KT Caitlin"
                     width={450}
                     height={550}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover object-top"
                   />
                 </div>
               </div>
@@ -500,7 +500,7 @@ export default function About() {
                       alt="Sam Yates"
                       width={450}
                       height={550}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover object-top"
                     />
                   </div>
                   <div className="p-6">
@@ -542,7 +542,7 @@ export default function About() {
                     alt="Sam Yates"
                     width={450}
                     height={550}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover object-top"
                   />
                 </div>
               </div>
