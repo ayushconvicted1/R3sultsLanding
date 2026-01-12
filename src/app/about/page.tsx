@@ -287,7 +287,7 @@ export default function About() {
                     S. Robert August
                   </h3>
                   <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                    Marketing, Operations & Fundraising
+                    Disaster Relief and Management Expert
                   </p>
                   <p className="text-slate-700 mt-6 text-base leading-relaxed">
                     Nationally and globally accomplished, acclaimed, and awarded
