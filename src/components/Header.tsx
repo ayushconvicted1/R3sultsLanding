@@ -8,7 +8,9 @@ export default function Header() {
   const pathname = usePathname();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showLoginTooltip, setShowLoginTooltip] = useState(false);
+  const [showShopTooltip, setShowShopTooltip] = useState(false);
   const loginButtonRef = useRef<HTMLButtonElement>(null);
+  const shopButtonRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -37,20 +39,28 @@ export default function Header() {
       ) {
         setShowLoginTooltip(false);
       }
+      if (
+        shopButtonRef.current &&
+        !shopButtonRef.current.contains(event.target as Node) &&
+        showShopTooltip
+      ) {
+        setShowShopTooltip(false);
+      }
     };
 
-    if (showLoginTooltip) {
+    if (showLoginTooltip || showShopTooltip) {
       document.addEventListener("mousedown", handleClickOutside);
       // Auto-close after 3 seconds
       const timer = setTimeout(() => {
         setShowLoginTooltip(false);
+        setShowShopTooltip(false);
       }, 3000);
       return () => {
         document.removeEventListener("mousedown", handleClickOutside);
         clearTimeout(timer);
       };
     }
-  }, [showLoginTooltip]);
+  }, [showLoginTooltip, showShopTooltip]);
 
   return (
     <>
@@ -90,6 +100,26 @@ export default function Header() {
             >
               Contact
             </Link>
+            <div className="relative">
+              <button
+                ref={shopButtonRef}
+                onClick={() => setShowShopTooltip(!showShopTooltip)}
+                className="text-black hover:text-[#BF0637] transition-colors relative"
+              >
+                Shop
+              </button>
+              {showShopTooltip && (
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="bg-white/95 backdrop-blur-md rounded-md px-4 py-2.5 shadow-xl border border-gray-200/50 min-w-[140px] relative">
+                    <p className="text-[#BF0637] font-semibold text-sm text-center whitespace-nowrap">
+                      Coming Soon
+                    </p>
+                    {/* Arrow pointing up */}
+                    <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white/95 border-l border-t border-gray-200/50 rotate-45"></div>
+                  </div>
+                </div>
+              )}
+            </div>
             <div className="relative">
               <button
                 ref={loginButtonRef}
@@ -212,7 +242,17 @@ export default function Header() {
             >
               Contact
             </Link>
-            <div className="mt-4 pt-4 border-t border-gray-200">
+            <div className="mt-4 pt-4 border-t border-gray-200 space-y-2">
+              <button
+                onClick={() => {
+                  setShowShopTooltip(true);
+                  setShowMobileMenu(false);
+                }}
+                className="w-full text-white px-5 py-3 rounded-md text-sm font-semibold transition-opacity hover:opacity-90"
+                style={{ backgroundColor: "#BF0637" }}
+              >
+                Shop
+              </button>
               <button
                 onClick={() => {
                   setShowLoginTooltip(true);
@@ -227,6 +267,20 @@ export default function Header() {
           </nav>
         </div>
       </div>
+
+      {/* Shop Tooltip for Mobile */}
+      {showShopTooltip && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm md:hidden">
+          <div
+            className="bg-white/95 backdrop-blur-md rounded-lg px-6 py-4 shadow-lg border border-white/20 mx-4"
+            onClick={() => setShowShopTooltip(false)}
+          >
+            <p className="text-[#BF0637] font-medium text-base text-center">
+              Coming Soon
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Login Tooltip for Mobile */}
       {showLoginTooltip && (
