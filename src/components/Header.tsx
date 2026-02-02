@@ -3,14 +3,14 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import LogoSvg from "./images/Logo";
+import { useCart } from "@/context/CartContext";
 
 export default function Header() {
   const pathname = usePathname();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showLoginTooltip, setShowLoginTooltip] = useState(false);
-  const [showShopTooltip, setShowShopTooltip] = useState(false);
+  const { totalItems, openCart } = useCart();
   const loginButtonRef = useRef<HTMLButtonElement>(null);
-  const shopButtonRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -30,7 +30,6 @@ export default function Header() {
   }, [showMobileMenu]);
 
   useEffect(() => {
-    // Close tooltip when clicking outside
     const handleClickOutside = (event: MouseEvent) => {
       if (
         loginButtonRef.current &&
@@ -39,28 +38,17 @@ export default function Header() {
       ) {
         setShowLoginTooltip(false);
       }
-      if (
-        shopButtonRef.current &&
-        !shopButtonRef.current.contains(event.target as Node) &&
-        showShopTooltip
-      ) {
-        setShowShopTooltip(false);
-      }
     };
 
-    if (showLoginTooltip || showShopTooltip) {
+    if (showLoginTooltip) {
       document.addEventListener("mousedown", handleClickOutside);
-      // Auto-close after 3 seconds
-      const timer = setTimeout(() => {
-        setShowLoginTooltip(false);
-        setShowShopTooltip(false);
-      }, 3000);
+      const timer = setTimeout(() => setShowLoginTooltip(false), 3000);
       return () => {
         document.removeEventListener("mousedown", handleClickOutside);
         clearTimeout(timer);
       };
     }
-  }, [showLoginTooltip, showShopTooltip]);
+  }, [showLoginTooltip]);
 
   return (
     <>
@@ -100,26 +88,44 @@ export default function Header() {
             >
               Contact
             </Link>
-            <div className="relative">
-              <button
-                ref={shopButtonRef}
-                onClick={() => setShowShopTooltip(!showShopTooltip)}
-                className="text-black hover:text-[#BF0637] transition-colors relative"
+            <Link
+              href="/shop"
+              className={`transition-colors ${
+                pathname === "/shop"
+                  ? "text-[#BF0637]"
+                  : "text-black hover:text-[#BF0637]"
+              }`}
+            >
+              Shop
+            </Link>
+            <button
+              type="button"
+              onClick={openCart}
+              className="relative p-1 text-black hover:text-[#BF0637] transition-colors"
+              aria-label={`Cart, ${totalItems} items`}
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
-                Shop
-              </button>
-              {showShopTooltip && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                  <div className="bg-white/95 backdrop-blur-md rounded-md px-4 py-2.5 shadow-xl border border-gray-200/50 min-w-[140px] relative">
-                    <p className="text-[#BF0637] font-semibold text-sm text-center whitespace-nowrap">
-                      Coming Soon
-                    </p>
-                    {/* Arrow pointing up */}
-                    <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white/95 border-l border-t border-gray-200/50 rotate-45"></div>
-                  </div>
-                </div>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                />
+              </svg>
+              {totalItems > 0 && (
+                <span
+                  className="absolute -top-1 -right-1 min-w-[18px] h-[18px] rounded-full bg-[#BF0637] text-white text-xs font-semibold flex items-center justify-center px-1"
+                  aria-hidden
+                >
+                  {totalItems > 99 ? "99+" : totalItems}
+                </span>
               )}
-            </div>
+            </button>
             <div className="relative">
               <button
                 ref={loginButtonRef}
@@ -243,15 +249,24 @@ export default function Header() {
               Contact
             </Link>
             <div className="mt-4 pt-4 border-t border-gray-200 space-y-2">
-              <button
-                onClick={() => {
-                  setShowShopTooltip(true);
-                  setShowMobileMenu(false);
-                }}
-                className="w-full text-white px-5 py-3 rounded-md text-sm font-semibold transition-opacity hover:opacity-90"
+              <Link
+                href="/shop"
+                onClick={() => setShowMobileMenu(false)}
+                className="block w-full text-center text-white px-5 py-3 rounded-md text-sm font-semibold transition-opacity hover:opacity-90"
                 style={{ backgroundColor: "#BF0637" }}
               >
                 Shop
+              </Link>
+              <button
+                type="button"
+                onClick={() => {
+                  openCart();
+                  setShowMobileMenu(false);
+                }}
+                className="w-full flex items-center justify-center gap-2 text-white px-5 py-3 rounded-md text-sm font-semibold transition-opacity hover:opacity-90"
+                style={{ backgroundColor: "#BF0637" }}
+              >
+                Cart {totalItems > 0 ? `(${totalItems})` : ""}
               </button>
               <button
                 onClick={() => {
@@ -267,20 +282,6 @@ export default function Header() {
           </nav>
         </div>
       </div>
-
-      {/* Shop Tooltip for Mobile */}
-      {showShopTooltip && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm md:hidden">
-          <div
-            className="bg-white/95 backdrop-blur-md rounded-lg px-6 py-4 shadow-lg border border-white/20 mx-4"
-            onClick={() => setShowShopTooltip(false)}
-          >
-            <p className="text-[#BF0637] font-medium text-base text-center">
-              Coming Soon
-            </p>
-          </div>
-        </div>
-      )}
 
       {/* Login Tooltip for Mobile */}
       {showLoginTooltip && (
