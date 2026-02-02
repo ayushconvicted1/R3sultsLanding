@@ -3,6 +3,7 @@ import { Cabin, Rajdhani } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/Header";
+import CartProviderWithDrawer from "@/components/CartProviderWithDrawer";
 
 const cabin = Cabin({
   subsets: ["latin"],
@@ -90,8 +91,10 @@ export default function RootLayout({
       className={`${cabin.variable} ${lato.variable} ${rajdhani.variable}`}
     >
       <body className="antialiased bg-white text-slate-900 font-cabin">
-        <Header />
-        <main>{children}</main>
+        <CartProviderWithDrawer>
+          <Header />
+          <main>{children}</main>
+        </CartProviderWithDrawer>
       </body>
     </html>
   );
