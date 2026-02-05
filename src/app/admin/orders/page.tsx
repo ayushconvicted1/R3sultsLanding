@@ -12,9 +12,13 @@ interface Order {
   customer_email: string;
   amount_total?: number; // dollars (e.g. 250.00)
   amount_total_cents?: number; // legacy
+  amount_subtotal?: number;
+  shipping_amount?: number;
   currency: string;
   payment_status: string;
   shipping_address?: Record<string, unknown>;
+  billing_address?: Record<string, string>;
+  billing_same_as_shipping?: boolean;
   line_items?: Array<{ name?: string; quantity?: number; amount_total?: number }>;
   created_at: string;
 }
@@ -181,7 +185,14 @@ function OrdersContent() {
                                 : shipping.fullName) && (
                                 <p><strong>Name:</strong> {shipping.firstName != null && shipping.lastName != null ? `${shipping.firstName} ${shipping.lastName}` : shipping.fullName}</p>
                               )}
+                              {shipping.phone && <p><strong>Phone:</strong> {shipping.phone}</p>}
                               {shipping.line1 && <p><strong>Address:</strong> {shipping.line1}, {shipping.city}, {shipping.state} {shipping.postalCode}</p>}
+                              {order.shipping_amount != null && (
+                                <p><strong>Shipping:</strong> ${order.shipping_amount.toFixed(2)}</p>
+                              )}
+                              {order.billing_same_as_shipping === false && order.billing_address && (
+                                <p><strong>Billing:</strong> {order.billing_address.line1}, {order.billing_address.city}</p>
+                              )}
                               <p><strong>Items:</strong> {items.map((i) => `${i.name ?? "Item"} × ${i.quantity ?? 0}`).join("; ") || "—"}</p>
                             </div>
                           </details>

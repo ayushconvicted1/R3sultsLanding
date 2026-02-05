@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { Cabin, Rajdhani } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
+import "react-toastify/dist/ReactToastify.css";
 import Header from "@/components/Header";
 import CartProviderWithDrawer from "@/components/CartProviderWithDrawer";
+import ToastProvider from "@/components/ToastProvider";
 
 const cabin = Cabin({
   subsets: ["latin"],
@@ -91,10 +93,12 @@ export default function RootLayout({
       className={`${cabin.variable} ${lato.variable} ${rajdhani.variable}`}
     >
       <body className="antialiased bg-white text-slate-900 font-cabin">
-        <CartProviderWithDrawer>
-          <Header />
-          <main>{children}</main>
-        </CartProviderWithDrawer>
+        <ToastProvider>
+          <CartProviderWithDrawer>
+            <Header />
+            <main>{children}</main>
+          </CartProviderWithDrawer>
+        </ToastProvider>
       </body>
     </html>
   );

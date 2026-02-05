@@ -28,4 +28,9 @@ export interface CheckoutLineItem {
 export interface CreateCheckoutBody {
   lineItems: CheckoutLineItem[];
   shippingAddress: ShippingAddress;
+  /** When true, billing address is same as shipping (sent as billingAddress copy). */
+  billingSameAsShipping?: boolean;
+  billingAddress?: ShippingAddress;
+  /** Shipping charges in dollars (e.g. 5.99). Stored in order. */
+  shippingAmount?: number;
 }

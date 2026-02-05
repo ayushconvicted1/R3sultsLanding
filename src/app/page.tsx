@@ -6,6 +6,8 @@ import ImageFallback from "@/components/ImageFallback";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import GuidesSection from "@/components/GuidesSection";
 import Footer from "@/components/Footer";
+import VideoPlayOnce from "@/components/VideoPlayOnce";
+import EmailLaunchForm from "@/components/EmailLaunchForm";
 
 export default function Home() {
   return (
@@ -15,16 +17,11 @@ export default function Home() {
         id="hero"
         className="hero relative min-h-screen flex items-center pt-24 sm:pt-28 md:pt-32 lg:pt-40"
       >
-        {/* Video Background */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
+        {/* Video Background - plays once, pauses at end */}
+        <VideoPlayOnce
+          src="/HeroVid.mp4"
           className="absolute inset-0 w-full h-full object-cover"
-        >
-          <source src="/HeroVid.mp4" type="video/mp4" />
-        </video>
+        />
         <div className="absolute inset-0 hero-overlay"></div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12 sm:py-16 md:py-20">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-start">
@@ -665,19 +662,12 @@ export default function Home() {
                 Be Disaster-Ready. Subscribe for Launch Updates
               </p>
             </div>
-            <form className="flex flex-col sm:flex-row gap-3 sm:gap-4 max-w-md mx-auto justify-center px-4">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-3 bg-gray-800/50 border border-white/20 rounded-md text-white placeholder:text-white/60 focus:outline-none focus:border-[#BF0637]"
-              />
-              <button
-                type="submit"
-                className="bg-[#BF0637] hover:opacity-90 text-white px-8 py-3 rounded-md font-semibold transition-opacity whitespace-nowrap"
-              >
-                Submit
-              </button>
-            </form>
+            <EmailLaunchForm
+              source="newsletter"
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4 max-w-md mx-auto justify-center px-4"
+              inputClassName="flex-1 px-4 py-3 bg-gray-800/50 border border-white/20 rounded-md text-white placeholder:text-white/60 focus:outline-none focus:border-[#BF0637]"
+              buttonClassName="bg-[#BF0637] hover:opacity-90 text-white px-8 py-3 rounded-md font-semibold transition-opacity whitespace-nowrap"
+            />
           </div>
         </div>
       </section>
@@ -736,19 +726,12 @@ export default function Home() {
               <p className="text-white text-base sm:text-lg md:text-xl mb-6 sm:mb-8 text-center lg:text-left">
                 Join the Early Access Program
               </p>
-              <form className="flex flex-col sm:flex-row gap-3 w-full max-w-md">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="flex-1 px-4 py-3 bg-gray-800/50 border border-white/20 rounded-md text-white placeholder:text-white/60 focus:outline-none focus:border-[#BF0637] text-sm sm:text-base"
-                />
-                <button
-                  type="submit"
-                  className="bg-[#BF0637] hover:opacity-90 text-white px-6 sm:px-8 py-3 rounded-md font-semibold transition-opacity whitespace-nowrap text-sm sm:text-base"
-                >
-                  Submit
-                </button>
-              </form>
+              <EmailLaunchForm
+                source="newsletter"
+                className="flex flex-col sm:flex-row gap-3 w-full max-w-md"
+                inputClassName="flex-1 px-4 py-3 bg-gray-800/50 border border-white/20 rounded-md text-white placeholder:text-white/60 focus:outline-none focus:border-[#BF0637] text-sm sm:text-base"
+                buttonClassName="bg-[#BF0637] hover:opacity-90 text-white px-6 sm:px-8 py-3 rounded-md font-semibold transition-opacity whitespace-nowrap text-sm sm:text-base"
+              />
             </div>
           </div>
         </div>
@@ -759,17 +742,12 @@ export default function Home() {
         id="hero-mobile"
         className="hero flex lg:hidden relative min-h-screen items-center pt-24 sm:pt-28 md:pt-32"
       >
-        {/* Video Background */}
-        <video
-          autoPlay
-          loop
-          playsInline
-          muted
-          controls
+        {/* Video Background - plays once, pauses at end */}
+        <VideoPlayOnce
+          src="/ActionMob.mp4"
           className="absolute inset-0 w-full h-full object-cover"
-        >
-          <source src="/ActionMob.mp4" type="video/mp4" />
-        </video>
+          controls
+        />
         {/* <div className="absolute inset-0 hero-overlay"></div> */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12 sm:py-16 md:py-20">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-start">
@@ -880,17 +858,12 @@ export default function Home() {
         id="hero"
         className="hero hidden lg:flex relative min-h-screen items-center pt-24 sm:pt-28 md:pt-32 lg:pt-40"
       >
-        {/* Video Background */}
-        <video
-          autoPlay
-          loop
-          playsInline
-          muted
-          controls
+        {/* Video Background - plays once, pauses at end */}
+        <VideoPlayOnce
+          src="/Action.mp4"
           className="absolute inset-0 w-full h-full object-cover"
-        >
-          <source src="/Action.mp4" type="video/mp4" />
-        </video>
+          controls
+        />
         {/* <div className="absolute inset-0 hero-overlay"></div> */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12 sm:py-16 md:py-20">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-start">

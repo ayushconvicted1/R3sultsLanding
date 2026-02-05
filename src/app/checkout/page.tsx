@@ -27,6 +27,19 @@ export default function CheckoutPage() {
     postalCode: "",
     country: "US",
   });
+  const [billingSameAsShipping, setBillingSameAsShipping] = useState(true);
+  const [billingAddress, setBillingAddress] = useState<ShippingAddress>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    line1: "",
+    line2: "",
+    city: "",
+    state: "",
+    postalCode: "",
+    country: "US",
+  });
 
   useEffect(() => setMounted(true), []);
 
@@ -72,7 +85,13 @@ export default function CheckoutPage() {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ lineItems, shippingAddress: form }),
+        body: JSON.stringify({
+          lineItems,
+          shippingAddress: form,
+          billingSameAsShipping,
+          billingAddress: billingSameAsShipping ? undefined : billingAddress,
+          shippingAmount: SHIPPING_ESTIMATE,
+        }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Checkout failed");
@@ -213,6 +232,80 @@ export default function CheckoutPage() {
               <div className="px-6 sm:px-8 py-5 bg-gradient-to-r from-slate-50 to-white border-b border-slate-200">
                 <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
                   <span className="w-8 h-8 rounded-lg bg-[#BF0637]/10 text-[#BF0637] flex items-center justify-center text-sm font-extrabold">2</span>
+                  Billing address
+                </h2>
+              </div>
+              <div className="p-6 sm:p-8 space-y-4">
+                <label className="flex items-center gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={billingSameAsShipping}
+                    onChange={(e) => setBillingSameAsShipping(e.target.checked)}
+                    className="w-5 h-5 rounded border-2 border-slate-300 text-[#BF0637] focus:ring-[#BF0637]/30"
+                  />
+                  <span className="font-semibold text-slate-800">Use same address for billing</span>
+                </label>
+                {!billingSameAsShipping && (
+                  <div className="pt-2 border-t border-slate-200 space-y-4">
+                    <button
+                      type="button"
+                      onClick={() => setBillingAddress({ ...form })}
+                      className="text-sm font-semibold text-[#BF0637] hover:underline"
+                    >
+                      Copy from shipping address
+                    </button>
+                    <div className="grid sm:grid-cols-2 gap-5">
+                    <div>
+                      <label htmlFor="billFirstName" className={labelClass}>First name</label>
+                      <input id="billFirstName" type="text" required value={billingAddress.firstName} onChange={(e) => setBillingAddress((p) => ({ ...p, firstName: e.target.value }))} className={inputClass} />
+                    </div>
+                    <div>
+                      <label htmlFor="billLastName" className={labelClass}>Last name</label>
+                      <input id="billLastName" type="text" required value={billingAddress.lastName} onChange={(e) => setBillingAddress((p) => ({ ...p, lastName: e.target.value }))} className={inputClass} />
+                    </div>
+                    <div className="sm:col-span-2">
+                      <label htmlFor="billLine1" className={labelClass}>Address line 1</label>
+                      <input id="billLine1" type="text" required value={billingAddress.line1} onChange={(e) => setBillingAddress((p) => ({ ...p, line1: e.target.value }))} className={inputClass} />
+                    </div>
+                    <div className="sm:col-span-2">
+                      <label htmlFor="billLine2" className={labelClass}>Address line 2 (optional)</label>
+                      <input id="billLine2" type="text" value={billingAddress.line2} onChange={(e) => setBillingAddress((p) => ({ ...p, line2: e.target.value }))} className={inputClass} />
+                    </div>
+                    <div>
+                      <label htmlFor="billCity" className={labelClass}>City</label>
+                      <input id="billCity" type="text" required value={billingAddress.city} onChange={(e) => setBillingAddress((p) => ({ ...p, city: e.target.value }))} className={inputClass} />
+                    </div>
+                    <div>
+                      <label htmlFor="billState" className={labelClass}>State / Province</label>
+                      <input id="billState" type="text" required value={billingAddress.state} onChange={(e) => setBillingAddress((p) => ({ ...p, state: e.target.value }))} className={inputClass} />
+                    </div>
+                    <div>
+                      <label htmlFor="billPostalCode" className={labelClass}>ZIP / Postal code</label>
+                      <input id="billPostalCode" type="text" required value={billingAddress.postalCode} onChange={(e) => setBillingAddress((p) => ({ ...p, postalCode: e.target.value }))} className={inputClass} />
+                    </div>
+                    <div>
+                      <label htmlFor="billCountry" className={labelClass}>Country</label>
+                      <select id="billCountry" value={billingAddress.country} onChange={(e) => setBillingAddress((p) => ({ ...p, country: e.target.value }))} className={inputClass}>
+                        <option value="US">United States</option>
+                        <option value="CA">Canada</option>
+                        <option value="GB">United Kingdom</option>
+                        <option value="IN">India</option>
+                        <option value="AU">Australia</option>
+                        <option value="DE">Germany</option>
+                        <option value="FR">France</option>
+                        <option value="OTHER">Other</option>
+                      </select>
+                    </div>
+                  </div>
+                  </div>
+                )}
+              </div>
+            </section>
+
+            <section className="bg-white rounded-2xl border-2 border-slate-200/80 shadow-xl shadow-slate-200/50 overflow-hidden">
+              <div className="px-6 sm:px-8 py-5 bg-gradient-to-r from-slate-50 to-white border-b border-slate-200">
+                <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+                  <span className="w-8 h-8 rounded-lg bg-[#BF0637]/10 text-[#BF0637] flex items-center justify-center text-sm font-extrabold">3</span>
                   Payment
                 </h2>
               </div>
