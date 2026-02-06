@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
+import { getChunkedMetadataValue } from "@/lib/stripe-metadata";
 
 function getStripe(): Stripe {
   const key = process.env.STRIPE_SECRET_KEY;
@@ -26,6 +27,37 @@ export async function GET(request: NextRequest) {
     const session = await stripe.checkout.sessions.retrieve(sessionId, {
       expand: ["line_items"],
     });
+    const meta = (session.metadata ?? {}) as Record<string, string>;
+    let orderSummary: { lineItemsFull?: Array<{ name: string; quantity: number; price: number; image?: string; size?: string; color?: string }>; shippingAddress?: unknown; shippingAmount?: number } = {};
+    const lineItemsFullRaw = getChunkedMetadataValue(meta, "lineItemsFull");
+    if (lineItemsFullRaw) {
+      try {
+        const parsed = JSON.parse(lineItemsFullRaw) as Array<{ name?: string; quantity?: number; price?: number; image?: string; size?: string; color?: string }>;
+        orderSummary.lineItemsFull = parsed.map((item) => ({
+          name: item.name ?? "Item",
+          quantity: item.quantity ?? 0,
+          price: item.price ?? 0,
+          image: item.image,
+          size: item.size,
+          color: item.color,
+        }));
+      } catch {
+        // ignore
+      }
+    }
+    const shippingAddressRaw = getChunkedMetadataValue(meta, "shippingAddress");
+    if (shippingAddressRaw) {
+      try {
+        orderSummary.shippingAddress = JSON.parse(shippingAddressRaw);
+      } catch {
+        // ignore
+      }
+    }
+    const shippingAmountRaw = getChunkedMetadataValue(meta, "shippingAmount");
+    if (shippingAmountRaw != null && shippingAmountRaw !== "") {
+      const n = Number.parseFloat(shippingAmountRaw);
+      if (Number.isFinite(n)) orderSummary.shippingAmount = Math.round(n * 100) / 100;
+    }
     return NextResponse.json({
       session: {
         id: session.id,
@@ -38,6 +70,7 @@ export async function GET(request: NextRequest) {
           quantity: li.quantity,
           amount_total: li.amount_total,
         })),
+        orderSummary,
       },
     });
   } catch (err) {

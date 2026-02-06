@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { insertOrder, type OrderInput } from "@/lib/orders";
 import type { OrderLineItem } from "@/lib/mongodb";
+import { getChunkedMetadataValue } from "@/lib/stripe-metadata";
+import { generateOrderId } from "@/lib/order-id";
+import { sendOrderConfirmationEmail } from "@/lib/order-email";
 
 function getStripe(): Stripe {
   const key = process.env.STRIPE_SECRET_KEY;
@@ -19,6 +22,13 @@ interface StoredLineItem {
   size?: string;
   color?: string;
   productDescription?: string;
+}
+
+function splitName(full: string): { firstName?: string; lastName?: string } {
+  const parts = full.trim().split(/\s+/);
+  if (parts.length === 0) return {};
+  if (parts.length === 1) return { firstName: parts[0] };
+  return { firstName: parts[0], lastName: parts.slice(1).join(" ") };
 }
 
 export async function POST(request: NextRequest) {
@@ -51,22 +61,63 @@ export async function POST(request: NextRequest) {
   }
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
+    const meta = (session.metadata ?? {}) as Record<string, string>;
     try {
       let shippingAddress: OrderInput["shipping_address"] = {};
-      if (session.metadata?.shippingAddress) {
+      const shippingAddressRaw = getChunkedMetadataValue(meta, "shippingAddress");
+      if (shippingAddressRaw) {
         try {
-          shippingAddress =
-            typeof session.metadata.shippingAddress === "string"
-              ? (JSON.parse(session.metadata.shippingAddress) as OrderInput["shipping_address"])
-              : (session.metadata.shippingAddress as OrderInput["shipping_address"]);
+          shippingAddress = JSON.parse(shippingAddressRaw) as OrderInput["shipping_address"];
         } catch {
           // ignore
         }
       }
+      const stripeShipping = (session.customer_details as { shipping_details?: { address?: Stripe.Address; name?: string } })?.shipping_details;
+      if (stripeShipping?.address?.line1) {
+        shippingAddress = {
+          ...shippingAddress,
+          line1: stripeShipping.address.line1 ?? shippingAddress.line1,
+          line2: stripeShipping.address.line2 ?? shippingAddress.line2,
+          city: stripeShipping.address.city ?? shippingAddress.city,
+          state: stripeShipping.address.state ?? shippingAddress.state,
+          postalCode: stripeShipping.address.postal_code ?? shippingAddress.postalCode,
+          country: stripeShipping.address.country ?? shippingAddress.country,
+          ...(stripeShipping.name && splitName(stripeShipping.name)),
+        };
+      }
+      if (!shippingAddress.phone) {
+        shippingAddress.phone =
+          (session.customer_details as { phone?: string } | undefined)?.phone ??
+          getChunkedMetadataValue(meta, "customerPhone");
+      }
+
+      let billing_address: OrderInput["billing_address"] | undefined;
+      const stripeBilling = (session.customer_details as { address?: Stripe.Address })?.address;
+      if (stripeBilling?.line1) {
+        billing_address = {
+          line1: stripeBilling.line1 ?? undefined,
+          line2: stripeBilling.line2 ?? undefined,
+          city: stripeBilling.city ?? undefined,
+          state: stripeBilling.state ?? undefined,
+          postalCode: stripeBilling.postal_code ?? undefined,
+          country: stripeBilling.country ?? undefined,
+        };
+      }
+      if (!billing_address) {
+        const billingAddressRaw = getChunkedMetadataValue(meta, "billingAddress");
+        if (billingAddressRaw) {
+          try {
+            billing_address = JSON.parse(billingAddressRaw) as OrderInput["billing_address"];
+          } catch {
+            // ignore
+          }
+        }
+      }
+      const billing_same_as_shipping = getChunkedMetadataValue(meta, "billingSameAsShipping") === "true";
 
       let lineItems: OrderLineItem[] = [];
-      const lineItemsFullRaw = session.metadata?.lineItemsFull;
-      if (lineItemsFullRaw && typeof lineItemsFullRaw === "string") {
+      const lineItemsFullRaw = getChunkedMetadataValue(meta, "lineItemsFull");
+      if (lineItemsFullRaw) {
         try {
           const stored = JSON.parse(lineItemsFullRaw) as StoredLineItem[];
           lineItems = stored.map((item) => ({
@@ -101,18 +152,33 @@ export async function POST(request: NextRequest) {
       }
 
       const amountTotalDollars = Number((((session.amount_total ?? 0) / 100).toFixed(2)));
+      const shippingAmountNum = (() => {
+        const raw = getChunkedMetadataValue(meta, "shippingAmount");
+        if (raw == null || raw === "") return undefined;
+        const n = Number.parseFloat(raw);
+        return Number.isFinite(n) ? Math.round(n * 100) / 100 : undefined;
+      })();
+      const subtotal = shippingAmountNum != null ? Math.round((amountTotalDollars - shippingAmountNum) * 100) / 100 : amountTotalDollars;
       const order: OrderInput = {
-        id: `ord_${Date.now()}_${session.id.slice(-8)}`,
+        id: generateOrderId(),
         stripe_session_id: session.id,
         customer_email: session.customer_email ?? session.customer_details?.email ?? "",
         amount_total: amountTotalDollars,
+        ...(shippingAmountNum != null && { amount_subtotal: subtotal, shipping_amount: shippingAmountNum }),
         currency: (session.currency ?? "usd").toLowerCase(),
         payment_status: session.payment_status ?? "paid",
         shipping_address: shippingAddress,
+        ...(billing_address && { billing_address }),
+        ...(billing_same_as_shipping && { billing_same_as_shipping: true }),
         line_items: lineItems,
         created_at: new Date().toISOString(),
       };
       await insertOrder(order);
+      try {
+        await sendOrderConfirmationEmail(order);
+      } catch (emailErr) {
+        console.error("Order confirmation email failed:", emailErr);
+      }
     } catch (err) {
       console.error("Failed to store order:", err);
       return NextResponse.json(

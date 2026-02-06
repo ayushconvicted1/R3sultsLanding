@@ -19,6 +19,35 @@ export function getOrdersCollection() {
   return getDb().then((d) => d.collection<OrderDocument>("orders"));
 }
 
+/** Address fields matching checkout (ShippingAddress). */
+export interface UserAddress {
+  line1: string;
+  line2?: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+}
+
+/** User document in R3sults_User collection. */
+export interface UserDocument {
+  _id?: unknown;
+  email: string;
+  passwordHash: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  address: UserAddress;
+  resetToken?: string;
+  resetTokenExpiry?: string; // ISO date
+  createdAt: string;
+  updatedAt: string;
+}
+
+export function getUsersCollection() {
+  return getDb().then((d) => d.collection<UserDocument>("R3sults_User"));
+}
+
 /** Line item as stored in MongoDB (with product id and full info). amount_total in dollars (e.g. 250.00). */
 export interface OrderLineItem {
   productId: string;
@@ -39,7 +68,9 @@ export interface OrderDocument {
   id: string;
   stripe_session_id: string;
   customer_email: string;
-  amount_total: number; // dollars (e.g. 250.00)
+  amount_total: number; // dollars (e.g. 250.00) = subtotal + shipping
+  amount_subtotal?: number; // dollars before shipping
+  shipping_amount?: number; // dollars (e.g. 5.99)
   currency: string;
   payment_status: string;
   shipping_address: {
@@ -56,6 +87,20 @@ export interface OrderDocument {
     country?: string;
     [key: string]: unknown;
   };
+  billing_address?: {
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    phone?: string;
+    line1?: string;
+    line2?: string;
+    city?: string;
+    state?: string;
+    postalCode?: string;
+    country?: string;
+    [key: string]: unknown;
+  };
+  billing_same_as_shipping?: boolean;
   line_items: OrderLineItem[];
   created_at: string;
 }

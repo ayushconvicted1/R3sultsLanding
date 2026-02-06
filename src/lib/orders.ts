@@ -17,3 +17,14 @@ export async function getOrders(): Promise<OrderDocument[]> {
     return rest as OrderDocument;
   });
 }
+
+export async function getOrdersByEmail(email: string): Promise<OrderDocument[]> {
+  if (!email || !email.trim()) return [];
+  const coll = await getOrdersCollection();
+  const cursor = coll.find({ customer_email: email.trim().toLowerCase() }).sort({ created_at: -1 });
+  const list = await cursor.toArray();
+  return list.map((doc) => {
+    const { _id, ...rest } = doc;
+    return rest as OrderDocument;
+  });
+}

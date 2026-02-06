@@ -10,6 +10,7 @@ import {
   type Product,
   type RawProduct,
 } from "@/types/product";
+import { getProductsApiBase } from "@/lib/api";
 import { useCart } from "@/context/CartContext";
 import ProductMedia from "@/components/shop/ProductMedia";
 import Footer from "@/components/Footer";
@@ -121,7 +122,7 @@ export default function ProductPage({
   useEffect(() => {
     if (!product?.id) return;
     let cancelled = false;
-    fetch("/api/products?limit=20")
+    fetch(`${getProductsApiBase()}/api/products?limit=20`)
       .then((res) => res.ok ? res.json() : Promise.reject(new Error("Failed")))
       .then((data) => {
         if (cancelled) return;
@@ -139,7 +140,7 @@ export default function ProductPage({
     let cancelled = false;
     setLoading(true);
     setError(null);
-    fetch(`/api/products/${id}`)
+    fetch(`${getProductsApiBase()}/api/products/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Product not found");
         return res.json();
@@ -411,51 +412,47 @@ export default function ProductPage({
               </div>
             )}
 
-            {/* Quantity + Add to cart */}
-            <div className="space-y-3">
-              <div className="flex flex-wrap items-end gap-4">
-                <div>
-                  <p className="text-sm font-semibold text-slate-900 mb-1">Quantity</p>
-                  <div className="flex items-center border-2 border-slate-200 rounded-xl overflow-hidden">
-                    <button
-                      type="button"
-                      onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                      className="w-11 h-11 flex items-center justify-center bg-slate-50 hover:bg-slate-100 text-slate-700 transition-colors"
-                    >
-                      −
-                    </button>
-                    <span className="w-12 text-center font-semibold">{quantity}</span>
-                    <button
-                      type="button"
-                      onClick={() => setQuantity((q) => Math.min(available, q + 1))}
-                      className="w-11 h-11 flex items-center justify-center bg-slate-50 hover:bg-slate-100 text-slate-700 transition-colors"
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-                <div className="flex-1 min-w-[200px]">
+            {/* Quantity + Add to cart — aligned vertically, same height (h-11) */}
+            <div className="flex flex-wrap items-end gap-4">
+              <div>
+                <p className="text-sm font-semibold text-slate-900 mb-1">Quantity</p>
+                <div className="flex items-center border-2 border-slate-200 rounded-xl overflow-hidden h-11">
                   <button
                     type="button"
-                    onClick={handleAddToCart}
-                    disabled={!canAdd}
-                    className={`w-full py-4 px-6 rounded-xl font-semibold transition-all shadow-lg hover:shadow-xl disabled:cursor-not-allowed ${
-                      canAdd
-                        ? "text-white hover:opacity-90"
-                        : available > 0 && optionsRequired
-                          ? "bg-slate-200 text-slate-600 cursor-not-allowed"
-                          : "bg-slate-200 text-slate-500 cursor-not-allowed"
-                    }`}
-                    style={canAdd ? { backgroundColor: "#BF0637" } : undefined}
+                    onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                    className="w-11 h-11 flex items-center justify-center bg-slate-50 hover:bg-slate-100 text-slate-700 transition-colors shrink-0"
                   >
-                    {addButtonMessage}
+                    −
                   </button>
-                  {!canAdd && available > 0 && optionsRequired && (
-                    <p className="mt-2 text-sm text-amber-600 font-medium">
-                      Please select {sizeRequired && colorRequired ? "size and colour" : sizeRequired ? "size" : "colour"} above to add this item to your cart.
-                    </p>
-                  )}
+                  <span className="w-12 text-center font-semibold">{quantity}</span>
+                  <button
+                    type="button"
+                    onClick={() => setQuantity((q) => Math.min(available, q + 1))}
+                    className="w-11 h-11 flex items-center justify-center bg-slate-50 hover:bg-slate-100 text-slate-700 transition-colors shrink-0"
+                  >
+                    +
+                  </button>
                 </div>
+              </div>
+              <div className="flex-1 min-w-[200px]">
+                {!canAdd && available > 0 && optionsRequired && (
+                  <p className="text-sm text-amber-600 font-medium mb-1">Please select size and colour above</p>
+                )}
+                <button
+                  type="button"
+                  onClick={handleAddToCart}
+                  disabled={!canAdd}
+                  className={`w-full h-11 px-6 rounded-xl font-semibold transition-all shadow-lg hover:shadow-xl disabled:cursor-not-allowed flex items-center justify-center ${
+                    canAdd
+                      ? "text-white hover:opacity-90"
+                      : available > 0 && optionsRequired
+                        ? "bg-slate-200 text-slate-600 cursor-not-allowed"
+                        : "bg-slate-200 text-slate-500 cursor-not-allowed"
+                  }`}
+                  style={canAdd ? { backgroundColor: "#BF0637" } : undefined}
+                >
+                  {addButtonMessage}
+                </button>
               </div>
             </div>
 

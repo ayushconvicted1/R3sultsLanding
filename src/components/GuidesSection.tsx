@@ -1,6 +1,10 @@
 "use client";
+
 import { useState } from "react";
+import { toast } from "react-toastify";
 import ImageFallback from "./ImageFallback";
+
+const TOAST_MESSAGE = "We have received your email for newsletter subscription.";
 
 interface Guide {
   title: string;
@@ -113,16 +117,14 @@ export default function GuidesSection() {
 
       setIsSubmitting(false);
       setIsSubmitted(true);
-
-      // Reset after showing success message
+      toast.success(TOAST_MESSAGE);
       setTimeout(() => {
         handleCloseModal();
       }, 2000);
     } catch (error) {
       console.error("Error submitting email:", error);
       setIsSubmitting(false);
-      // You could add error state handling here if needed
-      alert("Failed to submit email. Please try again.");
+      toast.error("Failed to submit email. Please try again.");
     }
   };
 

@@ -10,6 +10,7 @@ import {
   type Product,
   type RawProduct,
 } from "@/types/product";
+import { getProductsApiBase } from "@/lib/api";
 import Footer from "@/components/Footer";
 
 type SortOption = "name-asc" | "name-desc" | "price-asc" | "price-desc";
@@ -95,7 +96,7 @@ export default function ShopPage() {
     let cancelled = false;
     setLoading(true);
     setError(null);
-    fetch("/api/products")
+    fetch(`${getProductsApiBase()}/api/products`)
       .then((res) => {
         if (!res.ok) throw new Error(res.status === 500 ? "Server error" : "Failed to load products");
         return res.json();

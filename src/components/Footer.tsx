@@ -34,6 +34,14 @@ export default function Footer() {
                   Contact
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/news-and-media"
+                  className="hover:text-white transition-colors"
+                >
+                  News and media
+                </Link>
+              </li>
             </ul>
           </div>
           <div>
@@ -45,6 +53,14 @@ export default function Footer() {
                   className="hover:text-white transition-colors"
                 >
                   +1 954-231-1750
+                </a>
+              </li>
+              <li>
+                <a
+                  href="mailto:info@results.com"
+                  className="hover:text-white transition-colors"
+                >
+                  info@results.com
                 </a>
               </li>
               <li className="leading-relaxed">
