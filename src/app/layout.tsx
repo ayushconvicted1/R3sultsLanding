@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Header from "@/components/Header";
 import CartProviderWithDrawer from "@/components/CartProviderWithDrawer";
 import ToastProvider from "@/components/ToastProvider";
+import { AuthProvider } from "@/context/AuthContext";
 
 const cabin = Cabin({
   subsets: ["latin"],
@@ -94,10 +95,12 @@ export default function RootLayout({
     >
       <body className="antialiased bg-white text-slate-900 font-cabin">
         <ToastProvider>
-          <CartProviderWithDrawer>
-            <Header />
-            <main>{children}</main>
-          </CartProviderWithDrawer>
+          <AuthProvider>
+            <CartProviderWithDrawer>
+              <Header />
+              <main>{children}</main>
+            </CartProviderWithDrawer>
+          </AuthProvider>
         </ToastProvider>
       </body>
     </html>

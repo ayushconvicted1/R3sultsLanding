@@ -4,15 +4,27 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import LogoSvg from "./images/Logo";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Header() {
   const pathname = usePathname();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [showLoginTooltip, setShowLoginTooltip] = useState(false);
+  const [showAccountDropdown, setShowAccountDropdown] = useState(false);
   const { totalItems, openCart } = useCart();
-  const loginButtonRef = useRef<HTMLButtonElement>(null);
+  const { user, logout, loading: authLoading } = useAuth();
   const menuRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const accountDropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (accountDropdownRef.current && !accountDropdownRef.current.contains(e.target as Node)) {
+        setShowAccountDropdown(false);
+      }
+    };
+    if (showAccountDropdown) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [showAccountDropdown]);
 
   useEffect(() => {
     if (showMobileMenu) {
@@ -28,27 +40,6 @@ export default function Header() {
       document.documentElement.style.overflowX = "";
     };
   }, [showMobileMenu]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        loginButtonRef.current &&
-        !loginButtonRef.current.contains(event.target as Node) &&
-        showLoginTooltip
-      ) {
-        setShowLoginTooltip(false);
-      }
-    };
-
-    if (showLoginTooltip) {
-      document.addEventListener("mousedown", handleClickOutside);
-      const timer = setTimeout(() => setShowLoginTooltip(false), 3000);
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-        clearTimeout(timer);
-      };
-    }
-  }, [showLoginTooltip]);
 
   return (
     <>
@@ -126,27 +117,66 @@ export default function Header() {
                 </span>
               )}
             </button>
-            <div className="relative">
-              <button
-                ref={loginButtonRef}
-                onClick={() => setShowLoginTooltip(!showLoginTooltip)}
-                className="text-black hover:text-[#BF0637] transition-colors relative"
-              >
-                Login
-              </button>
-              {showLoginTooltip && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                  <div className="bg-white/95 backdrop-blur-md rounded-md px-4 py-2.5 shadow-xl border border-gray-200/50 min-w-[140px] relative">
-                    <p className="text-[#BF0637] font-semibold text-sm text-center whitespace-nowrap">
-                      Coming Soon
-                    </p>
-                    {/* Arrow pointing up */}
-                    <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white/95 border-l border-t border-gray-200/50 rotate-45"></div>
+            <div className="flex items-center gap-4" ref={accountDropdownRef}>
+              {!authLoading && (
+                user ? (
+                  <div
+                    className="relative"
+                    onMouseEnter={() => setShowAccountDropdown(true)}
+                    onMouseLeave={() => setShowAccountDropdown(false)}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setShowAccountDropdown((v) => !v)}
+                      className="flex items-center gap-2 text-black hover:text-[#BF0637] transition-colors"
+                      aria-expanded={showAccountDropdown}
+                      aria-haspopup="true"
+                      aria-label="Account menu"
+                    >
+                      <span className="font-medium">
+                        {user.firstName ? `${user.firstName}'s account` : "Account"}
+                      </span>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                    {showAccountDropdown && (
+                      <div className="absolute right-0 top-full mt-1 w-48 py-1 bg-white rounded-lg shadow-xl border border-slate-200/80 z-50">
+                        <Link
+                          href="/profile"
+                          onClick={() => setShowAccountDropdown(false)}
+                          className={`block px-4 py-2.5 text-sm font-medium transition-colors ${
+                            pathname === "/profile" ? "text-[#BF0637] bg-red-50/50" : "text-slate-700 hover:bg-slate-50 hover:text-[#BF0637]"
+                          }`}
+                        >
+                          Profile
+                        </Link>
+                        <Link
+                          href="/account/orders"
+                          onClick={() => setShowAccountDropdown(false)}
+                          className={`block px-4 py-2.5 text-sm font-medium transition-colors ${
+                            pathname === "/account/orders" ? "text-[#BF0637] bg-red-50/50" : "text-slate-700 hover:bg-slate-50 hover:text-[#BF0637]"
+                          }`}
+                        >
+                          Orders
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={() => { setShowAccountDropdown(false); logout(); }}
+                          className="block w-full text-left px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-[#BF0637] transition-colors"
+                        >
+                          Logout
+                        </button>
+                      </div>
+                    )}
                   </div>
-                </div>
+                ) : (
+                  <Link href="/login" className="text-black hover:text-[#BF0637] transition-colors font-medium">
+                    Login
+                  </Link>
+                )
               )}
             </div>
-            {/* Notification Icon */}
           </nav>
           <button
             ref={menuButtonRef}
@@ -225,77 +255,104 @@ export default function Header() {
           </div>
 
           {/* Menu Items */}
-          <nav className="flex flex-col flex-1 p-6 gap-2">
-            <Link
-              className={`px-4 py-3 rounded-md transition-colors font-medium text-base ${
-                pathname === "/about"
-                  ? "text-[#BF0637] bg-gray-100"
-                  : "text-black hover:bg-gray-100 hover:text-[#BF0637]"
-              }`}
-              href="/about"
-              onClick={() => setShowMobileMenu(false)}
-            >
-              About
-            </Link>
-            <Link
-              className={`px-4 py-3 rounded-md transition-colors font-medium text-base ${
-                pathname === "/contact"
-                  ? "text-[#BF0637] bg-gray-100"
-                  : "text-black hover:bg-gray-100 hover:text-[#BF0637]"
-              }`}
-              href="/contact"
-              onClick={() => setShowMobileMenu(false)}
-            >
-              Contact
-            </Link>
-            <div className="mt-4 pt-4 border-t border-gray-200 space-y-2">
+          <nav className="flex flex-col flex-1 p-4 overflow-y-auto">
+            <div className="flex flex-col gap-1">
               <Link
-                href="/shop"
+                className={`px-4 py-2.5 rounded-lg font-medium text-base ${
+                  pathname === "/about" ? "text-[#BF0637] bg-red-50" : "text-black hover:bg-slate-100 hover:text-[#BF0637]"
+                }`}
+                href="/about"
                 onClick={() => setShowMobileMenu(false)}
-                className="block w-full text-center text-white px-5 py-3 rounded-md text-sm font-semibold transition-opacity hover:opacity-90"
-                style={{ backgroundColor: "#BF0637" }}
               >
-                Shop
+                About
               </Link>
-              <button
-                type="button"
-                onClick={() => {
-                  openCart();
-                  setShowMobileMenu(false);
-                }}
-                className="w-full flex items-center justify-center gap-2 text-white px-5 py-3 rounded-md text-sm font-semibold transition-opacity hover:opacity-90"
-                style={{ backgroundColor: "#BF0637" }}
+              <Link
+                className={`px-4 py-2.5 rounded-lg font-medium text-base ${
+                  pathname === "/contact" ? "text-[#BF0637] bg-red-50" : "text-black hover:bg-slate-100 hover:text-[#BF0637]"
+                }`}
+                href="/contact"
+                onClick={() => setShowMobileMenu(false)}
               >
-                Cart {totalItems > 0 ? `(${totalItems})` : ""}
-              </button>
-              <button
-                onClick={() => {
-                  setShowLoginTooltip(true);
-                  setShowMobileMenu(false);
-                }}
-                className="w-full text-white px-5 py-3 rounded-md text-sm font-semibold transition-opacity hover:opacity-90"
-                style={{ backgroundColor: "#BF0637" }}
-              >
-                Login
-              </button>
+                Contact
+              </Link>
             </div>
+            <div className="mt-4 pt-4 border-t border-slate-200">
+              <p className="px-4 mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500">Shop</p>
+              <div className="flex flex-col gap-2">
+                <Link
+                  href="/shop"
+                  onClick={() => setShowMobileMenu(false)}
+                  className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-white text-sm font-semibold"
+                  style={{ backgroundColor: "#BF0637" }}
+                >
+                  Shop
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => { openCart(); setShowMobileMenu(false); }}
+                  className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-semibold border-2 text-[#BF0637] bg-white"
+                  style={{ borderColor: "#BF0637" }}
+                >
+                  Cart {totalItems > 0 ? `(${totalItems})` : ""}
+                </button>
+              </div>
+            </div>
+            {!authLoading && (
+              <div className="mt-4 pt-4 border-t border-slate-200">
+                <p className="px-4 mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500">Account</p>
+                {user ? (
+                  <div className="flex flex-col gap-2">
+                    <Link
+                      href="/profile"
+                      onClick={() => setShowMobileMenu(false)}
+                      className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium ${
+                        pathname === "/profile" ? "bg-[#BF0637] text-white" : "bg-slate-100 text-slate-800 hover:bg-slate-200"
+                      }`}
+                    >
+                      <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                      Profile
+                    </Link>
+                    <Link
+                      href="/account/orders"
+                      onClick={() => setShowMobileMenu(false)}
+                      className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium ${
+                        pathname === "/account/orders" ? "bg-[#BF0637] text-white" : "bg-slate-100 text-slate-800 hover:bg-slate-200"
+                      }`}
+                    >
+                      <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                      </svg>
+                      Order history
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => { logout(); setShowMobileMenu(false); }}
+                      className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium bg-slate-100 text-slate-800 hover:bg-red-50 hover:text-[#BF0637] w-full text-left"
+                    >
+                      <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                      </svg>
+                      Logout
+                    </button>
+                  </div>
+                ) : (
+                  <Link
+                    href="/login"
+                    onClick={() => setShowMobileMenu(false)}
+                    className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-white text-sm font-semibold"
+                    style={{ backgroundColor: "#BF0637" }}
+                  >
+                    Login
+                  </Link>
+                )}
+              </div>
+            )}
           </nav>
         </div>
       </div>
 
-      {/* Login Tooltip for Mobile */}
-      {showLoginTooltip && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm md:hidden">
-          <div
-            className="bg-white/95 backdrop-blur-md rounded-lg px-6 py-4 shadow-lg border border-white/20 mx-4"
-            onClick={() => setShowLoginTooltip(false)}
-          >
-            <p className="text-[#BF0637] font-medium text-base text-center">
-              Coming Soon
-            </p>
-          </div>
-        </div>
-      )}
     </>
   );
 }

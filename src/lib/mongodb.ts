@@ -19,6 +19,35 @@ export function getOrdersCollection() {
   return getDb().then((d) => d.collection<OrderDocument>("orders"));
 }
 
+/** Address fields matching checkout (ShippingAddress). */
+export interface UserAddress {
+  line1: string;
+  line2?: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+}
+
+/** User document in R3sults_User collection. */
+export interface UserDocument {
+  _id?: unknown;
+  email: string;
+  passwordHash: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  address: UserAddress;
+  resetToken?: string;
+  resetTokenExpiry?: string; // ISO date
+  createdAt: string;
+  updatedAt: string;
+}
+
+export function getUsersCollection() {
+  return getDb().then((d) => d.collection<UserDocument>("R3sults_User"));
+}
+
 /** Line item as stored in MongoDB (with product id and full info). amount_total in dollars (e.g. 250.00). */
 export interface OrderLineItem {
   productId: string;
