@@ -439,7 +439,7 @@ export default function About() {
                   <div className="w-full h-80 sm:h-96 md:h-112 overflow-hidden">
                     <Image
                       src="/Team5.png"
-                      alt="KT Caitlin"
+                      alt="KT Catlin"
                       width={450}
                       height={550}
                       className="w-full h-full object-cover object-top"
@@ -447,7 +447,7 @@ export default function About() {
                   </div>
                   <div className="p-6">
                     <h3 className="text-2xl sm:text-3xl font-bold text-black">
-                      KT Caitlin
+                      KT Catlin
                     </h3>
                     <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
                       Non-Profit & Fundraising
@@ -465,7 +465,7 @@ export default function About() {
                 <div className="w-80 h-80 rounded-lg overflow-hidden">
                   <Image
                     src="/Team5.png"
-                    alt="KT Caitlin"
+                    alt="KT Catlin"
                     width={450}
                     height={550}
                     className="w-full h-full object-cover object-top"
@@ -476,7 +476,7 @@ export default function About() {
               <div className="hidden lg:flex lg:items-center lg:order-2 lg:pl-6">
                 <div>
                   <h3 className="text-2xl sm:text-3xl font-bold text-black">
-                    KT Caitlin
+                    KT Catlin
                   </h3>
                   <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
                     Non-Profit & Fundraising

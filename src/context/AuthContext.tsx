@@ -1,48 +1,26 @@
 "use client";
 
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import type { AppUser } from "@/types/user";
 
-export interface UserAddress {
-  line1: string;
-  line2?: string;
-  city: string;
-  state: string;
-  postalCode: string;
-  country: string;
-}
-
-export interface AuthUser {
-  email: string;
-  firstName: string;
-  lastName: string;
-  phone: string;
-  address: UserAddress;
-}
+export type { AppUser };
 
 type AuthContextValue = {
-  user: AuthUser | null;
+  user: AppUser | null;
   token: string | null;
   loading: boolean;
-  login: (email: string, password: string) => Promise<{ error?: string }>;
-  signup: (data: SignupData) => Promise<{ error?: string }>;
+  sendOtp: (phoneNumber: string) => Promise<{ error?: string }>;
+  verifyOtp: (phoneNumber: string, otp: string) => Promise<{ error?: string }>;
   logout: () => void;
   refreshUser: () => Promise<void>;
 };
 
-export interface SignupData {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  phone?: string;
-  address?: UserAddress;
-}
-
 const AUTH_TOKEN_KEY = "r3sults_auth_token";
+const REFRESH_TOKEN_KEY = "r3sults_refresh_token";
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<AuthUser | null>(null);
+  const [user, setUser] = useState<AppUser | null>(null);
   const [token, setTokenState] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -51,6 +29,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (t) localStorage.setItem(AUTH_TOKEN_KEY, t);
     else localStorage.removeItem(AUTH_TOKEN_KEY);
     setTokenState(t);
+  }, []);
+
+  const setRefreshToken = useCallback((t: string | null) => {
+    if (typeof window === "undefined") return;
+    if (t) localStorage.setItem(REFRESH_TOKEN_KEY, t);
+    else localStorage.removeItem(REFRESH_TOKEN_KEY);
   }, []);
 
   const refreshUser = useCallback(async () => {
@@ -70,7 +54,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const data = await res.json();
         setUser(data.user);
       } else {
+        const refresh = typeof window !== "undefined" ? localStorage.getItem(REFRESH_TOKEN_KEY) : null;
+        if (res.status === 401 && refresh) {
+          const refreshRes = await fetch("/api/auth/refresh-token", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ refreshToken: refresh }),
+          });
+          const refreshData = await refreshRes.json();
+          if (refreshRes.ok && refreshData.accessToken) {
+            setToken(refreshData.accessToken);
+            if (refreshData.refreshToken) setRefreshToken(refreshData.refreshToken);
+            const meRes = await fetch("/api/auth/me", {
+              headers: { Authorization: `Bearer ${refreshData.accessToken}` },
+            });
+            if (meRes.ok) {
+              const meData = await meRes.json();
+              setUser(meData.user);
+            }
+            setLoading(false);
+            return;
+          }
+        }
         localStorage.removeItem(AUTH_TOKEN_KEY);
+        localStorage.removeItem(REFRESH_TOKEN_KEY);
         setUser(null);
         setTokenState(null);
       }
@@ -80,7 +87,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [setToken, setRefreshToken]);
 
   useEffect(() => {
     const t = typeof window !== "undefined" ? localStorage.getItem(AUTH_TOKEN_KEY) : null;
@@ -92,8 +99,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     fetch("/api/auth/me", { headers: { Authorization: `Bearer ${t}` } })
       .then((res) => {
         if (res.ok) return res.json();
-        localStorage.removeItem(AUTH_TOKEN_KEY);
-        setTokenState(null);
         return null;
       })
       .then((data) => {
@@ -107,67 +112,51 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       .finally(() => setLoading(false));
   }, []);
 
-  const login = useCallback(
-    async (email: string, password: string) => {
+  const sendOtp = useCallback(async (phoneNumber: string) => {
+    try {
+      const res = await fetch("/api/auth/send-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phoneNumber }),
+      });
+      const data = await res.json();
+      if (!res.ok) return { error: data.error || "Failed to send OTP" };
+      return {};
+    } catch {
+      return { error: "Failed to send OTP" };
+    }
+  }, []);
+
+  const verifyOtp = useCallback(
+    async (phoneNumber: string, otp: string) => {
       try {
-        const res = await fetch("/api/auth/login", {
+        const res = await fetch("/api/auth/verify-otp", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
+          body: JSON.stringify({ phoneNumber, otp }),
         });
         const data = await res.json();
-        if (!res.ok) return { error: data.error || "Login failed" };
-        setToken(data.token);
+        if (!res.ok) return { error: data.error || "Invalid OTP" };
+        setToken(data.accessToken);
+        if (data.refreshToken) setRefreshToken(data.refreshToken);
         setUser(data.user);
         return {};
       } catch {
-        return { error: "Login failed" };
+        return { error: "Verification failed" };
       }
     },
-    [setToken]
-  );
-
-  const signup = useCallback(
-    async (data: SignupData) => {
-      try {
-        const body = {
-          email: data.email,
-          password: data.password,
-          firstName: data.firstName,
-          lastName: data.lastName,
-          phone: data.phone ?? "",
-          line1: data.address?.line1 ?? "",
-          line2: data.address?.line2 ?? "",
-          city: data.address?.city ?? "",
-          state: data.address?.state ?? "",
-          postalCode: data.address?.postalCode ?? "",
-          country: data.address?.country ?? "US",
-        };
-        const res = await fetch("/api/auth/signup", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        });
-        const json = await res.json();
-        if (!res.ok) return { error: json.error || "Signup failed" };
-        setToken(json.token);
-        setUser(json.user);
-        return {};
-      } catch {
-        return { error: "Signup failed" };
-      }
-    },
-    [setToken]
+    [setToken, setRefreshToken]
   );
 
   const logout = useCallback(() => {
     setToken(null);
+    setRefreshToken(null);
     setUser(null);
-  }, [setToken]);
+  }, [setToken, setRefreshToken]);
 
   const value = useMemo<AuthContextValue>(
-    () => ({ user, token, loading, login, signup, logout, refreshUser }),
-    [user, token, loading, login, signup, logout, refreshUser]
+    () => ({ user, token, loading, sendOtp, verifyOtp, logout, refreshUser }),
+    [user, token, loading, sendOtp, verifyOtp, logout, refreshUser]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

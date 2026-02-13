@@ -31,17 +31,17 @@ export default function NewsletterForm() {
   }
 
   return (
-    <form className="mt-4 flex gap-2" onSubmit={handleSubmit}>
+    <form className="mt-4 flex flex-wrap gap-2 w-full max-w-full min-w-0" onSubmit={handleSubmit}>
       <input
         aria-label="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        className="flex-1 px-3 py-2 rounded bg-white/10 text-white placeholder:text-slate-300"
+        className="min-w-0 flex-1 px-3 py-2 rounded bg-white/10 text-white placeholder:text-slate-300 basis-24"
         placeholder="Enter your email"
         disabled={loading}
       />
       <button
-        className="bg-[#BF0637] px-4 py-2 rounded text-white inline-flex items-center gap-2 min-w-[100px] justify-center"
+        className="bg-[#BF0637] px-4 py-2 rounded text-white inline-flex items-center gap-2 min-w-[100px] flex-shrink-0 justify-center"
         type="submit"
         disabled={loading}
       >

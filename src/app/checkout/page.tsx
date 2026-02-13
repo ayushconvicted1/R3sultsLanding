@@ -8,6 +8,7 @@ import "react-phone-number-input/style.css";
 import { useCart, getCartLineKey } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 import type { ShippingAddress } from "@/types/checkout";
+import { fullNameToFirstLast } from "@/types/user";
 
 const SHIPPING_ESTIMATE = 5.99;
 
@@ -47,18 +48,19 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     if (user && mounted) {
+      const { firstName, lastName } = fullNameToFirstLast(user.fullName);
       setForm((prev) => ({
         ...prev,
-        firstName: user.firstName || prev.firstName,
-        lastName: user.lastName || prev.lastName,
+        firstName: firstName || prev.firstName,
+        lastName: lastName || prev.lastName,
         email: user.email || prev.email,
-        phone: user.phone || prev.phone,
-        line1: user.address?.line1 || prev.line1,
-        line2: user.address?.line2 ?? prev.line2,
-        city: user.address?.city || prev.city,
-        state: user.address?.state || prev.state,
-        postalCode: user.address?.postalCode || prev.postalCode,
-        country: user.address?.country || prev.country,
+        phone: user.phoneNumber || prev.phone,
+        line1: user.address || prev.line1,
+        line2: prev.line2,
+        city: user.city || prev.city,
+        state: user.state || prev.state,
+        postalCode: user.pincode || prev.postalCode,
+        country: user.country || prev.country,
       }));
     }
   }, [user, mounted]);

@@ -84,7 +84,7 @@ export default function NewsAndMediaPage() {
           <nav className="text-sm text-slate-400 mb-8">
             <Link href="/" className="hover:text-white transition-colors">Home</Link>
             <span className="mx-2">/</span>
-            <span className="text-white">News and media</span>
+            <span className="text-white">News and Media</span>
           </nav>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-4">
             News & media
