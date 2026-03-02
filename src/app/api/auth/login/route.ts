@@ -1,53 +1,74 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUsersCollection } from "@/lib/mongodb";
-import { verifyPassword, signToken } from "@/lib/auth";
+import { userApiFetch } from "@/lib/user-api";
+import { normalizeUser } from "@/lib/normalize-user";
+import type { AppUser } from "@/types/user";
 
-function normalizeEmail(email: string): string {
-  return email.trim().toLowerCase();
-}
-
+/**
+ * Proxy to external User API: POST /api/auth/login (phone + password).
+ * Body: { phoneNumber: string, password: string }
+ * Returns: { user, accessToken, refreshToken }
+ */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { email, password } = body;
-    if (!email || !password) {
+    const { phoneNumber, password } = body;
+    if (!phoneNumber || typeof phoneNumber !== "string") {
       return NextResponse.json(
-        { error: "Email and password are required" },
+        { success: false, error: "phoneNumber is required" },
+        { status: 400 }
+      );
+    }
+    if (!password || typeof password !== "string") {
+      return NextResponse.json(
+        { success: false, error: "password is required" },
         { status: 400 }
       );
     }
 
-    const coll = await getUsersCollection();
-    const normalized = normalizeEmail(email);
-    const user = await coll.findOne({ email: normalized });
-    if (!user) {
-      return NextResponse.json({ error: "Invalid email or password" }, { status: 401 });
-    }
-
-    const valid = await verifyPassword(password, user.passwordHash);
-    if (!valid) {
-      return NextResponse.json({ error: "Invalid email or password" }, { status: 401 });
-    }
-
-    const token = await signToken({
-      sub: user.email,
-      email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
+    const result = await userApiFetch<{
+      success?: boolean;
+      message?: string;
+      data?: { user?: Record<string, unknown>; accessToken?: string; refreshToken?: string };
+      error?: string;
+    }>("/api/auth/login", {
+      method: "POST",
+      body: { phoneNumber, password },
     });
+
+    if (!result.success) {
+      const message = result.error || (result.data as { message?: string })?.message || "Invalid credentials";
+      return NextResponse.json(
+        { success: false, error: message },
+        { status: result.status === 403 ? 403 : 401 }
+      );
+    }
+
+    const data = result.data as { data?: { user?: Record<string, unknown>; accessToken?: string; refreshToken?: string } };
+    const inner = data?.data;
+    const rawUser = inner?.user;
+    const accessToken = inner?.accessToken;
+    const refreshToken = inner?.refreshToken;
+
+    if (!accessToken) {
+      return NextResponse.json(
+        { success: false, error: "No access token returned" },
+        { status: 500 }
+      );
+    }
+
+    const user: AppUser = normalizeUser(rawUser as Record<string, unknown> | undefined);
 
     return NextResponse.json({
-      token,
-      user: {
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        phone: user.phone,
-        address: user.address,
-      },
+      success: true,
+      user,
+      accessToken,
+      refreshToken: refreshToken ?? null,
     });
   } catch (err) {
-    console.error("Login error:", err);
-    return NextResponse.json({ error: "Login failed" }, { status: 500 });
+    console.error("Login proxy error:", err);
+    return NextResponse.json(
+      { success: false, error: "Login failed" },
+      { status: 500 }
+    );
   }
 }

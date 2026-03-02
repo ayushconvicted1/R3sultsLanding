@@ -7,9 +7,11 @@
     "build": "next build",
     "start": "next start",
     "webhook": "stripe listen --forward-to localhost:3000/api/webhooks/stripe",
-    "seed:orders": "node scripts/seed-orders.mjs"
+    "seed:orders": "node scripts/seed-orders.mjs",
+    "test:auth": "node scripts/test-auth-flow.mjs"
   },
   "dependencies": {
+    "@react-oauth/google": "^0.13.4",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.5.0",
     "@stripe/stripe-js": "^8.7.0",

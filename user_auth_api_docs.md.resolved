@@ -1,0 +1,390 @@
+# R3sults User Authentication API
+
+**Base URL:** `DOMAIN_NAME from the env file/api/auth`
+
+## Overview
+
+JWT-based auth with **access + refresh tokens**. Supports four authentication methods:
+- Phone + Password (register/login)
+- Google Sign-In (OAuth ID token)
+- Apple Sign-In (identity token)
+- Phone OTP (passwordless)
+
+> [!IMPORTANT]
+> All tokens are signed with `JWT_SECRET`. Access tokens expire in **30 days** (configurable via `JWT_ACCESS_EXPIRY`), refresh tokens in **60 days** (`JWT_REFRESH_EXPIRY`).
+
+---
+
+## Environment Variables
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `JWT_SECRET` | ✅ | Secret for signing JWTs |
+| `JWT_ACCESS_EXPIRY` | ❌ | Access token expiry (default: `30d`) |
+| `JWT_REFRESH_EXPIRY` | ❌ | Refresh token expiry (default: `60d`) |
+| `GOOGLE_CLIENT_ID` | For Google auth | Google OAuth Web client ID |
+| `GOOGLE_IOS_CLIENT_ID` | For Google auth | Google OAuth iOS client ID |
+| `GOOGLE_ANDROID_CLIENT_ID` | For Google auth | Google OAuth Android client ID |
+| `TWILIO_ACCOUNT_SID` | For SMS OTP | Twilio account SID |
+| `TWILIO_AUTH_TOKEN` | For SMS OTP | Twilio auth token |
+| `TWILIO_PHONE_NUMBER` | For SMS OTP | Twilio sender number |
+
+---
+
+## Authentication Header
+
+All authenticated endpoints require:
+
+```
+Authorization: Bearer <accessToken>
+```
+
+---
+
+## Endpoints
+
+### 1. Register (Phone + Password)
+
+```
+POST /auth/register
+```
+
+**Body:**
+```json
+{
+  "phoneNumber": "+1234567890",
+  "password": "min6chars",
+  "fullName": "John Doe",
+  "email": "optional@email.com",
+  "username": "optional_username"
+}
+```
+
+**Response (201):**
+```json
+{
+  "success": true,
+  "message": "Registration successful. OTP sent for verification.",
+  "data": {
+    "userId": "cuid_xxx",
+    "phoneNumber": "+1234567890"
+  }
+}
+```
+
+> [!NOTE]
+> After registration, the user must verify their phone via the **Verify OTP** endpoint to receive tokens.
+
+---
+
+### 2. Login (Phone + Password)
+
+```
+POST /auth/login
+```
+
+**Body:**
+```json
+{
+  "phoneNumber": "+1234567890",
+  "password": "your_password"
+}
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "Login successful",
+  "data": {
+    "user": { "id": "...", "fullName": "...", "role": "MEMBER", ... },
+    "accessToken": "eyJhbG...",
+    "refreshToken": "eyJhbG..."
+  }
+}
+```
+
+**Errors:** `401` Invalid credentials · `403` Account deactivated
+
+---
+
+### 3. Google Sign-In
+
+```
+POST /auth/google
+```
+
+**Body:**
+```json
+{
+  "idToken": "google_id_token_from_client_sdk"
+}
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "user": { ... },
+    "needsPhoneUpdate": true,
+    "accessToken": "eyJhbG...",
+    "refreshToken": "eyJhbG..."
+  }
+}
+```
+
+> [!TIP]
+> **For web:** Use the Google Identity Services library to get the `idToken`. The backend validates against `GOOGLE_CLIENT_ID`, `GOOGLE_IOS_CLIENT_ID`, and `GOOGLE_ANDROID_CLIENT_ID` — add your web client ID to `GOOGLE_CLIENT_ID`.
+>
+> If `needsPhoneUpdate` is `true`, prompt the user to add their phone number via `POST /auth/update-phone`.
+
+---
+
+### 4. Apple Sign-In
+
+```
+POST /auth/apple
+```
+
+**Body:**
+```json
+{
+  "identityToken": "apple_identity_token",
+  "user": {
+    "fullName": { "givenName": "John", "familyName": "Doe" }
+  }
+}
+```
+
+**Response (200):** Same shape as Google Sign-In.
+
+> [!NOTE]
+> Apple only provides the user's name on **first sign-in**. After that, `user.fullName` will be `null`.
+
+---
+
+### 5. Send OTP (Passwordless)
+
+```
+POST /auth/phone/send-otp
+```
+
+**Body:**
+```json
+{
+  "phoneNumber": "+1234567890"
+}
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "OTP sent successfully",
+  "data": { "phoneNumber": "+1234567890", "expiresIn": 300 }
+}
+```
+
+Creates a new user if the phone number doesn't exist. OTP expires in **5 minutes**.
+
+---
+
+### 6. Verify OTP
+
+```
+POST /auth/phone/verify-otp
+```
+
+**Body:**
+```json
+{
+  "phoneNumber": "+1234567890",
+  "otp": "123456"
+}
+```
+
+**Response (200):** Returns `user`, `accessToken`, [refreshToken](file:///Users/ayushmac/CodeProjects/R3sults/src/services/api.ts#385-392) (same shape as Login).
+
+**Errors:** `400` Invalid/expired OTP · `429` Too many attempts (max 5)
+
+---
+
+### 7. Forgot Password
+
+```
+POST /auth/forgot-password
+```
+
+**Body:**
+```json
+{ "phoneNumber": "+1234567890" }
+```
+
+**Response (200):** Always returns success (doesn't reveal if account exists).
+
+---
+
+### 8. Reset Password
+
+```
+POST /auth/reset-password
+```
+
+**Body:**
+```json
+{
+  "phoneNumber": "+1234567890",
+  "otp": "123456",
+  "newPassword": "new_min_6_chars"
+}
+```
+
+**Response (200):** `{ "success": true, "message": "Password reset successful. Please login again." }`
+
+Invalidates the current refresh token — user must login again.
+
+---
+
+### 9. Refresh Token
+
+```
+POST /auth/refresh-token
+```
+
+**Body:**
+```json
+{ "refreshToken": "eyJhbG..." }
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "accessToken": "new_access_token",
+    "refreshToken": "new_refresh_token"
+  }
+}
+```
+
+> [!CAUTION]
+> Refresh tokens are **single-use**. The old refresh token is invalidated after each refresh. Store the new one.
+
+---
+
+### 10. Get Current User 🔒
+
+```
+GET /auth/me
+```
+
+**Headers:** `Authorization: Bearer <accessToken>`
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": { "user": { "id": "...", "fullName": "...", ... } }
+}
+```
+
+---
+
+### 11. Update Phone 🔒
+
+```
+POST /auth/update-phone
+```
+
+**Headers:** `Authorization: Bearer <accessToken>`
+
+**Body:**
+```json
+{ "phoneNumber": "+9876543210" }
+```
+
+Sends an OTP to the new number. Use **Verify OTP** to confirm.
+
+---
+
+### 12. Logout 🔒
+
+```
+POST /auth/logout
+```
+
+**Headers:** `Authorization: Bearer <accessToken>`
+
+Invalidates the refresh token server-side.
+
+---
+
+## JWT Token Payload
+
+### Access Token
+```json
+{
+  "id": "user_cuid",
+  "role": "MEMBER",
+  "type": "user",
+  "iat": 1709000000,
+  "exp": 1711592000
+}
+```
+
+### Refresh Token
+```json
+{
+  "id": "user_cuid",
+  "type": "user",
+  "iat": 1709000000,
+  "exp": 1714184000
+}
+```
+
+---
+
+## Web Integration Quick Start
+
+```javascript
+// 1. Login
+const res = await fetch(`${API_BASE}/api/auth/login`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ phoneNumber: '+1234567890', password: 'secret' }),
+});
+const { data } = await res.json();
+localStorage.setItem('accessToken', data.accessToken);
+localStorage.setItem('refreshToken', data.refreshToken);
+
+// 2. Authenticated request
+const profile = await fetch(`${API_BASE}/api/auth/me`, {
+  headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` },
+});
+
+// 3. Refresh when expired (401)
+const refresh = await fetch(`${API_BASE}/api/auth/refresh-token`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ refreshToken: localStorage.getItem('refreshToken') }),
+});
+const tokens = await refresh.json();
+localStorage.setItem('accessToken', tokens.data.accessToken);
+localStorage.setItem('refreshToken', tokens.data.refreshToken);
+```
+
+> [!TIP]
+> For Google Sign-In on web, use `@react-oauth/google` or the Google Identity Services JS SDK. Pass the `credential` (ID token) to `POST /auth/google`.
+
+---
+
+## Source Files Reference
+
+| File | Purpose |
+|------|---------|
+| [auth.js (routes)](file:///Users/ayushmac/CodeProjects/R3sults/R3sults-BE/src/routes/auth.js) | Route definitions + validation |
+| [authController.js](file:///Users/ayushmac/CodeProjects/R3sults/R3sults-BE/src/controllers/authController.js) | All auth logic |
+| [auth.js (middleware)](file:///Users/ayushmac/CodeProjects/R3sults/R3sults-BE/src/middleware/auth.js) | [authenticate](file:///Users/ayushmac/CodeProjects/R3sults/R3sults-BE/src/middleware/auth.js#4-66), [requireRole](file:///Users/ayushmac/CodeProjects/R3sults/R3sults-BE/src/middleware/auth.js#85-96), [requirePermission](file:///Users/ayushmac/CodeProjects/R3sults/R3sults-BE/src/middleware/auth.js#97-117) |
+| [token.js](file:///Users/ayushmac/CodeProjects/R3sults/R3sults-BE/src/utils/token.js) | JWT generation + verification |
+| [otp.js](file:///Users/ayushmac/CodeProjects/R3sults/R3sults-BE/src/utils/otp.js) | OTP generation + SMS/Email sending |

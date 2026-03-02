@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 import CartProviderWithDrawer from "@/components/CartProviderWithDrawer";
 import ToastProvider from "@/components/ToastProvider";
 import { AuthProvider } from "@/context/AuthContext";
+import GoogleAuthProvider from "@/components/auth/GoogleAuthProvider";
 
 const cabin = Cabin({
   subsets: ["latin"],
@@ -95,12 +96,14 @@ export default function RootLayout({
     >
       <body className="antialiased bg-white text-slate-900 font-cabin">
         <ToastProvider>
-          <AuthProvider>
-            <CartProviderWithDrawer>
+          <GoogleAuthProvider>
+            <AuthProvider>
+              <CartProviderWithDrawer>
               <Header />
               <main>{children}</main>
             </CartProviderWithDrawer>
-          </AuthProvider>
+            </AuthProvider>
+          </GoogleAuthProvider>
         </ToastProvider>
       </body>
     </html>

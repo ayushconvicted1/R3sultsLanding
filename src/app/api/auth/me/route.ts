@@ -31,8 +31,9 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const rawUser = (result.data as Record<string, unknown>)?.data?.user ?? (result.data as Record<string, unknown>)?.user;
-  const user: AppUser = normalizeUser(rawUser as Record<string, unknown> | undefined);
+  const data = result.data as { data?: { user?: Record<string, unknown> }; user?: Record<string, unknown> };
+  const rawUser = data?.data?.user ?? data?.user;
+  const user: AppUser = normalizeUser(rawUser);
   return NextResponse.json({ user });
 }
 
@@ -63,7 +64,8 @@ export async function PATCH(request: NextRequest) {
       { status: result.status >= 400 ? result.status : 500 }
     );
   }
-  const rawUser = (result.data as Record<string, unknown>)?.data?.user ?? (result.data as Record<string, unknown>)?.user;
-  const user: AppUser = normalizeUser(rawUser as Record<string, unknown> | undefined);
+  const patchData = result.data as { data?: { user?: Record<string, unknown> }; user?: Record<string, unknown> };
+  const rawUser = patchData?.data?.user ?? patchData?.user;
+  const user: AppUser = normalizeUser(rawUser);
   return NextResponse.json({ user });
 }

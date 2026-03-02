@@ -29,9 +29,9 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const rawUser =
-    (result.data as Record<string, unknown>)?.data?.user ?? (result.data as Record<string, unknown>)?.user;
-  const user = normalizeUser(rawUser as Record<string, unknown> | undefined);
+  const data = result.data as { data?: { user?: Record<string, unknown> }; user?: Record<string, unknown> };
+  const rawUser = data?.data?.user ?? data?.user;
+  const user = normalizeUser(rawUser);
   return NextResponse.json({ success: true, user });
 }
 
@@ -71,8 +71,8 @@ export async function PATCH(request: NextRequest) {
     );
   }
 
-  const rawUser =
-    (result.data as Record<string, unknown>)?.data?.user ?? (result.data as Record<string, unknown>)?.user;
-  const user = normalizeUser(rawUser as Record<string, unknown> | undefined);
+  const patchData = result.data as { data?: { user?: Record<string, unknown> }; user?: Record<string, unknown> };
+  const rawUser = patchData?.data?.user ?? patchData?.user;
+  const user = normalizeUser(rawUser);
   return NextResponse.json({ success: true, user });
 }

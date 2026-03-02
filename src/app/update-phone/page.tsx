@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
+import { useAuth } from "@/context/AuthContext";
 import AuthPageWrapper from "@/components/auth/AuthPageWrapper";
-import PasswordInput from "@/components/auth/PasswordInput";
 
 const inputClass =
   "w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-[#BF0637]/30 focus:border-[#BF0637] transition-colors";
@@ -15,18 +15,32 @@ const labelClass = "block text-sm font-semibold text-slate-700 mb-1";
 const btnPrimary =
   "w-full py-3.5 rounded-xl font-bold text-white shadow-lg shadow-[#BF0637]/25 hover:shadow-[#BF0637]/40 transition-all disabled:opacity-70";
 
-type Step = "phone" | "reset";
+type Step = "phone" | "otp";
 
-export default function ForgotPasswordPage() {
+/**
+ * Page for adding/updating phone after Google Sign-In when backend returns needsPhoneUpdate.
+ * Flow: enter phone -> POST /auth/update-phone (sends OTP) -> enter OTP -> verify-otp -> profile.
+ */
+export default function UpdatePhonePage() {
   const router = useRouter();
+  const { user, token, needsPhoneUpdate, updatePhone, verifyOtp, clearNeedsPhoneUpdate } = useAuth();
   const [step, setStep] = useState<Step>("phone");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOtp] = useState("");
-  const [newPassword, setNewPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleRequestReset = async (e: React.FormEvent) => {
+  useEffect(() => {
+    if (!token && !user) {
+      router.replace("/login");
+      return;
+    }
+    if (user && !needsPhoneUpdate) {
+      router.replace("/profile");
+    }
+  }, [user, token, needsPhoneUpdate, router]);
+
+  const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     const phone = (phoneNumber || "").toString().trim();
@@ -35,62 +49,40 @@ export default function ForgotPasswordPage() {
       return;
     }
     setLoading(true);
-    try {
-      const res = await fetch("/api/auth/forgot-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phoneNumber: phone }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error || "Request failed");
-        setLoading(false);
-        return;
-      }
-      toast.success("If an account exists, you will receive a code to reset your password.");
-      setStep("reset");
-    } catch {
-      setError("Request failed");
-    }
+    const { error: err } = await updatePhone(phone);
     setLoading(false);
+    if (err) {
+      toast.error(err);
+      setError(err);
+      return;
+    }
+    toast.success("Verification code sent to your phone.");
+    setStep("otp");
   };
 
-  const handleResetPassword = async (e: React.FormEvent) => {
+  const handleVerifyOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    const phone = (phoneNumber || "").toString().trim();
     if (!otp.trim()) {
       setError("Please enter the OTP");
       return;
     }
-    if (!newPassword || newPassword.length < 6) {
-      setError("Password must be at least 6 characters");
+    const phone = (phoneNumber || "").toString().trim();
+    setLoading(true);
+    const { error: err } = await verifyOtp(phone, otp.trim());
+    setLoading(false);
+    if (err) {
+      toast.error(err);
+      setError(err);
       return;
     }
-    setLoading(true);
-    try {
-      const res = await fetch("/api/auth/reset-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          phoneNumber: phone,
-          otp: otp.trim(),
-          newPassword: newPassword.trim(),
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error || "Reset failed");
-        setLoading(false);
-        return;
-      }
-      toast.success("Password reset. Please log in with your new password.");
-      router.push("/login");
-    } catch {
-      setError("Reset failed");
-    }
-    setLoading(false);
+    clearNeedsPhoneUpdate();
+    toast.success("Phone number updated. Redirecting…");
+    router.push("/profile");
   };
+
+  if (!token && !user) return null;
+  if (user && !needsPhoneUpdate) return null;
 
   const phoneValue = phoneNumber || undefined;
 
@@ -98,13 +90,13 @@ export default function ForgotPasswordPage() {
     <AuthPageWrapper>
       <div className="max-w-md mx-auto">
         <div className="bg-white/95 backdrop-blur-sm rounded-2xl border border-slate-200/80 shadow-2xl p-5 sm:p-6">
-          <h1 className="text-2xl font-bold text-slate-900 mb-0.5">Forgot password</h1>
+          <h1 className="text-2xl font-bold text-slate-900 mb-0.5">Add your phone number</h1>
           <p className="text-slate-600 mb-4 text-sm">
-            Enter your phone number. We&apos;ll send a code to reset your password.
+            To complete your account, please add a phone number. We&apos;ll send a verification code.
           </p>
 
           {step === "phone" && (
-            <form onSubmit={handleRequestReset} className="space-y-4">
+            <form onSubmit={handleSendOtp} className="space-y-4">
               <div className="[&_.PhoneInput]:flex [&_.PhoneInput]:gap-2 [&_.PhoneInputInput]:flex-1 [&_.PhoneInputInput]:border-2 [&_.PhoneInputInput]:border-slate-200 [&_.PhoneInputInput]:rounded-xl [&_.PhoneInputInput]:px-4 [&_.PhoneInputInput]:py-3 [&_.PhoneInputInput]:focus:ring-2 [&_.PhoneInputInput]:focus:ring-[#BF0637]/30 [&_.PhoneInputInput]:focus:border-[#BF0637]">
                 <label className={labelClass}>Phone number</label>
                 <PhoneInput
@@ -123,22 +115,23 @@ export default function ForgotPasswordPage() {
                 className={btnPrimary}
                 style={{ backgroundColor: "#BF0637" }}
               >
-                {loading ? "Sending…" : "Send reset code"}
+                {loading ? "Sending…" : "Send verification code"}
               </button>
             </form>
           )}
 
-          {step === "reset" && (
-            <form onSubmit={handleResetPassword} className="space-y-4">
+          {step === "otp" && (
+            <form onSubmit={handleVerifyOtp} className="space-y-4">
               <p className="text-slate-600 text-sm">
-                Enter the code sent to <strong>{phoneNumber}</strong> and your new password.
+                Code sent to <strong>{phoneNumber}</strong>. Enter it below.
               </p>
               <div>
-                <label htmlFor="fp-otp" className={labelClass}>OTP</label>
+                <label htmlFor="up-otp" className={labelClass}>OTP</label>
                 <input
-                  id="fp-otp"
+                  id="up-otp"
                   type="text"
                   inputMode="numeric"
+                  autoComplete="one-time-code"
                   maxLength={6}
                   value={otp}
                   onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
@@ -146,29 +139,18 @@ export default function ForgotPasswordPage() {
                   placeholder="000000"
                 />
               </div>
-              <div>
-                <label htmlFor="fp-newPassword" className={labelClass}>New password (min 6 characters)</label>
-                <PasswordInput
-                  id="fp-newPassword"
-                  value={newPassword}
-                  onChange={setNewPassword}
-                  placeholder="New password"
-                  required
-                  minLength={6}
-                />
-              </div>
               {error && <p className="text-sm text-red-600 font-medium">{error}</p>}
               <button
                 type="submit"
-                disabled={loading || otp.length < 4 || newPassword.length < 6}
+                disabled={loading || otp.length < 4}
                 className={btnPrimary}
                 style={{ backgroundColor: "#BF0637" }}
               >
-                {loading ? "Resetting…" : "Reset password"}
+                {loading ? "Verifying…" : "Verify & continue"}
               </button>
               <button
                 type="button"
-                onClick={() => { setStep("phone"); setOtp(""); setNewPassword(""); setError(null); }}
+                onClick={() => { setStep("phone"); setOtp(""); setError(null); }}
                 className="w-full text-sm font-semibold text-[#BF0637] hover:underline"
               >
                 Use a different number
@@ -178,9 +160,13 @@ export default function ForgotPasswordPage() {
         </div>
 
         <p className="mt-4 text-center text-slate-600 text-sm">
-          <Link href="/login" className="font-semibold text-[#BF0637] hover:underline">
-            Back to log in
-          </Link>
+          <button
+            type="button"
+            onClick={() => { clearNeedsPhoneUpdate(); router.push("/profile"); }}
+            className="font-semibold text-[#BF0637] hover:underline"
+          >
+            Skip for now
+          </button>
         </p>
       </div>
     </AuthPageWrapper>

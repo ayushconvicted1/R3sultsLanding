@@ -14,7 +14,7 @@ const labelClass = "block text-sm font-semibold text-slate-700 mb-1.5";
 
 export default function ProfilePage() {
   const router = useRouter();
-  const { user: authUser, loading: authLoading, refreshUser } = useAuth();
+  const { user: authUser, loading: authLoading, refreshUser, needsPhoneUpdate } = useAuth();
   const [profile, setProfile] = useState<AppUser | null>(null);
   const [profileLoading, setProfileLoading] = useState(true);
   const [form, setForm] = useState({
@@ -42,7 +42,10 @@ export default function ProfilePage() {
       router.replace("/login");
       return;
     }
-  }, [authUser, authLoading, router]);
+    if (authUser && needsPhoneUpdate) {
+      router.replace("/update-phone");
+    }
+  }, [authUser, authLoading, needsPhoneUpdate, router]);
 
   useEffect(() => {
     if (!authUser) return;

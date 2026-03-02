@@ -64,7 +64,7 @@ export default function Footer() {
                 </a>
               </li>
               <li className="leading-relaxed">
-                200 W Prospect Rd, Oakland Park, FL 33309
+               2120 SW , 60th Ter Miramar, FL 33023
               </li>
             </ul>
           </div>

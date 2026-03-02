@@ -1,14 +1,30 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUsersCollection } from "@/lib/mongodb";
-import { hashPassword } from "@/lib/auth";
+import { userApiFetch } from "@/lib/user-api";
 
+/**
+ * Proxy to external User API: POST /api/auth/reset-password
+ * Body: { phoneNumber: string, otp: string, newPassword: string }
+ */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { token, newPassword } = body;
-    if (!token || !newPassword) {
+    const { phoneNumber, otp, newPassword } = body;
+
+    if (!phoneNumber || typeof phoneNumber !== "string") {
       return NextResponse.json(
-        { error: "Token and new password are required" },
+        { error: "phoneNumber is required" },
+        { status: 400 }
+      );
+    }
+    if (!otp || typeof otp !== "string") {
+      return NextResponse.json(
+        { error: "otp is required" },
+        { status: 400 }
+      );
+    }
+    if (!newPassword || typeof newPassword !== "string") {
+      return NextResponse.json(
+        { error: "newPassword is required" },
         { status: 400 }
       );
     }
@@ -19,32 +35,32 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const coll = await getUsersCollection();
-    const user = await coll.findOne({ resetToken: token });
-    if (!user) {
-      return NextResponse.json({ error: "Invalid or expired reset link" }, { status: 400 });
-    }
-    const expiry = user.resetTokenExpiry ? new Date(user.resetTokenExpiry).getTime() : 0;
-    if (Date.now() > expiry) {
-      await coll.updateOne(
-        { email: user.email },
-        { $unset: { resetToken: "", resetTokenExpiry: "" }, $set: { updatedAt: new Date().toISOString() } }
-      );
-      return NextResponse.json({ error: "Reset link has expired" }, { status: 400 });
-    }
-
-    const passwordHash = await hashPassword(newPassword);
-    await coll.updateOne(
-      { email: user.email },
+    const result = await userApiFetch<{ success?: boolean; message?: string; error?: string }>(
+      "/api/auth/reset-password",
       {
-        $set: { passwordHash, updatedAt: new Date().toISOString() },
-        $unset: { resetToken: "", resetTokenExpiry: "" },
+        method: "POST",
+        body: { phoneNumber: phoneNumber.trim(), otp: otp.trim(), newPassword: newPassword.trim() },
       }
     );
 
-    return NextResponse.json({ success: true });
+    if (!result.success) {
+      const message = result.error || (result.data as { message?: string })?.message || "Password reset failed";
+      return NextResponse.json(
+        { error: message },
+        { status: result.status >= 400 ? result.status : 500 }
+      );
+    }
+
+    const data = result.data as { message?: string };
+    return NextResponse.json({
+      success: true,
+      message: data.message ?? "Password reset successful. Please login again.",
+    });
   } catch (err) {
-    console.error("Reset password error:", err);
-    return NextResponse.json({ error: "Failed to reset password" }, { status: 500 });
+    console.error("Reset password proxy error:", err);
+    return NextResponse.json(
+      { error: "Failed to reset password" },
+      { status: 500 }
+    );
   }
 }
