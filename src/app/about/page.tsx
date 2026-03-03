@@ -335,20 +335,8 @@ export default function About() {
                   </div>
                 </div>
               </div>
-              {/* Desktop: Image only */}
-              <div className="hidden lg:flex lg:items-center lg:justify-start lg:order-1 lg:pr-6">
-                <div className="w-96 h-96 rounded-lg overflow-hidden">
-                  <Image
-                    src="/Team3.png"
-                    alt="Herbert V. Tremble II"
-                    width={500}
-                    height={600}
-                    className="w-full h-full object-cover object-top"
-                  />
-                </div>
-              </div>
               {/* Desktop: Text only */}
-              <div className="hidden lg:flex lg:items-center lg:order-2 lg:pl-6">
+              <div className="hidden lg:flex lg:items-center lg:order-1 lg:pr-6">
                 <div>
                   <h3 className="text-2xl sm:text-3xl font-bold text-black">
                     Herbert V. Tremble II
@@ -365,6 +353,18 @@ export default function About() {
                   </p>
                 </div>
               </div>
+              {/* Desktop: Image only */}
+              <div className="hidden lg:flex lg:items-center lg:justify-end lg:order-2 lg:pl-6">
+                <div className="w-96 h-96 rounded-lg overflow-hidden">
+                  <Image
+                    src="/Team3.png"
+                    alt="Herbert V. Tremble II"
+                    width={500}
+                    height={600}
+                    className="w-full h-full object-cover object-top"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -374,7 +374,7 @@ export default function About() {
       <section className="py-16 sm:py-20 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="space-y-16 sm:space-y-20">
-            {/* Team Member 1 - Text Left, Image Right */}
+            {/* Team Member 1 - Image Left, Text Right */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 space-y-0">
               {/* Mobile: Box with image and content */}
               <div className="lg:hidden">
@@ -402,8 +402,20 @@ export default function About() {
                   </div>
                 </div>
               </div>
+              {/* Desktop: Image only */}
+              <div className="hidden lg:flex lg:items-center lg:justify-start lg:order-1 lg:pr-6">
+                <div className="w-80 h-80 rounded-lg overflow-hidden">
+                  <Image
+                    src="/Team4.png"
+                    alt="Jeff Wilson"
+                    width={450}
+                    height={550}
+                    className="w-full h-full object-cover object-top"
+                  />
+                </div>
+              </div>
               {/* Desktop: Text only */}
-              <div className="hidden lg:flex lg:items-center lg:order-1 lg:pr-6">
+              <div className="hidden lg:flex lg:items-center lg:order-2 lg:pl-6">
                 <div>
                   <h3 className="text-2xl sm:text-3xl font-bold text-black">
                     Jeff Wilson
@@ -417,21 +429,9 @@ export default function About() {
                   </p>
                 </div>
               </div>
-              {/* Desktop: Image only */}
-              <div className="hidden lg:flex lg:items-center lg:justify-end lg:order-2 lg:pl-6">
-                <div className="w-80 h-80 rounded-lg overflow-hidden">
-                  <Image
-                    src="/Team4.png"
-                    alt="Jeff Wilson"
-                    width={450}
-                    height={550}
-                    className="w-full h-full object-cover object-top"
-                  />
-                </div>
-              </div>
             </div>
 
-            {/* Team Member 2 - Image Left, Text Right */}
+            {/* Team Member 2 - Text Left, Image Right */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 space-y-0">
               {/* Mobile: Box with image and content */}
               <div className="lg:hidden">
@@ -460,20 +460,8 @@ export default function About() {
                   </div>
                 </div>
               </div>
-              {/* Desktop: Image only */}
-              <div className="hidden lg:flex lg:items-center lg:justify-start lg:order-1 lg:pr-6">
-                <div className="w-80 h-80 rounded-lg overflow-hidden">
-                  <Image
-                    src="/Team5.png"
-                    alt="KT Catlin"
-                    width={450}
-                    height={550}
-                    className="w-full h-full object-cover object-top"
-                  />
-                </div>
-              </div>
               {/* Desktop: Text only */}
-              <div className="hidden lg:flex lg:items-center lg:order-2 lg:pl-6">
+              <div className="hidden lg:flex lg:items-center lg:order-1 lg:pr-6">
                 <div>
                   <h3 className="text-2xl sm:text-3xl font-bold text-black">
                     KT Catlin
@@ -487,9 +475,21 @@ export default function About() {
                   </p>
                 </div>
               </div>
+              {/* Desktop: Image only */}
+              <div className="hidden lg:flex lg:items-center lg:justify-end lg:order-2 lg:pl-6">
+                <div className="w-80 h-80 rounded-lg overflow-hidden">
+                  <Image
+                    src="/Team5.png"
+                    alt="KT Catlin"
+                    width={450}
+                    height={550}
+                    className="w-full h-full object-cover object-top"
+                  />
+                </div>
+              </div>
             </div>
 
-            {/* Team Member 3 - Text Left, Image Right */}
+            {/* Team Member 3 - Image Left, Text Right */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 space-y-0">
               {/* Mobile: Box with image and content */}
               <div className="lg:hidden">
@@ -518,8 +518,20 @@ export default function About() {
                   </div>
                 </div>
               </div>
+              {/* Desktop: Image only */}
+              <div className="hidden lg:flex lg:items-center lg:justify-start lg:order-1 lg:pr-6">
+                <div className="w-80 h-80 rounded-lg overflow-hidden">
+                  <Image
+                    src="/Team6.png"
+                    alt="Sam Yates"
+                    width={450}
+                    height={550}
+                    className="w-full h-full object-cover object-top"
+                  />
+                </div>
+              </div>
               {/* Desktop: Text only */}
-              <div className="hidden lg:flex lg:items-center lg:order-1 lg:pr-6">
+              <div className="hidden lg:flex lg:items-center lg:order-2 lg:pl-6">
                 <div>
                   <h3 className="text-2xl sm:text-3xl font-bold text-black">
                     Sam Yates
@@ -532,18 +544,6 @@ export default function About() {
                     across industries, will lead our media presence and amplify
                     our message.
                   </p>
-                </div>
-              </div>
-              {/* Desktop: Image only */}
-              <div className="hidden lg:flex lg:items-center lg:justify-end lg:order-2 lg:pl-6">
-                <div className="w-80 h-80 rounded-lg overflow-hidden">
-                  <Image
-                    src="/Team6.png"
-                    alt="Sam Yates"
-                    width={450}
-                    height={550}
-                    className="w-full h-full object-cover object-top"
-                  />
                 </div>
               </div>
             </div>
