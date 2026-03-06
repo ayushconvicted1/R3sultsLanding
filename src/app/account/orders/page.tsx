@@ -10,6 +10,25 @@ import { getStoredToken } from "@/context/AuthContext";
 import type { OrderDocument } from "@/lib/mongodb";
 import AuthPageWrapper from "@/components/auth/AuthPageWrapper";
 
+/** Normalize backend GET /api/shop/orders/my response to OrderDocument-like shape for UI. */
+function normalizeShopOrder(o: Record<string, unknown>): OrderDocument {
+  const lineItems = (o.lineItems as OrderDocument["line_items"]) ?? [];
+  const shippingAddress = (o.shippingAddress as OrderDocument["shipping_address"]) ?? {};
+  return {
+    id: (o.orderId as string) || (o.id as string) || "",
+    stripe_session_id: "",
+    customer_email: (o.customerEmail as string) ?? "",
+    amount_total: Number(o.amountTotal) ?? 0,
+    amount_subtotal: o.amountSubtotal != null ? Number(o.amountSubtotal) : undefined,
+    shipping_amount: o.shippingAmount != null ? Number(o.shippingAmount) : undefined,
+    currency: (o.currency as string) ?? "usd",
+    payment_status: (o.paymentStatus as string) ?? "pending",
+    shipping_address: shippingAddress,
+    line_items: lineItems,
+    created_at: (o.createdAt as string) ?? new Date().toISOString(),
+  };
+}
+
 function formatAddress(addr: Record<string, unknown> | undefined): string {
   if (!addr) return "—";
   const first = (addr.firstName as string) || "";
@@ -45,7 +64,7 @@ export default function OrderHistoryPage() {
       setLoading(false);
       return;
     }
-    fetch("/api/orders/history", {
+    fetch("/api/shop/orders/my", {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
@@ -53,7 +72,8 @@ export default function OrderHistoryPage() {
         return res.json();
       })
       .then((data) => {
-        setOrders(data.orders ?? []);
+        const list = Array.isArray(data.data) ? data.data : [];
+        setOrders(list.map((o: Record<string, unknown>) => normalizeShopOrder(o)));
       })
       .catch(() => {
         setError("Failed to load order history");
@@ -138,6 +158,12 @@ export default function OrderHistoryPage() {
                   <div className="px-6 py-4 bg-gradient-to-r from-slate-50 to-white border-b border-slate-200 flex flex-wrap items-center justify-between gap-3">
                     <div>
                       <span className="font-mono font-bold text-slate-900 text-lg">{order.id}</span>
+                      <Link
+                        href={`/account/orders/${encodeURIComponent(order.id)}`}
+                        className="ml-3 text-sm font-medium text-[#BF0637] hover:underline"
+                      >
+                        View details
+                      </Link>
                       <span className="ml-3 text-slate-600 text-sm">{date} at {time}</span>
                     </div>
                     <div className="flex items-center gap-3">

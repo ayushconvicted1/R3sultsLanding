@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUsersCollection } from "@/lib/mongodb";
-import { verifyToken } from "@/lib/auth";
+import { userApiFetch } from "@/lib/user-api";
+import { normalizeUser } from "@/lib/normalize-user";
+import type { AppUser } from "@/types/user";
 
 function getBearerToken(request: NextRequest): string | null {
   const auth = request.headers.get("authorization");
@@ -8,78 +9,63 @@ function getBearerToken(request: NextRequest): string | null {
   return null;
 }
 
+/**
+ * Proxy to external User API: GET /api/auth/me (Bearer token).
+ * Returns normalized { user } for our app.
+ */
 export async function GET(request: NextRequest) {
   const token = getBearerToken(request);
   if (!token) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const payload = await verifyToken(token);
-  if (!payload) {
-    return NextResponse.json({ error: "Invalid or expired token" }, { status: 401 });
+
+  const result = await userApiFetch<{ success?: boolean; data?: { user?: Record<string, unknown> }; error?: string }>(
+    "/api/auth/me",
+    { method: "GET", token }
+  );
+
+  if (!result.success || result.status === 401) {
+    return NextResponse.json(
+      { error: result.error || "Invalid or expired token" },
+      { status: 401 }
+    );
   }
 
-  const coll = await getUsersCollection();
-  const user = await coll.findOne({ email: payload.email });
-  if (!user) {
-    return NextResponse.json({ error: "User not found" }, { status: 404 });
-  }
-
-  return NextResponse.json({
-    user: {
-      email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      phone: user.phone,
-      address: user.address,
-    },
-  });
+  const data = result.data as { data?: { user?: Record<string, unknown> }; user?: Record<string, unknown> };
+  const rawUser = data?.data?.user ?? data?.user;
+  const user: AppUser = normalizeUser(rawUser);
+  return NextResponse.json({ user });
 }
 
+/**
+ * Profile update: proxy to external PATCH /api/user/profile.
+ * Accepts fullName, username, email, dateOfBirth, gender, profilePictureUrl (per API_USAGE.csv).
+ */
 export async function PATCH(request: NextRequest) {
   const token = getBearerToken(request);
   if (!token) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const payload = await verifyToken(token);
-  if (!payload) {
-    return NextResponse.json({ error: "Invalid or expired token" }, { status: 401 });
-  }
-
   const body = await request.json();
-  const { firstName, lastName, phone, address } = body;
-
-  const coll = await getUsersCollection();
-  const update: Record<string, unknown> = { updatedAt: new Date().toISOString() };
-  if (typeof firstName === "string") update.firstName = firstName.trim();
-  if (typeof lastName === "string") update.lastName = lastName.trim();
-  if (typeof phone === "string") update.phone = phone.trim();
-  if (address && typeof address === "object") {
-    update.address = {
-      line1: address.line1 ?? "",
-      line2: address.line2 ?? "",
-      city: address.city ?? "",
-      state: address.state ?? "",
-      postalCode: address.postalCode ?? "",
-      country: address.country ?? "US",
-    };
+  const fullName = [body.firstName, body.lastName].filter(Boolean).join(" ").trim();
+  const externalBody: Record<string, unknown> = {};
+  const allowed = ["fullName", "username", "email", "dateOfBirth", "gender", "profilePictureUrl"] as const;
+  for (const key of allowed) {
+    if (body[key] !== undefined) externalBody[key] = body[key];
   }
-
-  const result = await coll.findOneAndUpdate(
-    { email: payload.email },
-    { $set: update },
-    { returnDocument: "after" }
+  if (fullName) externalBody.fullName = fullName;
+  const result = await userApiFetch<{ success?: boolean; data?: { user?: Record<string, unknown> }; error?: string }>(
+    "/api/user/profile",
+    { method: "PATCH", body: externalBody, token }
   );
-  if (!result) {
-    return NextResponse.json({ error: "User not found" }, { status: 404 });
+  if (!result.success) {
+    return NextResponse.json(
+      { error: result.error || "Update failed" },
+      { status: result.status >= 400 ? result.status : 500 }
+    );
   }
-
-  return NextResponse.json({
-    user: {
-      email: result.email,
-      firstName: result.firstName,
-      lastName: result.lastName,
-      phone: result.phone,
-      address: result.address,
-    },
-  });
+  const patchData = result.data as { data?: { user?: Record<string, unknown> }; user?: Record<string, unknown> };
+  const rawUser = patchData?.data?.user ?? patchData?.user;
+  const user: AppUser = normalizeUser(rawUser);
+  return NextResponse.json({ user });
 }

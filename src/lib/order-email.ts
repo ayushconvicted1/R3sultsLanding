@@ -32,7 +32,16 @@ function escapeHtml(s: string): string {
     .replace(/"/g, "&quot;");
 }
 
+function getPortalUrl(): string {
+  const url =
+    process.env.NEXT_PUBLIC_APP_URL ||
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null) ||
+    "https://r3sults-landing.vercel.app";
+  return url.replace(/\/$/, "");
+}
+
 function buildOrderConfirmationHtml(order: OrderDocument): string {
+  const portalUrl = getPortalUrl();
   const ship = order.shipping_address ?? {};
   const bill = order.billing_address;
   const currency = (order.currency || "usd").toUpperCase();
@@ -139,6 +148,11 @@ function buildOrderConfirmationHtml(order: OrderDocument): string {
       </div>
 
       <p style="margin:0;font-size:13px;color:#64748b;text-align:center;">Payment status: <strong style="color:#16a34a;">${escapeHtml(order.payment_status ?? "paid")}</strong></p>
+
+      <div style="margin-top:24px;padding:16px;background:#f0f9ff;border-radius:12px;border:1px solid #bae6fd;">
+        <p style="margin:0 0 12px;font-size:14px;color:#0c4a6e;line-height:1.5;">Use the same email to log in to the R3sults portal to view more information about your order.</p>
+        <p style="margin:0;font-size:13px;"><a href="${escapeHtml(portalUrl)}" style="display:inline-block;padding:10px 20px;background:#BF0637;color:#fff !important;text-decoration:none;font-weight:600;border-radius:8px;">Go to R3sults portal</a></p>
+      </div>
     </div>
     <div style="background:#f8fafc;padding:20px;text-align:center;border-top:1px solid #e2e8f0;">
       <p style="margin:0;font-size:13px;color:#64748b;">Questions? Reply to this email or contact our support.</p>
@@ -165,6 +179,7 @@ export async function sendOrderConfirmationEmail(order: OrderDocument): Promise<
 
   const shippingAmount = order.shipping_amount ?? 0;
   const total = order.amount_total ?? 0;
+  const portalUrl = getPortalUrl();
 
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
@@ -178,6 +193,6 @@ export async function sendOrderConfirmationEmail(order: OrderDocument): Promise<
     to,
     subject: `Order Confirmed - ${order.id}`,
     html: buildOrderConfirmationHtml(order),
-    text: `Order ${order.id} confirmed. Subtotal + Shipping: $${total.toFixed(2)}. Thank you for your purchase.`,
+    text: `Order ${order.id} confirmed. Subtotal + Shipping: $${total.toFixed(2)}. Thank you for your purchase.\n\nUse the same email to log in to the R3sults portal to view more information about your order: ${portalUrl}`,
   });
 }

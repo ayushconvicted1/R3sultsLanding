@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import LogoSvg from "./images/Logo";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
+import { fullNameToFirstLast } from "@/types/user";
 
 export default function Header() {
   const pathname = usePathname();
@@ -134,7 +135,7 @@ export default function Header() {
                       aria-label="Account menu"
                     >
                       <span className="font-medium">
-                        {user.firstName ? `${user.firstName}'s account` : "Account"}
+                        {user.fullName ? `${fullNameToFirstLast(user.fullName).firstName || user.fullName}'s account` : "Account"}
                       </span>
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />

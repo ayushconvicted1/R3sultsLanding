@@ -1,0 +1,135 @@
+Category,API Name,Endpoint,Method,Auth,Request (Body/Params),Description,Response
+Auth,Send OTP,/api/auth/phone/send-otp,POST,No,"{""phoneNumber"": ""+919876543210""}","Send OTP to phone. Creates user if new.",success, data.phoneNumber, expiresIn
+Auth,Verify OTP,/api/auth/phone/verify-otp,POST,No,"{""phoneNumber"": ""+919876543210"", ""otp"": ""123456""}","Verify OTP. Login + create user if new. Returns tokens.",success, data.user, accessToken, refreshToken, isNewUser
+Auth,Login,/api/auth/login,POST,No,"{""phoneNumber"": ""+919876543210"", ""password"": ""password123""}","Password login (optional).",success, data.user, accessToken, refreshToken
+Auth,Google Sign In,/api/auth/google,POST,No,"{""idToken"": ""google_id_token""}",Login with Google.,success, data.user, accessToken, refreshToken
+Auth,Apple Sign In,/api/auth/apple,POST,No,"{""identityToken"": ""apple_token""}",Login with Apple.,success, data.user, accessToken, refreshToken
+Auth,Forgot Password,/api/auth/forgot-password,POST,No,"{""phoneNumber"": ""+919876543210""}",Send OTP for password reset.,success, data.expiresIn
+Auth,Reset Password,/api/auth/reset-password,POST,No,"{""phoneNumber"", ""otp"", ""newPassword""}",Reset password with OTP.,success
+Auth,Refresh Token,/api/auth/refresh-token,POST,No,"{""refreshToken"": ""...""}",Get new access + refresh token.,success, data.accessToken, refreshToken
+Auth,Get Current User,/api/auth/me,GET,Yes,Bearer token,Current user with propertyPhotos and groups.,success, data.user
+Auth,Update Phone,/api/auth/update-phone,POST,Yes,Bearer + phoneNumber,Send OTP to update phone.,success
+Auth,Logout,/api/auth/logout,POST,Yes,Bearer,Logout and invalidate token.,success
+User,Get Profile,/api/user/profile,GET,Yes,Bearer,Full profile with propertyPhotos and groups.,success, data.user
+User,Update Profile,/api/user/profile,PATCH,Yes,Bearer + body,"fullName, username, email, dateOfBirth, gender, profilePictureUrl",success, data.user
+User,Update Address,/api/user/address,PATCH,Yes,Bearer,"address, city, state, country, pincode",success, data.user
+User,Update Emergency Contact,/api/user/emergency-contact,PATCH,Yes,Bearer,emergencyContactName, emergencyContactPhone,success
+User,Update Medical Info,/api/user/medical-info,PATCH,Yes,Bearer,bloodGroup, medicalConditions,success
+User,Change Password,/api/user/change-password,PATCH,Yes,Bearer,currentPassword, newPassword,success
+User,Update Email,/api/user/email,PATCH,Yes,Bearer,email,success
+User,Update Username,/api/user/username,PATCH,Yes,Bearer,username,success
+User,Deactivate Account,/api/user/deactivate,PATCH,Yes,Bearer,,success
+User,Get Property,/api/user/property,GET,Yes,Bearer,Property address and photos.,success, data
+User,Update Property,/api/user/property,PATCH,Yes,Bearer,propertyAddress, propertyDescription,success
+User,Get Property Photos,/api/user/property/photos,GET,Yes,Bearer,,success, data.photos
+User,Add Property Photo,/api/user/property/photos,POST,Yes,Bearer + multipart file,file + optional type and label,success, data.photo
+User,Update Property Photo,/api/user/property/photos/:id,PATCH,Yes,Bearer + id,type or label or new file,success, data.photo
+User,Delete Property Photo,/api/user/property/photos/:id,DELETE,Yes,Bearer + id,,success
+Group,Add Family Member,/api/group/add-member,POST,Yes,Bearer,"email or phoneNumber, fullName, relation (Wife/Son/Daughter), dateOfBirth, gender, bloodGroup",Plan limit checked. Creates user if new.,success, data.member, group
+Group,Get My Group,/api/group/my-group,GET,Yes,Bearer,,Admin group + member groups.,success, data.adminGroup, memberGroups
+Group,Remove Member,/api/group/remove-member/:memberId,DELETE,Yes,Bearer + memberId,,success
+Group,Update Member,/api/group/update-member/:memberId,PATCH,Yes,Bearer + memberId,relation,success
+Group,Update Group Name,/api/group/update-name,PATCH,Yes,Bearer,name,success
+Group,Get Member Details,/api/group/member/:memberId,GET,Yes,Bearer + memberId,,success, data.member
+Group,Update Member Profile,/api/group/member/:memberId/profile,PATCH,Yes,Bearer + memberId,fullName, bloodGroup, medicalConditions,success
+Group,Get All Members,/api/group/members,GET,Yes,Bearer,,success, data.members, planLimit
+Subscription,Get Plans,/api/subscription/plans,GET,No,,List Basic Pro Family plans.,success, data.plans
+Subscription,Get My Subscription,/api/subscription,GET,Yes,Bearer,Current plan and limit.,success, data.planId, plan, planLimit, subscriptionEndsAt
+Subscription,Create Checkout,/api/subscription/checkout,POST,Yes,Bearer,"{""planId"": ""pro"" or ""family"", ""successUrl"", ""cancelUrl""}",Stripe checkout URL for plan.,success, data.url
+Subscription,Cancel Subscription,/api/subscription/cancel,POST,Yes,Bearer,Cancel at period end.,success
+Subscription,Stripe Webhook,/api/subscription/webhook,POST,No,Stripe-Signature + raw body,Stripe sends events (checkout.session.completed etc). No Bearer.,200
+Upload,Upload File (with folder),/api/upload/file,POST,Yes,Bearer + multipart,"file (required), folder (optional), fileName (optional). Folder = save path.",Returns URL and publicId.,success, data.url, publicId, folder
+Upload,Upload CSV,/api/upload/csv,POST,Yes,Bearer + file,CSV to Cloudinary.,success, data.url, publicId
+Upload,Update CSV,/api/upload/csv,PATCH,Yes,Bearer + file + publicId,Replace existing CSV.,success
+Upload,Upload and Parse CSV,/api/upload/csv/parse,POST,Yes,Bearer + file,CSV to JSON.,success, data.rows
+Disaster,Get All Disasters,/api/disasters,GET,No,"?type, severity, state, source, country, usaOnly, startDate, endDate, startTime, endTime, month, year, limit",NWS + USGS + InciWeb. Filters: type (tornado, flood, hurricane, wildfire, earthquake), date, time, USA.,success, data.items, sources
+Disaster,Get NWS Alerts,/api/disasters/nws,GET,No,Same query params,NWS alerts only.,success, data.items
+Disaster,Get Earthquakes,/api/disasters/earthquakes,GET,No,state, usaOnly, date, limit,USGS earthquakes.,success, data.items
+Disaster,Get Wildfires,/api/disasters/wildfires,GET,No,state, usaOnly, date, limit,InciWeb wildfires.,success, data.items
+Tracking,Update Location,/api/tracking/location,POST,Yes,Bearer,latitude, longitude, accuracy, altitude, speed, heading,success, data.location
+Tracking,Get My Location,/api/tracking/location/current,GET,Yes,Bearer or ?userId=,success, data.location
+Tracking,Get User Location,/api/tracking/location/current/:userId,GET,Yes,Bearer + userId,Family group members can see each other.,success, data.location
+Tracking,Get My History,/api/tracking/location/history,GET,Yes,Bearer,?startDate, endDate, limit, page,success, data.history
+Tracking,Get User History,/api/tracking/location/history/:userId,GET,Yes,Bearer + userId,Same family or shared.,success, data.history
+Tracking,Share Location,/api/tracking/location/share,POST,Yes,Bearer,sharedWithId, expiresAt (optional),success
+Tracking,Stop Sharing,/api/tracking/location/share/:userId,DELETE,Yes,Bearer + userId,,success
+Tracking,Get Shared With,/api/tracking/location/shared,GET,Yes,Bearer,Users who can see my location.,success, data.users
+Tracking,Get Visible Users,/api/tracking/location/visible,GET,Yes,Bearer,Users whose location I can see.,success, data.users
+Tracking,Get Multiple Locations,/api/tracking/location/multiple,POST,Yes,Bearer,"{""userIds"": [""uuid1"", ""uuid2""]}",Family or shared only.,success, data.locations
+Tracking,Get Nearby,/api/tracking/location/nearby,GET,Yes,Bearer,?radius, limit,success, data.users
+Tracking,Get All Users Locations,/api/tracking/location/all,GET,Yes,Bearer,Admin / bulk.,success, data
+Tracking,Update Settings,/api/tracking/settings,PUT,Yes,Bearer,locationTrackingEnabled, locationSharingEnabled, locationUpdateInterval,success
+Geofence,Create Geofence,/api/geofence,POST,Yes,Bearer,name, type (circle/polygon), centerLat, centerLng, radius,success, data.geofence
+Geofence,Get Geofences,/api/geofence,GET,Yes,Bearer,,success, data.geofences
+Geofence,Get My Geofence Events,/api/geofence/events,GET,Yes,Bearer,?startDate, endDate, limit, page,success
+Geofence,Get Geofence,/api/geofence/:id,GET,Yes,Bearer + id,,success, data.geofence
+Geofence,Update Geofence,/api/geofence/:id,PUT,Yes,Bearer + id,name, isActive,success
+Geofence,Delete Geofence,/api/geofence/:id,DELETE,Yes,Bearer + id,,success
+Geofence,Get Geofence Events,/api/geofence/:id/events,GET,Yes,Bearer + id,?startDate, endDate, limit, page,success
+Vendor,Signup,/api/vendor/signup,POST,No,body,Vendor registration.,success, data.user, accessToken, refreshToken
+Vendor,Login,/api/vendor/login,POST,No,phoneNumber, password,success
+Vendor,Google Sign In,/api/vendor/google,POST,No,idToken,success
+Vendor,Apple Sign In,/api/vendor/apple,POST,No,identityToken,success
+Vendor,Send OTP,/api/vendor/send-otp,POST,No,phoneNumber,success
+Vendor,Verify OTP,/api/vendor/verify-otp,POST,No,phoneNumber, otp,success
+Vendor,Forgot Password,/api/vendor/forgot-password,POST,No,phoneNumber,success
+Vendor,Reset Password,/api/vendor/reset-password,POST,No,phoneNumber, otp, newPassword,success
+Vendor,Refresh Token,/api/vendor/refresh-token,POST,No,refreshToken,success
+Vendor,Get Me,/api/vendor/me,GET,Yes,Bearer,,success, data.user
+Vendor,Update Profile,/api/vendor/profile,PUT,Yes,Bearer,body,success
+Vendor,Logout,/api/vendor/logout,POST,Yes,Bearer,,success
+Vendor,Change Password,/api/vendor/change-password,PUT,Yes,Bearer,currentPassword, newPassword,success
+Vendor,Update Phone,/api/vendor/update-phone,POST,Yes,Bearer,phoneNumber,success
+Volunteer,Signup,/api/volunteer/signup,POST,No,body,Volunteer registration.,success
+Volunteer,Login,/api/volunteer/login,POST,No,phoneNumber, password,success
+Volunteer,Send OTP,/api/volunteer/send-otp,POST,No,phoneNumber,success
+Volunteer,Verify OTP,/api/volunteer/verify-otp,POST,No,phoneNumber, otp,success
+Volunteer,Forgot Password,/api/volunteer/forgot-password,POST,No,phoneNumber,success
+Volunteer,Reset Password,/api/volunteer/reset-password,POST,No,phoneNumber, otp, newPassword,success
+Volunteer,Get Me,/api/volunteer/me,GET,Yes,Bearer,,success, data.user
+Volunteer Verification,List Volunteers,/api/admin/volunteers,GET,Yes (Admin),Bearer,?status, page, limit,success, data.volunteers
+Volunteer Verification,Get Volunteer Details,/api/admin/volunteers/:volunteerId,GET,Yes (Admin),Bearer + volunteerId,success, data.volunteer
+Volunteer Verification,Approve Volunteer,/api/admin/volunteers/:volunteerId/approve,PATCH,Yes (Admin),Bearer + volunteerId,success
+Volunteer Verification,Reject Volunteer,/api/admin/volunteers/:volunteerId/reject,PATCH,Yes (Admin),Bearer + volunteerId,success
+Volunteer Verification,Suspend Volunteer,/api/admin/volunteers/:volunteerId/suspend,PATCH,Yes (Admin),Bearer + volunteerId,success
+Volunteer Verification,Reactivate Volunteer,/api/admin/volunteers/:volunteerId/reactivate,PATCH,Yes (Admin),Bearer + volunteerId,success
+Volunteer Verification,Update Notes,/api/admin/volunteers/:volunteerId/notes,PATCH,Yes (Admin),Bearer + volunteerId,notes,success
+Weather,Current by City,/api/weather/current,GET,No,?city, country,success, data
+Weather,Current by Coords,/api/weather/current/coords,GET,No,?lat, lon,success
+Weather,Forecast by City,/api/weather/forecast,GET,No,?city, country,success
+Weather,Forecast by Coords,/api/weather/forecast/coords,GET,No,?lat, lon,success
+Weather,Air Pollution,/api/weather/air-pollution,GET,No,?lat, lon,success
+Admin,List Users,/api/admin/users,GET,Yes (Admin),Bearer,?role, isActive, search, page, limit,success, data.users (with propertyPhotos)
+Admin,Get User Details,/api/admin/users/:userId,GET,Yes (Admin),Bearer + userId,success, data.user, permissions
+Admin,Update User,/api/admin/users/:userId,PATCH,Yes (Admin),Bearer + userId,fullName, email, isActive, planLimit, etc.,success
+Admin,Activate User,/api/admin/users/:userId/activate,PATCH,Yes (Admin),Bearer + userId,success
+Admin,Deactivate User,/api/admin/users/:userId/deactivate,PATCH,Yes (Admin),Bearer + userId,success
+Admin,Get User Role,/api/admin/users/:userId/role,GET,Yes (Admin),Bearer + userId,success
+Admin,Assign Role,/api/admin/users/:userId/role,PATCH,Yes (Admin),Bearer + userId,role,success
+Admin,Get Admin Profile,/api/admin/profile,GET,Yes (Admin),Bearer,success, data.user, permissions
+Admin,Get All Roles,/api/admin/roles,GET,Yes (Super Admin),Bearer,success, data.roles
+Admin,Get Users by Role,/api/admin/roles/:role/users,GET,Yes (Admin),Bearer + role,success
+Admin,Get Permissions,/api/admin/permissions,GET,Yes (Super Admin),Bearer,success
+Admin,Get Role Permissions,/api/admin/permissions/roles/:role,GET,Yes (Super Admin),Bearer + role,success
+Admin,Assign Permissions,/api/admin/permissions/roles/:role,POST,Yes (Super Admin),Bearer + role,permissions array,success
+Admin,Get User Permissions,/api/admin/permissions/users/:userId,GET,Yes (Admin),Bearer + userId,success
+Admin,Check Permission,/api/admin/permissions/check,POST,Yes (Admin),Bearer,userId, permission,success
+Admin,Get Accessibility,/api/admin/accessibility,GET,Yes (Super Admin),Bearer,success
+Admin,Get Role Accessibility,/api/admin/accessibility/role/:role,GET,Yes (Super Admin),Bearer + role,success
+Admin,Update Feature Access,/api/admin/accessibility/role/:role/feature/:feature,PATCH,Yes (Super Admin),Bearer,canAccess, canCreate, canUpdate, canDelete,success
+Admin,Check Access,/api/admin/accessibility/check,POST,Yes,Bearer,userId, feature, action,success
+Products,Get Products,/api/products,GET,No,?category, location, page, limit, sortBy, sortOrder,success, data, pagination
+Products,Get Product,/api/products/:id,GET,No,id in URL,success, data
+Products,Create Product,/api/products,POST,Yes (Admin),Bearer + body,name, description, price, category, stockQuantity, imageUrl, isFemaApproved,success
+Products,Update Product,/api/products/:id,PUT,Yes (Admin),Bearer + id + body,success
+Products,Delete Product,/api/products/:id,DELETE,Yes (Admin),Bearer + id,success
+Cart,Get Cart,/api/cart,GET,Yes,Bearer,,success, data
+Cart,Add to Cart,/api/cart/add,POST,Yes,Bearer,productId, quantity,success
+Cart,Update Item,/api/cart/:productId,PUT,Yes,Bearer + productId,quantity,success
+Cart,Remove Item,/api/cart/:productId,DELETE,Yes,Bearer + productId,,success
+Cart,Clear Cart,/api/cart/clear,POST,Yes,Bearer,,success
+Orders,Create Order,/api/orders,POST,Yes,Bearer,deliveryAddress, paymentToken (Stripe),success, data
+Orders,Get Orders,/api/orders,GET,Yes,Bearer,?page, limit,success, data, pagination
+Orders,Get Order,/api/orders/:id,GET,Yes,Bearer + id,,success, data
+Misc,Health Check,/health,GET,No,,,success, message, timestamp
+Misc,Dev Seed Info,/api/dev/seed-info,GET,No,,List seeded users (dev).,success, data

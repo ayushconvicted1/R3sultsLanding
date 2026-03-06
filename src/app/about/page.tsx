@@ -460,6 +460,18 @@ export default function About() {
                   </div>
                 </div>
               </div>
+              {/* Desktop: Image only */}
+              <div className="hidden lg:flex lg:items-center lg:justify-start lg:order-1 lg:pr-6">
+                <div className="w-80 h-80 rounded-lg overflow-hidden">
+                  <Image
+                    src="/Team5.png"
+                    alt="KT Caitlin"
+                    width={450}
+                    height={550}
+                    className="w-full h-full object-cover object-top"
+                  />
+                </div>
+              </div>
               {/* Desktop: Text only */}
               <div className="hidden lg:flex lg:items-center lg:order-1 lg:pr-6">
                 <div>

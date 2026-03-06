@@ -124,7 +124,8 @@ function SuccessContent() {
   const fallbackItems = session.line_items ?? [];
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
+    <div className="min-h-screen bg-slate-50 flex flex-col mt-16
+    ">
       <div className="flex-1 flex flex-col items-center justify-center py-4 px-3 sm:py-6 sm:px-4">
         <div className="max-w-xl mx-auto w-full">
         {/* Compact success card - all in one view */}

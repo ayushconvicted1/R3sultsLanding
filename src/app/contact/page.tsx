@@ -217,7 +217,7 @@ export default function Contact() {
                     Visit us
                   </h3>
                   <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-                    200 W Prospect Rd, Oakland Park, FL 33309
+                   2120 SW , 60th Ter Miramar, FL 33023
                   </p>
                 </div>
                 <div>
@@ -237,7 +237,7 @@ export default function Contact() {
                   </h3>
                   <div className="flex gap-4">
                     <a
-                      href="https://facebook.com"
+                      href="https://www.facebook.com/profile.php?id=61583899421911&mibextid=wwXIfr&rdid=uDRB3XdrvUZvjwir&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1CH3z97LJM%2F%3Fmibextid%3DwwXIfr#"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-slate-700 hover:text-[#BF0637] transition-colors"
@@ -252,7 +252,7 @@ export default function Contact() {
                       </svg>
                     </a>
                     <a
-                      href="https://instagram.com"
+                      href="https://www.instagram.com/r3sultsglobal/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-slate-700 hover:text-[#BF0637] transition-colors"

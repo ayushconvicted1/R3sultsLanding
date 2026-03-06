@@ -39,7 +39,7 @@ export default function Footer() {
                   href="/news-and-media"
                   className="hover:text-white transition-colors"
                 >
-                  News and media
+                  News and Media
                 </Link>
               </li>
             </ul>
@@ -57,18 +57,18 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="mailto:info@results.com"
+                  href="mailto:info@r3sults.com"
                   className="hover:text-white transition-colors"
                 >
-                  info@results.com
+                  info@r3sults.com
                 </a>
               </li>
               <li className="leading-relaxed">
-                200 W Prospect Rd, Oakland Park, FL 33309
+               2120 SW , 60th Ter Miramar, FL 33023
               </li>
             </ul>
           </div>
-          <div>
+          <div className="min-w-0">
             <h5 className="font-semibold mb-4">Connect</h5>
             <div className="flex gap-4 mb-4">
               <a
