@@ -200,6 +200,11 @@ export default function CheckoutPage() {
                 <div className="sm:col-span-2">
                   <label htmlFor="email" className={labelClass}>Email</label>
                   <input id="email" name="email" type="email" required value={form.email} onChange={handleChange} className={inputClass} />
+                  {!user && (
+                    <p className="mt-1.5 text-xs text-slate-600">
+                      Use the same email when you register or log in so you can view all details of your order later.
+                    </p>
+                  )}
                 </div>
                 <div className="sm:col-span-2 [&_.PhoneInput]:flex [&_.PhoneInput]:gap-2 [&_.PhoneInputInput]:flex-1 [&_.PhoneInputInput]:border-2 [&_.PhoneInputInput]:border-slate-200 [&_.PhoneInputInput]:rounded-xl [&_.PhoneInputInput]:px-4 [&_.PhoneInputInput]:py-3 [&_.PhoneInputInput]:focus:ring-2 [&_.PhoneInputInput]:focus:ring-[#BF0637]/30 [&_.PhoneInputInput]:focus:border-[#BF0637]">
                   <label className={labelClass}>Mobile number</label>
