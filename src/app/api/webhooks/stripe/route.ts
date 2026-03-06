@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
-import { insertOrder, type OrderInput } from "@/lib/orders";
+import type { OrderInput } from "@/lib/orders";
 import type { OrderLineItem } from "@/lib/mongodb";
 import { getChunkedMetadataValue } from "@/lib/stripe-metadata";
 import { generateOrderId } from "@/lib/order-id";
 import { sendOrderConfirmationEmail } from "@/lib/order-email";
+import { createOrderOnBackend } from "@/lib/shop-orders-api";
 
 function getStripe(): Stripe {
   const key = process.env.STRIPE_SECRET_KEY;
@@ -173,7 +174,17 @@ export async function POST(request: NextRequest) {
         line_items: lineItems,
         created_at: new Date().toISOString(),
       };
-      await insertOrder(order);
+
+      // Store order on backend via API (domain from env). No MongoDB.
+      const backendResult = await createOrderOnBackend(order);
+      if (!backendResult.success) {
+        console.error("Failed to store order on backend:", backendResult.error);
+        return NextResponse.json(
+          { error: "Failed to store order", details: backendResult.error },
+          { status: 500 }
+        );
+      }
+
       try {
         await sendOrderConfirmationEmail(order);
       } catch (emailErr) {

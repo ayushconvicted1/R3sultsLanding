@@ -8,14 +8,14 @@ function getBearerToken(request: NextRequest): string | null {
 }
 
 /**
- * Proxy to backend GET /api/shop/orders/my (orders stored on backend; no MongoDB).
+ * Proxy to backend: GET /api/shop/orders/my (authenticated — returns orders matching user email/phone).
+ * Query: page, limit.
  */
 export async function GET(request: NextRequest) {
   const token = getBearerToken(request);
   if (!token) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-
   try {
     const { searchParams } = request.nextUrl;
     const page = searchParams.get("page") ?? "1";
@@ -29,7 +29,10 @@ export async function GET(request: NextRequest) {
     const data = await res.json().catch(() => ({}));
     return NextResponse.json(data, { status: res.status });
   } catch (err) {
-    console.error("Order history proxy error:", err);
-    return NextResponse.json({ error: "Failed to fetch orders" }, { status: 500 });
+    console.error("Shop orders my proxy error:", err);
+    return NextResponse.json(
+      { success: false, error: "Failed to fetch orders" },
+      { status: 500 }
+    );
   }
 }

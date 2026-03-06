@@ -3,6 +3,18 @@ import { userApiFetch } from "@/lib/user-api";
 import { normalizeUser } from "@/lib/normalize-user";
 import type { AppUser } from "@/types/user";
 
+interface GoogleAuthResponse {
+  success?: boolean;
+  data?: {
+    user?: Record<string, unknown>;
+    accessToken?: string;
+    refreshToken?: string;
+    needsPhoneUpdate?: boolean;
+  };
+  error?: string;
+  message?: string;
+}
+
 /**
  * Proxy to external User API: POST /api/auth/google (Google Sign-In).
  * Body: { idToken: string } — Google ID token from client SDK.
@@ -20,22 +32,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const result = await userApiFetch<{
-      success?: boolean;
-      data?: {
-        user?: Record<string, unknown>;
-        accessToken?: string;
-        refreshToken?: string;
-        needsPhoneUpdate?: boolean;
-      };
-      error?: string;
-    }>("/api/auth/google", {
+    const result = await userApiFetch<GoogleAuthResponse>("/api/auth/google", {
       method: "POST",
       body: { idToken },
     });
 
     if (!result.success) {
-      const message = result.error || (result.data as { message?: string })?.message || "Google sign-in failed";
+      const data = result.data as { message?: string; error?: string } | undefined;
+      const message =
+        result.error ||
+        data?.message ||
+        data?.error ||
+        (typeof (result.data as { data?: { message?: string } })?.data?.message === "string"
+          ? (result.data as { data?: { message?: string } }).data?.message
+          : undefined) ||
+        "Google sign-in failed";
       return NextResponse.json(
         { success: false, error: message },
         { status: result.status === 401 ? 401 : result.status >= 400 ? result.status : 500 }

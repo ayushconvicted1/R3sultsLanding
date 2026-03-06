@@ -8,28 +8,33 @@ function getBearerToken(request: NextRequest): string | null {
 }
 
 /**
- * Proxy to backend GET /api/shop/orders/my (orders stored on backend; no MongoDB).
+ * Proxy to backend: GET /api/shop/orders/my/:id (authenticated — single order by orderId or cuid).
  */
-export async function GET(request: NextRequest) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   const token = getBearerToken(request);
   if (!token) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-
   try {
-    const { searchParams } = request.nextUrl;
-    const page = searchParams.get("page") ?? "1";
-    const limit = searchParams.get("limit") ?? "20";
+    const { id } = await params;
+    if (!id) {
+      return NextResponse.json({ error: "Order ID required" }, { status: 400 });
+    }
     const base = getUserApiBaseUrl();
-    const qs = new URLSearchParams({ page, limit }).toString();
-    const res = await fetch(`${base}/api/shop/orders/my?${qs}`, {
+    const res = await fetch(`${base}/api/shop/orders/my/${encodeURIComponent(id)}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await res.json().catch(() => ({}));
     return NextResponse.json(data, { status: res.status });
   } catch (err) {
-    console.error("Order history proxy error:", err);
-    return NextResponse.json({ error: "Failed to fetch orders" }, { status: 500 });
+    console.error("Shop order my/:id proxy error:", err);
+    return NextResponse.json(
+      { success: false, error: "Failed to fetch order" },
+      { status: 500 }
+    );
   }
 }

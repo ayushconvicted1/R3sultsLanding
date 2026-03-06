@@ -1,8 +1,11 @@
 /**
- * Base URL for the external User API (OTP auth). All endpoints from API_USAGE.csv use this domain.
+ * Base URL for the external User API (auth, shop orders). Prefer USER_API_BASE_URL so auth keeps working.
  */
 export function getUserApiBaseUrl(): string {
-  const url = process.env.USER_API_BASE_URL || "https://dms-rust-omega.vercel.app";
+  const url =
+    process.env.USER_API_BASE_URL ||
+    process.env.DOMAIN_NAME ||
+    "https://dms-rust-omega.vercel.app";
   return url.replace(/\/$/, "");
 }
 
