@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 import CartProviderWithDrawer from "@/components/CartProviderWithDrawer";
 import ToastProvider from "@/components/ToastProvider";
 import { AuthProvider } from "@/context/AuthContext";
+import { MerchCartProvider } from "@/context/MerchCartContext";
 import GoogleAuthProvider from "@/components/auth/GoogleAuthProvider";
 
 const cabin = Cabin({
@@ -98,10 +99,12 @@ export default function RootLayout({
         <ToastProvider>
           <GoogleAuthProvider>
             <AuthProvider>
-              <CartProviderWithDrawer>
-              <Header />
-              <main>{children}</main>
-            </CartProviderWithDrawer>
+              <MerchCartProvider>
+                <CartProviderWithDrawer>
+                  <Header />
+                  <main>{children}</main>
+                </CartProviderWithDrawer>
+              </MerchCartProvider>
             </AuthProvider>
           </GoogleAuthProvider>
         </ToastProvider>

@@ -11,7 +11,7 @@ type AuthContextValue = {
   loading: boolean;
   needsPhoneUpdate: boolean;
   clearNeedsPhoneUpdate: () => void;
-  loginWithPassword: (phoneNumber: string, password: string) => Promise<{ error?: string }>;
+  loginWithPassword: (email: string, password: string) => Promise<{ error?: string }>;
   loginWithGoogle: (idToken: string) => Promise<{ error?: string; needsPhoneUpdate?: boolean }>;
   register: (params: {
     phoneNumber: string;
@@ -136,12 +136,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const loginWithPassword = useCallback(
-    async (phoneNumber: string, password: string) => {
+    async (email: string, password: string) => {
       try {
         const res = await fetch("/api/auth/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ phoneNumber: phoneNumber.trim(), password }),
+          body: JSON.stringify({ email: email.trim().toLowerCase(), password }),
         });
         const data = await res.json();
         if (!res.ok) return { error: data.error || "Login failed" };

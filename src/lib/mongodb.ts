@@ -104,3 +104,29 @@ export interface OrderDocument {
   line_items: OrderLineItem[];
   created_at: string;
 }
+
+/** After Stripe payment; Printify order created from webhook. */
+export interface MerchCheckoutSessionDocument {
+  _id?: unknown;
+  stripe_session_id: string;
+  printify_submitted?: boolean;
+  printify_order_id?: string;
+  printify_external_id?: string;
+  printify_error?: string;
+  created_at: Date;
+  updated_at?: Date;
+}
+
+let merchCheckoutIndexEnsured = false;
+
+export async function getMerchCheckoutCollection() {
+  const d = await getDb();
+  const col = d.collection<MerchCheckoutSessionDocument>("merch_checkout_sessions");
+  if (!merchCheckoutIndexEnsured) {
+    merchCheckoutIndexEnsured = true;
+    await col.createIndex({ stripe_session_id: 1 }, { unique: true }).catch(() => {
+      /* duplicate key on existing data — idempotency best-effort */
+    });
+  }
+  return col;
+}

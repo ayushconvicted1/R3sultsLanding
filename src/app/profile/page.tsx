@@ -228,7 +228,7 @@ export default function ProfilePage() {
         <div className="bg-white/95 backdrop-blur-sm rounded-2xl border border-slate-200/80 shadow-2xl p-5 sm:p-6">
           <h1 className="text-2xl font-bold text-slate-900 mb-0.5">Profile</h1>
           <p className="text-slate-600 mb-4 text-sm">
-            Signed in as <strong>{displayUser.phoneNumber || displayUser.email}</strong>. Manage your details below.
+            Signed in as <strong>{displayUser.email || displayUser.phoneNumber}</strong>. Manage your details below.
           </p>
 
           {profileLoading ? (

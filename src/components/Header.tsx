@@ -90,6 +90,16 @@ export default function Header() {
             >
               Shop
             </Link>
+            <Link
+              href="/merch"
+              className={`transition-colors ${
+                pathname === "/merch" || pathname?.startsWith("/merch/")
+                  ? "text-[#BF0637]"
+                  : "text-black hover:text-[#BF0637]"
+              }`}
+            >
+              Merch
+            </Link>
             <button
               type="button"
               onClick={openCart}
@@ -287,6 +297,14 @@ export default function Header() {
                   style={{ backgroundColor: "#BF0637" }}
                 >
                   Shop
+                </Link>
+                <Link
+                  href="/merch"
+                  onClick={() => setShowMobileMenu(false)}
+                  className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-semibold border-2 text-[#BF0637] bg-white"
+                  style={{ borderColor: "#BF0637" }}
+                >
+                  Merch
                 </Link>
                 <button
                   type="button"

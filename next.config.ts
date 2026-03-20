@@ -11,6 +11,9 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "encrypted-tbn2.gstatic.com", port: "", pathname: "**" },
       { protocol: "https", hostname: "encrypted-tbn3.gstatic.com", port: "", pathname: "**" },
       { protocol: "https", hostname: "static1.industrybuying.com", port: "", pathname: "**" },
+      { protocol: "https", hostname: "cdn.printify.com", port: "", pathname: "**" },
+      { protocol: "https", hostname: "printify.com", port: "", pathname: "**" },
+      { protocol: "https", hostname: "images.printify.com", port: "", pathname: "**" },
     ],
   },
 };

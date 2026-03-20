@@ -4,23 +4,23 @@ import { normalizeUser } from "@/lib/normalize-user";
 import type { AppUser } from "@/types/user";
 
 /**
- * Proxy to external User API: POST /api/auth/login (phone + password).
- * Body: { phoneNumber: string, password: string }
+ * Proxy to external User API: POST /api/auth/login (email + password).
+ * Body: { email: string, password: string }
  * Returns: { user, accessToken, refreshToken }
  */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { phoneNumber, password } = body;
-    if (!phoneNumber || typeof phoneNumber !== "string") {
+    const { email, password } = body;
+    if (!email || typeof email !== "string") {
       return NextResponse.json(
-        { success: false, error: "phoneNumber is required" },
+        { success: false, error: "Email is required" },
         { status: 400 }
       );
     }
     if (!password || typeof password !== "string") {
       return NextResponse.json(
-        { success: false, error: "password is required" },
+        { success: false, error: "Password is required" },
         { status: 400 }
       );
     }
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
       error?: string;
     }>("/api/auth/login", {
       method: "POST",
-      body: { phoneNumber, password },
+      body: { email: email.trim().toLowerCase(), password },
     });
 
     if (!result.success) {

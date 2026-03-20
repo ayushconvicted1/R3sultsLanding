@@ -2,10 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import type { OrderInput } from "@/lib/orders";
 import type { OrderLineItem } from "@/lib/mongodb";
+import { getMerchCheckoutCollection } from "@/lib/mongodb";
 import { getChunkedMetadataValue } from "@/lib/stripe-metadata";
 import { generateOrderId } from "@/lib/order-id";
 import { sendOrderConfirmationEmail } from "@/lib/order-email";
 import { createOrderOnBackend } from "@/lib/shop-orders-api";
+import { createOrder as createPrintifyOrder } from "@/lib/printify-api";
 
 function getStripe(): Stripe {
   const key = process.env.STRIPE_SECRET_KEY;
@@ -63,6 +65,94 @@ export async function POST(request: NextRequest) {
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
     const meta = (session.metadata ?? {}) as Record<string, string>;
+
+    /** Merch (Printify) — paid via Stripe first, then submit to Printify */
+    if (getChunkedMetadataValue(meta, "merch") === "1") {
+      const raw = getChunkedMetadataValue(meta, "merchOrder");
+      const shopId = process.env.PRINTIFY_SHOP_ID;
+      if (!raw || !shopId) {
+        console.error("Merch Stripe webhook: missing merchOrder or PRINTIFY_SHOP_ID");
+        return NextResponse.json({ received: true });
+      }
+      let payload: {
+        line_items: Array<{ product_id: string; variant_id: number; quantity: number }>;
+        address_to: Record<string, string>;
+        shipping_method: number;
+      };
+      try {
+        payload = JSON.parse(raw) as typeof payload;
+      } catch {
+        console.error("Merch Stripe webhook: invalid JSON");
+        return NextResponse.json({ received: true });
+      }
+      const externalId = `stripe-${session.id}`.slice(0, 90);
+      let col: Awaited<ReturnType<typeof getMerchCheckoutCollection>> | null = null;
+      let proceedWithPrintify = false;
+      try {
+        col = await getMerchCheckoutCollection();
+        try {
+          await col.insertOne({
+            stripe_session_id: session.id,
+            created_at: new Date(),
+          });
+          proceedWithPrintify = true;
+        } catch (insertErr: unknown) {
+          const code = (insertErr as { code?: number })?.code;
+          if (code === 11000) {
+            return NextResponse.json({ received: true });
+          }
+          throw insertErr;
+        }
+      } catch {
+        /* MONGODB_URI missing or DB down — still submit to Printify once */
+        proceedWithPrintify = true;
+        col = null;
+      }
+      if (proceedWithPrintify) {
+        try {
+          const { id: printifyOrderId, error: printifyErr } = await createPrintifyOrder(shopId, {
+            external_id: externalId,
+            line_items: payload.line_items,
+            shipping_method: payload.shipping_method,
+            address_to: payload.address_to,
+            send_shipping_notification: true,
+          });
+          if (col) {
+            await col.updateOne(
+              { stripe_session_id: session.id },
+              {
+                $set: {
+                  printify_submitted: true,
+                  printify_order_id: printifyOrderId,
+                  printify_external_id: externalId,
+                  printify_error: printifyErr,
+                  updated_at: new Date(),
+                },
+              }
+            );
+          }
+        } catch (err) {
+          console.error("Merch Printify after Stripe payment:", err);
+          if (col) {
+            try {
+              await col.updateOne(
+                { stripe_session_id: session.id },
+                {
+                  $set: {
+                    printify_error: err instanceof Error ? err.message : "Printify failed",
+                    updated_at: new Date(),
+                  },
+                }
+              );
+            } catch {
+              /* ignore */
+            }
+          }
+        }
+      }
+      return NextResponse.json({ received: true });
+    }
+
     try {
       let shippingAddress: OrderInput["shipping_address"] = {};
       const shippingAddressRaw = getChunkedMetadataValue(meta, "shippingAddress");

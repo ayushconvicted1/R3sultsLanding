@@ -42,6 +42,22 @@ export default function Footer() {
                   News and Media
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/privacy-policy"
+                  className="hover:text-white transition-colors"
+                >
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/terms-and-condition"
+                  className="hover:text-white transition-colors"
+                >
+                  Terms and condition
+                </Link>
+              </li>
             </ul>
           </div>
           <div>
