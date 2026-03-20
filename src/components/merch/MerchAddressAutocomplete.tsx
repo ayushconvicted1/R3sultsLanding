@@ -23,6 +23,37 @@ type Props = {
   required?: boolean;
 };
 
+/** Google Maps JS API loaded at runtime — not on `Window` by default in TypeScript */
+type GoogleMapsApi = {
+  maps: {
+    places: {
+      AutocompleteSessionToken: new () => unknown;
+      AutocompleteService: new () => {
+        getPlacePredictions: (
+          req: object,
+          cb: (r: Prediction[] | null, status: string) => void
+        ) => void;
+      };
+      PlacesService: new (el: HTMLElement) => {
+        getDetails: (
+          req: { placeId: string; fields: string[]; sessionToken?: unknown },
+          cb: (
+            place: {
+              address_components?: Parameters<typeof parseGoogleAddressComponents>[0];
+              formatted_address?: string;
+            } | null,
+            status: string
+          ) => void
+        ) => void;
+      };
+    };
+  };
+};
+
+function getGoogleMaps(): GoogleMapsApi | undefined {
+  return (window as unknown as { google?: GoogleMapsApi }).google;
+}
+
 function loadGooglePlacesScript(key: string): Promise<void> {
   if (
     (window as unknown as { google?: { maps?: { places?: unknown } } }).google?.maps?.places
@@ -95,29 +126,11 @@ export function MerchAddressAutocomplete({
         return;
       }
       loadGooglePlacesScript(key).then(() => {
-        const g = window.google as {
-          maps: {
-            places: {
-              AutocompleteSessionToken: new () => unknown;
-              AutocompleteService: new () => {
-                getPlacePredictions: (
-                  req: object,
-                  cb: (r: Prediction[] | null, status: string) => void
-                ) => void;
-              };
-              PlacesService: new (el: HTMLElement) => {
-                getDetails: (
-                  req: { placeId: string; fields: string[]; sessionToken?: unknown },
-                  cb: (place: {
-                    address_components?: Parameters<typeof parseGoogleAddressComponents>[0];
-                    formatted_address?: string;
-                  } | null,
-                  status: string) => void
-                ) => void;
-              };
-            };
-          };
-        };
+        const g = getGoogleMaps();
+        if (!g?.maps?.places) {
+          setLoading(false);
+          return;
+        }
         if (!sessionTokenRef.current) {
           sessionTokenRef.current = new g.maps.places.AutocompleteSessionToken();
         }
@@ -159,25 +172,8 @@ export function MerchAddressAutocomplete({
     (p: Prediction) => {
       if (!key) return;
       loadGooglePlacesScript(key).then(() => {
-        const g = window.google as {
-          maps: {
-            places: {
-              PlacesService: new (el: HTMLElement) => {
-                getDetails: (
-                  req: { placeId: string; fields: string[]; sessionToken?: unknown },
-                  cb: (
-                    place: {
-                      address_components?: Parameters<typeof parseGoogleAddressComponents>[0];
-                      formatted_address?: string;
-                    } | null,
-                    status: string
-                  ) => void
-                ) => void;
-              };
-              AutocompleteSessionToken: new () => unknown;
-            };
-          };
-        };
+        const g = getGoogleMaps();
+        if (!g?.maps?.places) return;
         const div = document.createElement("div");
         const ps = new g.maps.places.PlacesService(div);
         ps.getDetails(

@@ -1,6 +1,39 @@
+import { createRequire } from "node:module";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import type { NextConfig } from "next";
 
+const projectRoot = path.dirname(fileURLToPath(import.meta.url));
+const require = createRequire(import.meta.url);
+
+/** Resolve deps from this app's node_modules (fixes wrong root when workspace is a parent folder) */
+function resolvePackageDir(pkg: string): string {
+  try {
+    return path.dirname(require.resolve(`${pkg}/package.json`));
+  } catch {
+    return path.join(projectRoot, "node_modules", pkg);
+  }
+}
+
+const tailwindAliases = {
+  tailwindcss: resolvePackageDir("tailwindcss"),
+  "@tailwindcss/postcss": resolvePackageDir("@tailwindcss/postcss"),
+} as const;
+
 const nextConfig: NextConfig = {
+  /* Use this project as Turbopack root when multiple lockfiles exist (e.g. parent folder) */
+  turbopack: {
+    root: projectRoot,
+    resolveAlias: tailwindAliases,
+  },
+  webpack: (config) => {
+    config.resolve = config.resolve ?? {};
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      ...tailwindAliases,
+    };
+    return config;
+  },
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com", port: "", pathname: "**" },

@@ -6,6 +6,29 @@ import type { PrintifyAddressTo } from "@/types/printify";
 
 type Listener = { remove: () => void };
 
+type GoogleMapsPlacesWindow = {
+  google?: {
+    maps?: {
+      places?: {
+        Autocomplete: new (
+          el: HTMLInputElement,
+          o: object
+        ) => {
+          addListener: (e: string, fn: () => void) => Listener;
+          getPlace: () => {
+            address_components?: Parameters<typeof parseGoogleAddressComponents>[0];
+          };
+        };
+      };
+      event?: { removeListener: (l: Listener) => void };
+    };
+  };
+};
+
+function getGoogle(): GoogleMapsPlacesWindow["google"] {
+  return (window as unknown as GoogleMapsPlacesWindow).google;
+}
+
 export function useGooglePlacesAutocomplete(
   inputRef: React.RefObject<HTMLInputElement | null>,
   onParsed: (patch: Partial<PrintifyAddressTo>) => void
@@ -21,14 +44,7 @@ export function useGooglePlacesAutocomplete(
 
     const attach = () => {
       const inp = inputRef.current;
-      const g = window.google as
-        | {
-            maps?: {
-              places?: { Autocomplete: new (el: HTMLInputElement, o: object) => { addListener: (e: string, fn: () => void) => Listener; getPlace: () => { address_components?: Parameters<typeof parseGoogleAddressComponents>[0] } } };
-              event?: { removeListener: (l: Listener) => void };
-            };
-          }
-        | undefined;
+      const g = getGoogle();
       if (!inp || !g?.maps?.places) return;
       try {
         const ac = new g.maps.places.Autocomplete(inp, {
@@ -55,9 +71,7 @@ export function useGooglePlacesAutocomplete(
 
     const tryAttach = () => queueMicrotask(attach);
 
-    if (
-      (window.google as { maps?: { places?: unknown } } | undefined)?.maps?.places
-    ) {
+    if (getGoogle()?.maps?.places) {
       tryAttach();
     } else {
       const id = "google-merch-places-sdk";
@@ -71,14 +85,14 @@ export function useGooglePlacesAutocomplete(
         document.head.appendChild(script);
       } else {
         script.addEventListener("load", tryAttach, { once: true });
-        if ((window.google as { maps?: { places?: unknown } } | undefined)?.maps?.places) {
+        if (getGoogle()?.maps?.places) {
           tryAttach();
         }
       }
     }
 
     return () => {
-      const g = window.google as { maps?: { event?: { removeListener: (l: Listener) => void } } } | undefined;
+      const g = getGoogle();
       if (listener) {
         try {
           g?.maps?.event?.removeListener(listener);
