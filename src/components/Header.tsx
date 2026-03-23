@@ -11,21 +11,28 @@ export default function Header() {
   const pathname = usePathname();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showAccountDropdown, setShowAccountDropdown] = useState(false);
+  const [showShopDropdown, setShowShopDropdown] = useState(false);
   const { totalItems, openCart } = useCart();
   const { user, logout, loading: authLoading } = useAuth();
   const menuRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const accountDropdownRef = useRef<HTMLDivElement>(null);
+  const shopDropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (accountDropdownRef.current && !accountDropdownRef.current.contains(e.target as Node)) {
         setShowAccountDropdown(false);
       }
+      if (shopDropdownRef.current && !shopDropdownRef.current.contains(e.target as Node)) {
+        setShowShopDropdown(false);
+      }
     };
-    if (showAccountDropdown) document.addEventListener("mousedown", handleClickOutside);
+    if (showAccountDropdown || showShopDropdown) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [showAccountDropdown]);
+  }, [showAccountDropdown, showShopDropdown]);
 
   useEffect(() => {
     if (showMobileMenu) {
@@ -80,26 +87,56 @@ export default function Header() {
             >
               Contact
             </Link>
-            <Link
-              href="/shop"
-              className={`transition-colors ${
-                pathname === "/shop"
-                  ? "text-[#BF0637]"
-                  : "text-black hover:text-[#BF0637]"
-              }`}
+            <div
+              className="relative"
+              ref={shopDropdownRef}
+              onMouseEnter={() => setShowShopDropdown(true)}
+              onMouseLeave={() => setShowShopDropdown(false)}
             >
-              Shop
-            </Link>
-            <Link
-              href="/merch"
-              className={`transition-colors ${
-                pathname === "/merch" || pathname?.startsWith("/merch/")
-                  ? "text-[#BF0637]"
-                  : "text-black hover:text-[#BF0637]"
-              }`}
-            >
-              Merch
-            </Link>
+              <button
+                type="button"
+                onClick={() => setShowShopDropdown((v) => !v)}
+                className={`transition-colors flex items-center gap-1 ${
+                  pathname === "/shop" || pathname === "/merch" || pathname?.startsWith("/merch/")
+                    ? "text-[#BF0637]"
+                    : "text-black hover:text-[#BF0637]"
+                }`}
+                aria-expanded={showShopDropdown}
+                aria-haspopup="true"
+                aria-label="Shop menu"
+              >
+                Shop
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {showShopDropdown && (
+                <div className="absolute left-0 top-full mt-1 w-44 py-1 bg-white rounded-lg shadow-xl border border-slate-200/80 z-50">
+                  <Link
+                    href="/merch"
+                    onClick={() => setShowShopDropdown(false)}
+                    className={`block px-4 py-2.5 text-sm font-medium transition-colors ${
+                      pathname === "/merch" || pathname?.startsWith("/merch/")
+                        ? "text-[#BF0637] bg-red-50/50"
+                        : "text-slate-700 hover:bg-slate-50 hover:text-[#BF0637]"
+                    }`}
+                  >
+                    Merchandise
+                  </Link>
+                  <Link
+                    href="/shop"
+                    onClick={() => setShowShopDropdown(false)}
+                    className={`block px-4 py-2.5 text-sm font-medium transition-colors ${
+                      pathname === "/shop"
+                        ? "text-[#BF0637] bg-red-50/50"
+                        : "text-slate-700 hover:bg-slate-50 hover:text-[#BF0637]"
+                    }`}
+                  >
+                    Supplies
+                  </Link>
+                </div>
+              )}
+            </div>
             <button
               type="button"
               onClick={openCart}
@@ -296,7 +333,7 @@ export default function Header() {
                   className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-white text-sm font-semibold"
                   style={{ backgroundColor: "#BF0637" }}
                 >
-                  Shop
+                  Supplies
                 </Link>
                 <Link
                   href="/merch"
@@ -304,7 +341,7 @@ export default function Header() {
                   className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-semibold border-2 text-[#BF0637] bg-white"
                   style={{ borderColor: "#BF0637" }}
                 >
-                  Merch
+                  Merchandise
                 </Link>
                 <button
                   type="button"
