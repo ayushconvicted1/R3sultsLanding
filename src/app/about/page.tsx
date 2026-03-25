@@ -237,6 +237,7 @@ export default function About() {
                 </div>
               </div>
             </div>
+            {/* Founder 2 - Image Left, Text Right */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 space-y-0">
               {/* Mobile: Box with image and content */}
               <div className="lg:hidden">
@@ -300,9 +301,6 @@ export default function About() {
                 </div>
               </div>
             </div>
-
-            {/* Founder 2 - Text Left, Image Right */}
-
             {/* Founder 3 - Image Left, Text Right */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 space-y-0">
               {/* Mobile: Box with image and content */}
@@ -460,18 +458,6 @@ export default function About() {
                   </div>
                 </div>
               </div>
-              {/* Desktop: Image only */}
-              <div className="hidden lg:flex lg:items-center lg:justify-start lg:order-1 lg:pr-6">
-                <div className="w-80 h-80 rounded-lg overflow-hidden">
-                  <Image
-                    src="/Team5.png"
-                    alt="KT Caitlin"
-                    width={450}
-                    height={550}
-                    className="w-full h-full object-cover object-top"
-                  />
-                </div>
-              </div>
               {/* Desktop: Text only */}
               <div className="hidden lg:flex lg:items-center lg:order-1 lg:pr-6">
                 <div>
@@ -492,13 +478,14 @@ export default function About() {
                 <div className="w-80 h-80 rounded-lg overflow-hidden">
                   <Image
                     src="/Team5.png"
-                    alt="KT Catlin"
+                    alt="KT Caitlin"
                     width={450}
                     height={550}
                     className="w-full h-full object-cover object-top"
                   />
                 </div>
               </div>
+           
             </div>
 
             {/* Team Member 3 - Image Left, Text Right */}
