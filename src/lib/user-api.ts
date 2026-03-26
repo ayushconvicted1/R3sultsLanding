@@ -25,16 +25,32 @@ export async function userApiFetch<T = unknown>(
     ...(options.body != null && { body: JSON.stringify(options.body) }),
   });
   let data: T | undefined;
+  let rawText = "";
   try {
-    data = await res.json();
+    rawText = await res.text();
+    data = rawText ? (JSON.parse(rawText) as T) : ({} as T);
   } catch {
-    return { status: res.status, error: "Invalid response" };
+    return {
+      status: res.status,
+      error: rawText?.trim() || `Request failed (${res.status})`,
+    };
   }
   const success = res.ok && (data as { success?: boolean })?.success !== false;
+  const payload = data as {
+    error?: string;
+    message?: string;
+    data?: { message?: string; error?: string };
+  };
+  const errorMessage =
+    payload?.error ||
+    payload?.message ||
+    payload?.data?.error ||
+    payload?.data?.message ||
+    (success ? undefined : `Request failed (${res.status})`);
   return {
     data: data as T,
     success,
-    error: (data as { error?: string })?.error || (success ? undefined : "Request failed"),
+    error: errorMessage,
     status: res.status,
   };
 }

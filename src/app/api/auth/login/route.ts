@@ -36,7 +36,14 @@ export async function POST(request: NextRequest) {
     });
 
     if (!result.success) {
-      const message = result.error || (result.data as { message?: string })?.message || "Invalid credentials";
+      const rawMessage =
+        result.error ||
+        (result.data as { message?: string })?.message ||
+        "Incorrect email or password";
+      const message =
+        rawMessage.toLowerCase().includes("request failed") && (result.status === 401 || result.status === 403)
+          ? "Incorrect email or password"
+          : rawMessage;
       return NextResponse.json(
         { success: false, error: message },
         { status: result.status === 403 ? 403 : 401 }

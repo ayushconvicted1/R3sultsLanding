@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
 
     if (!result.success) {
       const data = result.data as { message?: string; error?: string } | undefined;
-      const message =
+      const rawMessage =
         result.error ||
         data?.message ||
         data?.error ||
@@ -47,6 +47,9 @@ export async function POST(request: NextRequest) {
           ? (result.data as { data?: { message?: string } }).data?.message
           : undefined) ||
         "Google sign-in failed";
+      const message = rawMessage.toLowerCase().includes("request failed")
+        ? "Google sign-in failed. Please try again."
+        : rawMessage;
       return NextResponse.json(
         { success: false, error: message },
         { status: result.status === 401 ? 401 : result.status >= 400 ? result.status : 500 }
