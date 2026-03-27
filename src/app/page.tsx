@@ -8,6 +8,7 @@ import GuidesSection from "@/components/GuidesSection";
 import Footer from "@/components/Footer";
 import VideoPlayOnce from "@/components/VideoPlayOnce";
 import EmailLaunchForm from "@/components/EmailLaunchForm";
+import TestimonialsSection from "@/components/TestimonialsSection";
 
 export default function Home() {
   return (
@@ -1036,6 +1037,8 @@ export default function Home() {
         </div>
       </section> */}
 
+      <TestimonialsSection />
+
       {/* Live Impact Updates */}
       <section className="live-impact-section relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-20">
         <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-3 sm:mb-4 text-black">
@@ -1200,6 +1203,52 @@ export default function Home() {
       </section>
 
       <GuidesSection />
+
+      {/* Our Community CTA */}
+      <section className="relative py-12 sm:py-16 md:py-20 bg-linear-to-r from-[#0B1220] via-[#111827] to-[#1F2937] overflow-hidden">
+        <div className="absolute inset-0 opacity-20" aria-hidden>
+          <div className="absolute -top-16 -left-16 h-52 w-52 rounded-full bg-[#BF0637] blur-3xl" />
+          <div className="absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-cyan-400 blur-3xl" />
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className=" flex items-end grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <div>
+              <p className="inline-flex rounded-full border border-white/20 bg-white/10 px-4 py-1 text-xs sm:text-sm text-white/90">
+                Our Community
+              </p>
+              <h3 className="mt-4 text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight">
+                Join our community
+              </h3>
+              <p className="mt-4 text-sm sm:text-base md:text-lg text-slate-200 max-w-2xl leading-relaxed">
+                Stay connected with the R3sults mission to protect families and
+                responders. Subscribe to receive disaster alert updates, launch
+                announcements, and helpful preparedness content directly in your
+                inbox.
+              </p>
+
+              <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 text-slate-100">
+                <div className="rounded-lg border border-white/15 bg-white/10 px-4 py-3 text-sm">
+                  Real-time emergency and platform alerts
+                </div>
+                <div className="rounded-lg border border-white/15 bg-white/10 px-4 py-3 text-sm">
+                  Product updates, offers, and launch news
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-white/15 bg-white/10 backdrop-blur-md p-5 sm:p-6 md:p-8 shadow-xl">
+              <h4 className="text-white font-semibold text-lg sm:text-xl">
+                Get email alerts and marketing updates
+              </h4>
+              <p className="text-slate-200 text-sm mt-2 mb-4">
+                Enter your email and click Subscribe.
+              </p>
+              <NewsletterForm />
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Trusted by Government Agencies */}
       {/* <section className="agency-carousel-section bg-gradient-to-b from-white to-slate-50 py-12 sm:py-16 md:py-20 overflow-hidden relative">

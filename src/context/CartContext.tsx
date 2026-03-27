@@ -11,6 +11,8 @@ import React, {
 import type { Product } from "@/types/product";
 
 export type CartItemOptions = { size?: string; color?: string };
+export type CartSection = "supplies" | "merch";
+export type AddItemResult = { ok: true } | { ok: false; error: string };
 
 export type CartItem = {
   product: Product;
@@ -23,13 +25,26 @@ export function getCartLineKey(item: CartItem): string {
   return `${item.product.id}|${item.selectedSize ?? ""}|${item.selectedColor ?? ""}`;
 }
 
+export function getProductSection(product: Product): CartSection {
+  const id = String(product.id ?? "");
+  const category = String(product.category ?? "").toLowerCase();
+  if (id.startsWith("merch:") || category.includes("merch")) return "merch";
+  return "supplies";
+}
+
+export function getCartSection(items: CartItem[]): CartSection | null {
+  if (!items.length) return null;
+  return getProductSection(items[0].product);
+}
+
 type CartContextValue = {
   items: CartItem[];
-  addItem: (product: Product, quantity?: number, options?: CartItemOptions) => void;
+  addItem: (product: Product, quantity?: number, options?: CartItemOptions) => AddItemResult;
   removeItem: (lineKey: string) => void;
   updateQuantity: (lineKey: string, quantity: number) => void;
   clearCart: () => void;
   totalItems: number;
+  cartSection: CartSection | null;
   isCartOpen: boolean;
   openCart: () => void;
   closeCart: () => void;
@@ -76,7 +91,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, [items, hasHydrated]);
 
   const addItem = useCallback(
-    (product: Product, quantity = 1, options?: CartItemOptions) => {
+    (product: Product, quantity = 1, options?: CartItemOptions): AddItemResult => {
+      const nextSection = getProductSection(product);
+      const currentSection = getCartSection(items);
+      if (currentSection && currentSection !== nextSection) {
+        const currentLabel = currentSection === "merch" ? "Merchandise" : "Supplies";
+        const nextLabel = nextSection === "merch" ? "Merchandise" : "Supplies";
+        return {
+          ok: false,
+          error: `Your cart already contains ${currentLabel} items. Clear cart before adding ${nextLabel} products.`,
+        } as const;
+      }
       const size = options?.size;
       const color = options?.color;
       setItems((prev) => {
@@ -99,8 +124,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           },
         ];
       });
+      return { ok: true } as const;
     },
-    []
+    [items]
   );
 
   const removeItem = useCallback((lineKey: string) => {
@@ -125,6 +151,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     () => items.reduce((s, i) => s + i.quantity, 0),
     [items]
   );
+  const cartSection = useMemo(() => getCartSection(items), [items]);
 
   const openCart = useCallback(() => setIsCartOpen(true), []);
   const closeCart = useCallback(() => setIsCartOpen(false), []);
@@ -138,6 +165,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       updateQuantity,
       clearCart,
       totalItems,
+      cartSection,
       isCartOpen,
       openCart,
       closeCart,
@@ -150,6 +178,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       updateQuantity,
       clearCart,
       totalItems,
+      cartSection,
       isCartOpen,
       openCart,
       closeCart,

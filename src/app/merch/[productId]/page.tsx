@@ -4,9 +4,11 @@ import { useEffect, useMemo, useState } from "react";
 import { useParams, useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import Footer from "@/components/Footer";
+import { useCart } from "@/context/CartContext";
 import { useMerchCart } from "@/context/MerchCartContext";
+import type { Product } from "@/types/product";
 import type { PrintifyLineItem, PrintifyProduct, PrintifyVariant, PrintifyOption } from "@/types/printify";
-import { formatPrintifyUsd } from "@/lib/printify-money";
+import { formatPrintifyUsd, printifyCentsToDollars } from "@/lib/printify-money";
 import { MerchProductImageGallery } from "@/components/merch/MerchProductImageGallery";
 import { OptionPickerBlock } from "@/components/merch/MerchOptionPickers";
 
@@ -125,7 +127,8 @@ export default function MerchProductPage() {
   const router = useRouter();
   const productId = params.productId as string;
   const shopId = searchParams.get("shop_id") ?? process.env.NEXT_PUBLIC_PRINTIFY_SHOP_ID ?? "";
-  const { addItem } = useMerchCart();
+  const { addItem: addCartItem, openCart } = useCart();
+  const { addItem: addMerchItem } = useMerchCart();
 
   const [product, setProduct] = useState<PrintifyProduct | null>(null);
   const [loading, setLoading] = useState(true);
@@ -318,9 +321,41 @@ export default function MerchProductPage() {
     return out.sort((a, b) => a.key.localeCompare(b.key));
   }, [product]);
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (goToCheckout = false) => {
     if (!variant || !product) return;
-    const item: PrintifyLineItem = {
+    const optionTitles = options
+      .map((o) => {
+        const val = o.values?.find((v) => v.id === selectedOptions[o.name]);
+        return { option: o.name, title: val?.title };
+      })
+      .filter((x) => !!x.title) as Array<{ option: string; title: string }>;
+    const selectedSize =
+      optionTitles.find((x) => x.option.toLowerCase().includes("size"))?.title ?? undefined;
+    const selectedColor =
+      optionTitles.find((x) => /colou?r/i.test(x.option))?.title ?? undefined;
+    const priceDollars = printifyCentsToDollars(variant.price ?? variant.cost ?? null) ?? 0;
+    const image = mainImageUrl || getImageUrl(product.images?.[0]);
+    const cartProduct: Product = {
+      id: `merch:${product.id}:${variant.id}`,
+      name: product.title ?? "Merchandise item",
+      description: product.description ?? undefined,
+      price: priceDollars,
+      image: image || "",
+      images: image ? [{ url: image }] : undefined,
+      category: "Merchandise",
+      brand: "R3sults",
+      sku: String(variant.id),
+    };
+
+    const result = addCartItem(cartProduct, quantity, {
+      size: selectedSize,
+      color: selectedColor,
+    });
+    if (!result.ok) {
+      window.alert(result.error);
+      return;
+    }
+    const merchItem: PrintifyLineItem = {
       product_id: product.id,
       variant_id: variant.id,
       quantity,
@@ -333,11 +368,15 @@ export default function MerchProductPage() {
           })
           .filter(Boolean)
           .join(" / ") || `Variant ${variant.id}`,
-      image_url: mainImageUrl || undefined,
+      image_url: image || undefined,
       price: variant.price ?? variant.cost,
     };
-    addItem(item);
-    router.push("/merch/checkout");
+    addMerchItem(merchItem);
+    if (goToCheckout) {
+      router.push("/merch/checkout");
+      return;
+    }
+    openCart();
   };
 
   if (loading) {
@@ -520,7 +559,7 @@ export default function MerchProductPage() {
                 <button
                   type="button"
                   disabled={!canAdd}
-                  onClick={handleAddToCart}
+                  onClick={() => handleAddToCart(false)}
                   className="flex-1 py-4 rounded-2xl font-bold text-white bg-[#BF0637] hover:bg-[#a0052e] disabled:opacity-45 disabled:cursor-not-allowed transition-all duration-200 shadow-lg shadow-[#BF0637]/20 hover:shadow-xl hover:shadow-[#BF0637]/25 hover:-translate-y-0.5"
                 >
                   Add to cart
@@ -528,7 +567,7 @@ export default function MerchProductPage() {
                 <button
                   type="button"
                   disabled={!canAdd}
-                  onClick={handleAddToCart}
+                  onClick={() => handleAddToCart(true)}
                   className="flex-1 py-4 rounded-2xl font-bold border-2 border-slate-900 text-slate-900 bg-white hover:bg-slate-50 disabled:opacity-45 disabled:cursor-not-allowed transition-all duration-200"
                 >
                   Buy now

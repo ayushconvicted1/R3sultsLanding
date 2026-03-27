@@ -191,10 +191,14 @@ export default function ProductPage({
 
   const handleAddToCart = useCallback(() => {
     if (!product || !canAdd) return;
-    addItem(product, quantity, {
+    const result = addItem(product, quantity, {
       size: selectedSize || undefined,
       color: selectedColor || undefined,
     });
+    if (!result.ok) {
+      window.alert(result.error);
+      return;
+    }
     openCart();
   }, [product, quantity, selectedSize, selectedColor, canAdd, addItem, openCart]);
 

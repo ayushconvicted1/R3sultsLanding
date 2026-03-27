@@ -11,10 +11,11 @@ import type { ShippingAddress } from "@/types/checkout";
 import { fullNameToFirstLast } from "@/types/user";
 
 const SHIPPING_ESTIMATE = 5.99;
+const CHECKOUT_GUEST_FLAG = "r3sults_checkout_guest";
 
 export default function CheckoutPage() {
-  const { items, totalItems } = useCart();
-  const { user } = useAuth();
+  const { items, totalItems, cartSection } = useCart();
+  const { user, loading: authLoading } = useAuth();
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -45,6 +46,20 @@ export default function CheckoutPage() {
   });
 
   useEffect(() => setMounted(true), []);
+
+  useEffect(() => {
+    if (!mounted || authLoading) return;
+    if (cartSection === "merch") {
+      window.location.href = "/merch/checkout";
+      return;
+    }
+    if (user) return;
+    const hasGuestAccess =
+      typeof window !== "undefined" && sessionStorage.getItem(CHECKOUT_GUEST_FLAG) === "1";
+    if (!hasGuestAccess) {
+      window.location.href = "/checkout-access?next=/checkout";
+    }
+  }, [mounted, authLoading, user, cartSection]);
 
   useEffect(() => {
     if (user && mounted) {

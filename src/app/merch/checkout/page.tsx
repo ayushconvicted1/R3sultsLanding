@@ -94,6 +94,7 @@ const initialAddress: PrintifyAddressTo = {
 const hasGooglePlaces = Boolean(
   typeof process !== "undefined" && process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY?.trim()
 );
+const CHECKOUT_GUEST_FLAG = "r3sults_checkout_guest";
 
 function countryToPhoneCountry(c: string): Country {
   const set = new Set(COUNTRY_CODES);
@@ -179,6 +180,16 @@ export default function MerchCheckoutPage() {
       router.replace("/merch");
     }
   }, [items.length, router]);
+
+  useEffect(() => {
+    if (authLoading) return;
+    if (user?.id) return;
+    const hasGuestAccess =
+      typeof window !== "undefined" && sessionStorage.getItem(CHECKOUT_GUEST_FLAG) === "1";
+    if (!hasGuestAccess) {
+      router.replace("/checkout-access?next=/merch/checkout");
+    }
+  }, [authLoading, user, router]);
 
   /** Pre-fill checkout from profile when logged in (once per visit) */
   useEffect(() => {

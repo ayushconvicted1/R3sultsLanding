@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "node --max-old-space-size=4096 ./node_modules/next/dist/bin/next dev --webpack",
+    "build": "node --max-old-space-size=4096 ./node_modules/next/dist/bin/next build",
+    "start": "node --max-old-space-size=4096 ./node_modules/next/dist/bin/next start",
     "webhook": "stripe listen --forward-to localhost:3000/api/webhooks/stripe",
     "seed:orders": "node scripts/seed-orders.mjs",
     "test:auth": "node scripts/test-auth-flow.mjs"

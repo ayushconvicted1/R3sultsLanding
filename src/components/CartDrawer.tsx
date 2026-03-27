@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useCart, getCartLineKey } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 
 export default function CartDrawer() {
   const {
@@ -13,12 +14,19 @@ export default function CartDrawer() {
     isCartOpen,
     closeCart,
     totalItems,
+    cartSection,
   } = useCart();
+  const { user, loading: authLoading } = useAuth();
 
   const subtotal = items.reduce(
     (s, i) => s + i.product.price * i.quantity,
     0
   );
+  const nextCheckoutPath = cartSection === "merch" ? "/merch/checkout" : "/checkout";
+  const checkoutHref =
+    !authLoading && !user
+      ? `/checkout-access?next=${encodeURIComponent(nextCheckoutPath)}`
+      : nextCheckoutPath;
 
   if (!isCartOpen) return null;
 
@@ -159,7 +167,7 @@ export default function CartDrawer() {
               Clear cart
             </button>
             <Link
-              href="/checkout"
+              href={checkoutHref}
               onClick={closeCart}
               className="block w-full py-3 rounded-lg font-semibold text-white transition-opacity hover:opacity-90 text-center"
               style={{ backgroundColor: "#BF0637" }}
