@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 import VideoPlayOnce from "@/components/VideoPlayOnce";
 import EmailLaunchForm from "@/components/EmailLaunchForm";
 import TestimonialsSection from "@/components/TestimonialsSection";
+import CommunityJoinBlock from "@/components/CommunityJoinBlock";
 
 export default function Home() {
   return (
@@ -1212,7 +1213,7 @@ export default function Home() {
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className=" flex items-end grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div>
               <p className="inline-flex rounded-full border border-white/20 bg-white/10 px-4 py-1 text-xs sm:text-sm text-white/90">
                 Our Community
@@ -1242,57 +1243,15 @@ export default function Home() {
                 Get email alerts and marketing updates
               </h4>
               <p className="text-slate-200 text-sm mt-2 mb-4">
-                Enter your email and click Subscribe.
+                Click the email field to open the form, verify the code, then tap
+                Join.
               </p>
-              <NewsletterForm />
+              <CommunityJoinBlock />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Trusted by Government Agencies */}
-      {/* <section className="agency-carousel-section bg-gradient-to-b from-white to-slate-50 py-12 sm:py-16 md:py-20 overflow-hidden relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h4 className="text-center text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 text-black">
-            Trusted by <span className="accent-color">Government Agencies</span>
-          </h4>
-          <div className="mt-8 sm:mt-10 md:mt-12 relative">
-            <div className="agency-carousel-wrapper">
-              <div className="agency-carousel py-2">
-                {[
-                  "/Gov1.png",
-                  "/Gov2.png",
-                  "/Gov3.png",
-                  "/Gov4.png",
-                  "/Gov5.png",
-                  "/Gov6.png",
-                ]
-                  .concat([
-                    "/Gov1.png",
-                    "/Gov2.png",
-                    "/Gov3.png",
-                    "/Gov4.png",
-                    "/Gov5.png",
-                    "/Gov6.png",
-                  ])
-                  .map((img, i) => (
-                    <div key={i} className="agency-carousel-item">
-                      <ImageFallback
-                        src={img}
-                        alt="Government Agency"
-                        className="agency-logo-image"
-                        loading="lazy"
-                        hideOnError
-                      />
-                    </div>
-                  ))}
-              </div>
-            </div>
-            <div className="agency-carousel-fade-left"></div>
-            <div className="agency-carousel-fade-right"></div>
-          </div>
-        </div>
-      </section> */}
 
       {/* Our Partners */}
       <section className="partners-section bg-gradient-to-b from-slate-50 to-white py-12 sm:py-16 md:py-20 overflow-hidden relative">

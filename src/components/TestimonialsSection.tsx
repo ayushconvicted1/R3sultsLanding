@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 type Testimonial = {
   id: number;
@@ -17,7 +17,7 @@ const testimonials: Testimonial[] = [
     id: 1,
     name: "Sophia Carter",
     role: "Community Volunteer",
-    avatar: "/Founder1.png",
+    avatar: "/Impact2.jpg",
     rating: 5,
     feedback:
       "The alerts and family tracking features gave us confidence during a difficult storm. The platform felt reliable and fast.",
@@ -25,26 +25,6 @@ const testimonials: Testimonial[] = [
   },
   {
     id: 2,
-    name: "Liam Brooks",
-    role: "First Response Coordinator",
-    avatar: "/Founder2.png",
-    rating: 4,
-    feedback:
-      "Coordination became much smoother with live updates. It saved us time when every minute mattered.",
-    videoTitle: "Response coordination experience",
-  },
-  {
-    id: 3,
-    name: "Ava Martinez",
-    role: "Healthcare Worker",
-    avatar: "/Founder3.png",
-    rating: 5,
-    feedback:
-      "I really liked how simple and clear everything was. We shared critical updates quickly across our local teams.",
-    videoTitle: "Why this platform stands out",
-  },
-  {
-    id: 4,
     name: "Noah Bennett",
     role: "Insurance Partner",
     avatar: "/Impact1.jpg",
@@ -54,7 +34,7 @@ const testimonials: Testimonial[] = [
     videoTitle: "Field feedback from insurance team",
   },
   {
-    id: 5,
+    id: 3,
     name: "Mia Thompson",
     role: "Relief Operations Lead",
     avatar: "/Impact2.jpg",
@@ -86,13 +66,9 @@ function Stars({ rating }: { rating: number }) {
 
 export default function TestimonialsSection() {
   const [activeVideo, setActiveVideo] = useState<Testimonial | null>(null);
-  const loopedTestimonials = useMemo(
-    () => [...testimonials, ...testimonials],
-    [],
-  );
 
   return (
-    <section className="relative py-14 sm:py-16 md:py-20 bg-linear-to-b from-white to-slate-50 overflow-hidden group">
+    <section className="relative py-14 sm:py-16 md:py-20 bg-linear-to-b from-white to-slate-50 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-black">
           Our <span className="text-[#BF0637]">Testimonials</span>
@@ -102,16 +78,12 @@ export default function TestimonialsSection() {
         </p>
       </div>
 
-      <div className="mt-10 sm:mt-12 md:mt-14 relative">
-        <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-10 sm:w-16 bg-linear-to-r from-slate-50 to-transparent" />
-        <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-10 sm:w-16 bg-linear-to-l from-slate-50 to-transparent" />
-
-        <div className="overflow-hidden">
-          <div className="testimonial-track flex w-max gap-4 sm:gap-6 group-hover:[animation-play-state:paused]">
-            {loopedTestimonials.map((item, index) => (
+      <div className="mt-10 sm:mt-12 md:mt-14 relative max-w-6xl mx-auto px-2">
+        <div className="flex flex-col md:flex-row flex-wrap justify-center items-stretch gap-6 md:gap-8">
+            {testimonials.map((item) => (
               <article
-                key={`${item.id}-${index}`}
-                className="w-[280px] sm:w-[320px] md:w-[360px] rounded-xl border border-slate-200 bg-white/95 backdrop-blur-sm shadow-md p-5 sm:p-6"
+                key={item.id}
+                className="w-full md:w-[min(100%,320px)] lg:w-[300px] shrink-0 rounded-xl border border-slate-200 bg-white/95 backdrop-blur-sm shadow-md p-5 sm:p-6 mx-auto md:mx-0"
               >
                 <div className="flex items-center gap-3">
                   <img
@@ -142,7 +114,6 @@ export default function TestimonialsSection() {
                 </button>
               </article>
             ))}
-          </div>
         </div>
       </div>
 
@@ -186,21 +157,6 @@ export default function TestimonialsSection() {
         </div>
       ) : null}
 
-      <style jsx global>{`
-        @keyframes testimonial-marquee {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
-        }
-
-        .testimonial-track {
-          animation: testimonial-marquee 35s linear infinite;
-          will-change: transform;
-        }
-      `}</style>
     </section>
   );
 }
