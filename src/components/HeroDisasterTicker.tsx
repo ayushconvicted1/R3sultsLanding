@@ -96,7 +96,7 @@ export default function HeroDisasterTicker() {
           </div>
         </div>
       </div>
-      <p className="px-3 pb-1.5 text-[10px] text-white/45 text-center sm:text-left leading-snug">
+      {/* <p className="px-3 pb-1.5 text-[10px] text-white/45 text-center sm:text-left leading-snug">
         Sources:{" "}
         <a
           href="https://www.usgs.gov/programs/earthquake-hazards"
@@ -134,7 +134,7 @@ export default function HeroDisasterTicker() {
           NOAA NWS
         </a>
         . Headlines open official pages in a new tab.
-      </p>
+      </p> */}
       <style jsx global>{`
         @keyframes hero-disaster-marquee {
           0% {
