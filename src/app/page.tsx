@@ -26,11 +26,9 @@ export default function Home() {
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 hero-overlay"></div>
-        {/* Mobile: fixed viewport slice + scrollable main so news ticker stays visible at bottom on load */}
-        <div className="relative z-10 flex flex-col w-full flex-1 min-h-0 max-md:h-[calc(100dvh-6rem)] md:h-auto md:flex-1">
-          <div className="flex flex-col flex-1 min-h-0">
-            <div className="flex-1 min-h-0 max-md:overflow-y-auto max-md:overscroll-y-contain md:overflow-visible md:flex md:items-center w-full max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 md:py-14 md:py-16">
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 lg:gap-14 items-center w-full max-w-[88rem] mx-auto">
+        <div className="relative z-10 flex flex-col flex-1 min-h-0 w-full">
+          <div className="flex-1 flex items-center w-full max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 md:py-16">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 lg:gap-14 items-center w-full max-w-[88rem] mx-auto">
             <div className="md:col-span-7 lg:col-span-7 min-w-0 -mt-2 sm:-mt-4 md:-mt-6">
               <h1
                 className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-extrabold text-white leading-tight sm:leading-normal mb-4 sm:mb-6 md:mb-8 max-w-none"
@@ -132,11 +130,8 @@ export default function Home() {
               </div>
             </div>
             </div>
-            </div>
-            <div className="shrink-0 w-full mt-auto">
-              <HeroDisasterTicker />
-            </div>
           </div>
+          <HeroDisasterTicker />
         </div>
       </section>
 
