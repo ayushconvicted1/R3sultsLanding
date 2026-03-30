@@ -55,7 +55,7 @@ export default function Footer() {
                   href="/terms-and-condition"
                   className="hover:text-white transition-colors"
                 >
-                  Terms and condition
+                  Terms and conditions
                 </Link>
               </li>
             </ul>

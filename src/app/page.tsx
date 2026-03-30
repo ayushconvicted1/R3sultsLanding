@@ -29,21 +29,21 @@ export default function Home() {
         <div className="relative z-10 flex flex-col flex-1 min-h-0 w-full">
           <div className="flex-1 flex items-center w-full max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 md:py-16">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 lg:gap-14 items-center w-full max-w-[88rem] mx-auto">
-            <div className="md:col-span-7 lg:col-span-7 min-w-0 -mt-2 sm:-mt-4 md:-mt-6">
+            <div className="md:col-span-7 lg:col-span-7 w-full min-w-0 max-w-full overflow-x-clip -mt-2 sm:-mt-4 md:-mt-6 md:pr-2 lg:pr-4">
               <h1
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-extrabold text-white leading-tight sm:leading-normal mb-4 sm:mb-6 md:mb-8 max-w-none"
+                className="w-full max-w-full break-words text-3xl min-[380px]:text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.12] sm:leading-tight mb-4 sm:mb-6 md:mb-8"
                 style={{
                   textShadow: "2px 2px 8px rgba(0, 0, 0, 0.5)",
                   letterSpacing: "-0.02em",
                 }}
               >
-                <span className="block">Helping resolve the</span>
-                <span className="block">Overcoming Disaster :</span>
-                <span className="block max-[420px]:whitespace-normal sm:whitespace-nowrap">
-                  Using People, Technology and AI
+                <span className="block w-full max-w-full">Helping resolve the</span>
+                <span className="block w-full max-w-full">Overcoming Disaster :</span>
+                <span className="block w-full max-w-full whitespace-normal">
+                  Using People, Technology & AI
                 </span>
               </h1>
-              <p className="text-white text-sm sm:text-base md:text-lg mb-4 sm:mb-6 max-w-2xl">
+              <p className="text-white text-sm sm:text-base md:text-lg mb-4 sm:mb-6 max-w-full sm:max-w-2xl">
               A disaster management ecosystem that helps people ,through real time Intelligent , connected devices and active people coordination.
               </p>
               <hr className="border-white/30 mb-6 sm:mb-8 md:mb-10" />
@@ -1257,7 +1257,7 @@ export default function Home() {
       </section>
 
 
-      {/* Our Partners */}
+      {false && (
       <section className="partners-section bg-gradient-to-b from-slate-50 to-white py-12 sm:py-16 md:py-20 overflow-hidden relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h4 className="text-center text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 md:mb-6 text-black">
@@ -1353,6 +1353,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      )}
 
       <Footer />
     </div>

@@ -64,7 +64,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="w-[90%] ml-[5%] mt-[10px] rounded-md fixed top-0 z-50 bg-white/60 backdrop-blur-xl border-b border-white/10">
+      <header className="w-[90%] ml-[5%] mt-[10px] rounded-md fixed top-0 z-50 bg-white/100 backdrop-blur-xl border-b border-white/10">
         <div className="mx-auto px-6 py-3 flex items-center justify-between">
           <Link href="/" className="flex pt-0.5 items-center shrink-0">
             <NavbarLogo />
@@ -99,6 +99,16 @@ export default function Header() {
               href="/contact"
             >
               Contact
+            </Link>
+            <Link
+              className={`transition-colors ${
+                pathname === "/news-and-media"
+                  ? "text-[#BF0637]"
+                  : "text-black hover:text-[#BF0637]"
+              }`}
+              href="/news-and-media"
+            >
+              News and Media
             </Link>
             <div
               className="relative"
@@ -335,6 +345,15 @@ export default function Header() {
                 onClick={() => setShowMobileMenu(false)}
               >
                 Contact
+              </Link>
+              <Link
+                className={`px-4 py-2.5 rounded-lg font-medium text-base ${
+                  pathname === "/news-and-media" ? "text-[#BF0637] bg-red-50" : "text-black hover:bg-slate-100 hover:text-[#BF0637]"
+                }`}
+                href="/news-and-media"
+                onClick={() => setShowMobileMenu(false)}
+              >
+                News and Media
               </Link>
             </div>
             <div className="mt-4 pt-4 border-t border-slate-200">
