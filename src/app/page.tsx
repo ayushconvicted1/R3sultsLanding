@@ -10,6 +10,7 @@ import VideoPlayOnce from "@/components/VideoPlayOnce";
 import EmailLaunchForm from "@/components/EmailLaunchForm";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import CommunityJoinBlock from "@/components/CommunityJoinBlock";
+import HeroDisasterTicker from "@/components/HeroDisasterTicker";
 
 export default function Home() {
   return (
@@ -17,7 +18,7 @@ export default function Home() {
       {/* Hero Section */}
       <section
         id="hero"
-        className="hero relative min-h-screen flex items-center pt-24 sm:pt-28 md:pt-32 lg:pt-40"
+        className="hero relative min-h-screen flex flex-col pt-24 sm:pt-28 md:pt-32 lg:pt-40"
       >
         {/* Video Background - plays once, pauses at end */}
         <VideoPlayOnce
@@ -25,24 +26,25 @@ export default function Home() {
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 hero-overlay"></div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12 sm:py-16 md:py-20">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-start">
-            <div className="md:col-span-6 lg:col-span-6 -mt-4 sm:-mt-6 md:-mt-8">
+        <div className="relative z-10 flex flex-col flex-1 min-h-0 w-full">
+          <div className="flex-1 flex items-center w-full max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 md:py-16">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 lg:gap-14 items-center w-full max-w-[88rem] mx-auto">
+            <div className="md:col-span-7 lg:col-span-7 min-w-0 -mt-2 sm:-mt-4 md:-mt-6">
               <h1
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-extrabold text-white leading-tight sm:leading-normal mb-4 sm:mb-6 md:mb-8"
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-extrabold text-white leading-tight sm:leading-normal mb-4 sm:mb-6 md:mb-8 max-w-none"
                 style={{
                   textShadow: "2px 2px 8px rgba(0, 0, 0, 0.5)",
                   letterSpacing: "-0.02em",
                 }}
               >
-                Saving Lives <br /> in Disaster Using
-                <br />
-                Technology & AI
+                <span className="block">Helping resolve the</span>
+                <span className="block">Overcoming Disaster :</span>
+                <span className="block max-[420px]:whitespace-normal sm:whitespace-nowrap">
+                  Using People, Technology and AI
+                </span>
               </h1>
               <p className="text-white text-sm sm:text-base md:text-lg mb-4 sm:mb-6 max-w-2xl">
-                An end-to-end Disaster Management Technology Ecosystem that
-                saves lives through real-time intelligence, connected devices,
-                and unified response coordination.
+              A disaster management ecosystem that helps people ,through real time Intelligent , connected devices and active people coordination.
               </p>
               <hr className="border-white/30 mb-6 sm:mb-8 md:mb-10" />
               {/* <div className="flex gap-4 sm:gap-5">
@@ -116,8 +118,8 @@ export default function Home() {
                 </a>
               </div> */}
             </div>
-            <div className="md:col-span-6 lg:col-span-5 lg:col-start-8 mt-8 md:mt-0">
-              <div className="lg:max-w-[85%] ml-auto">
+            <div className="md:col-span-5 lg:col-span-5 lg:col-start-8 mt-8 md:mt-0 flex md:justify-end">
+              <div className="w-full md:max-w-md lg:max-w-lg xl:max-w-xl">
                 <div className="bg-white/30 backdrop-blur-md p-6 sm:p-8 rounded-lg">
                   <h3 className="text-white font-semibold text-base sm:text-lg mb-4 sm:mb-6">
                     Join our newsletter to get latest updates on our launch &
@@ -127,7 +129,9 @@ export default function Home() {
                 </div>
               </div>
             </div>
+            </div>
           </div>
+          <HeroDisasterTicker />
         </div>
       </section>
 
@@ -1268,28 +1272,28 @@ export default function Home() {
             <div className="partners-carousel-wrapper-left mb-8">
               <div className="partners-carousel-left">
                 {[
-                  "/AmazonLogo.png",
-                  "/Partner1.png",
-                  "/Partner2.png",
-                  "/Partner3.png",
-                  "/Partner4.png",
                   "/Partner5.png",
+                  // "/Partner2.png",
+                  // "/Partner3.png",
+                  "/Partner4.png",
+                  "/Partner1.png",
+                  // "/AmazonLogo.png",
                 ]
                   .concat([
-                    "/AmazonLogo.png",
-                    "/Partner1.png",
-                    "/Partner2.png",
-                    "/Partner3.png",
                     "/Partner4.png",
                     "/Partner5.png",
+                    "/AmazonLogo.png",
+                    // "/Partner1.png",
+                    // "/Partner2.png",
+                    // "/Partner3.png",
                   ])
                   .concat([
-                    "/AmazonLogo.png",
+                    "/Partner3.png",
+                    // "/AmazonLogo.png",
                     "/Partner1.png",
                     "/Partner2.png",
-                    "/Partner3.png",
-                    "/Partner4.png",
-                    "/Partner5.png",
+                    // "/Partner4.png",
+                    // "/Partner5.png",
                   ])
                   .map((logo, i) => (
                     <div key={`left-${i}`} className="partner-logo-item">
@@ -1305,32 +1309,32 @@ export default function Home() {
               </div>
             </div>
             {/* Carousel going right */}
-            <div className="partners-carousel-wrapper-right">
+            {/* <div className="partners-carousel-wrapper-right">
               <div className="partners-carousel-right">
                 {[
                   "/Partner6.png",
-                  "/Partner7.png",
-                  "/Partner8.png",
-                  "/Partner9.png",
-                  "/Partner10.png",
-                  "/Partner11.png",
+                  // "/Partner7.png",
+                  // "/Partner8.png",
+                  // "/Partner9.png",
+                  // "/Partner10.png",
+                  // "/Partner11.png",
                 ]
                   .concat([
-                    "/Partner6.png",
-                    "/Partner7.png",
-                    "/Partner8.png",
-                    "/Partner9.png",
-                    "/Partner10.png",
+                    // "/Partner6.png",
+                    // "/Partner7.png",
+                    // "/Partner8.png",
+                    // "/Partner9.png",
+                    // "/Partner10.png",
                     "/Partner11.png",
                   ])
-                  .concat([
-                    "/Partner6.png",
-                    "/Partner7.png",
-                    "/Partner8.png",
-                    "/Partner9.png",
-                    "/Partner10.png",
-                    "/Partner11.png",
-                  ])
+                  // .concat([
+                  //   "/Partner6.png",
+                  //   "/Partner7.png",
+                  //   "/Partner8.png",
+                  //   "/Partner9.png",
+                  //   "/Partner10.png",
+                  //   "/Partner11.png",
+                  // ])
                   .map((logo, i) => (
                     <div key={`right-${i}`} className="partner-logo-item">
                       <ImageFallback
@@ -1343,7 +1347,7 @@ export default function Home() {
                     </div>
                   ))}
               </div>
-            </div>
+            </div> */}
             <div className="partners-carousel-fade-left"></div>
             <div className="partners-carousel-fade-right"></div>
           </div>

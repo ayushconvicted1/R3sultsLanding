@@ -85,7 +85,7 @@ export default function NewsletterForm() {
               Subscribing
             </>
           ) : (
-            "Subscribe"
+            "Please join"
           )}
         </button>
       </div>
