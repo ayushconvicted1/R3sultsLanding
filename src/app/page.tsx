@@ -18,7 +18,7 @@ export default function Home() {
       {/* Hero Section */}
       <section
         id="hero"
-        className="hero relative min-h-screen flex flex-col pt-24 sm:pt-28 md:pt-32 lg:pt-40"
+        className="hero relative h-[100dvh] min-h-[100dvh] flex flex-col pt-24 sm:pt-28 md:pt-32 lg:pt-40"
       >
         {/* Video Background - plays once, pauses at end */}
         <VideoPlayOnce
@@ -27,8 +27,10 @@ export default function Home() {
         />
         <div className="absolute inset-0 hero-overlay"></div>
         <div className="relative z-10 flex flex-col flex-1 min-h-0 w-full">
-          <div className="flex-1 flex items-center w-full max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 md:py-16">
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 lg:gap-14 items-center w-full max-w-[88rem] mx-auto">
+          {/* Align hero content with header navbar edges on large screens.
+              Keep the live ticker always visible by letting only this middle area scroll when needed. */}
+          <div className="flex-1 min-h-0 flex items-center w-[90%] mx-auto px-6 py-10 sm:py-14 md:py-16">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 lg:gap-14 items-center w-full">
             <div className="md:col-span-7 lg:col-span-7 w-full min-w-0 max-w-full overflow-x-clip -mt-2 sm:-mt-4 md:-mt-6 md:pr-2 lg:pr-4">
               <h1
                 className="w-full max-w-full break-words text-3xl min-[380px]:text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.12] sm:leading-tight mb-4 sm:mb-6 md:mb-8"
@@ -131,7 +133,9 @@ export default function Home() {
             </div>
             </div>
           </div>
-          <HeroDisasterTicker />
+          <div className="shrink-0 w-full mt-auto">
+            <HeroDisasterTicker />
+          </div>
         </div>
       </section>
 

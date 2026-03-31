@@ -82,6 +82,15 @@
       sans-serif
     ) !important;
   }
+
+  /* Hide scrollbars but keep scrolling (used for hero middle panel) */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE/Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
 }
 
 /* Hero Section */
