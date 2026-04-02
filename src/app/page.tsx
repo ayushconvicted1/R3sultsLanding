@@ -40,7 +40,7 @@ export default function Home() {
                 }}
               >
                 <span className="block w-full max-w-full">Helping resolve the</span>
-                <span className="block w-full max-w-full">Overcoming Disaster :</span>
+                <span className="block w-full max-w-full">Overcoming Disaster&nbsp;:</span>
                 <span className="block w-full max-w-full whitespace-normal">
                   Using People, Technology & AI
                 </span>

@@ -57,7 +57,7 @@ export default function Header() {
     }
 
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = ""; 
       document.documentElement.style.overflowX = "";
     };
   }, [showMobileMenu]);
