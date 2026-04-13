@@ -31,7 +31,7 @@ export default function Home() {
               Keep the live ticker always visible by letting only this middle area scroll when needed. */}
           <div className="flex-1 min-h-0 flex items-center w-[90%] mx-auto px-6 py-10 sm:py-14 md:py-16">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 lg:gap-14 items-center w-full">
-            <div className="md:col-span-7 lg:col-span-7 w-full min-w-0 max-w-full overflow-x-clip -mt-2 sm:-mt-4 md:-mt-6 md:pr-2 lg:pr-4">
+            <div className="md:col-span-7 lg:col-span-7 w-full min-w-0 max-w-full overflow-x-clip -mt-2 sm:-mt-4 md:-mt-6 md:pr-2 lg:pr-4 text-center md:text-left">
               <h1
                 className="w-full max-w-full break-words text-3xl min-[380px]:text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.12] sm:leading-tight mb-4 sm:mb-6 md:mb-8"
                 style={{
@@ -45,10 +45,10 @@ export default function Home() {
                   Using People, Technology & AI
                 </span>
               </h1>
-              <p className="text-white text-sm sm:text-base md:text-lg mb-4 sm:mb-6 max-w-full sm:max-w-2xl">
+              <p className="text-white text-sm sm:text-base md:text-lg mb-4 sm:mb-6 max-w-full sm:max-w-2xl mx-auto md:mx-0">
               A disaster management ecosystem that helps people ,through real time Intelligent , connected devices and active people coordination.
               </p>
-              <hr className="border-white/30 mb-6 sm:mb-8 md:mb-10" />
+              <hr className="border-white/30 mb-6 sm:mb-8 md:mb-10 max-md:mx-auto max-md:max-w-xs" />
               {/* <div className="flex gap-4 sm:gap-5">
                 <a
                   href="https://facebook.com"
@@ -124,7 +124,7 @@ export default function Home() {
               <div className="w-full md:max-w-md lg:max-w-lg xl:max-w-xl">
                 <div className="bg-white/30 backdrop-blur-md p-6 sm:p-8 rounded-lg">
                   <h3 className="text-white font-semibold text-base sm:text-lg mb-4 sm:mb-6">
-                    Join our newsletter to get latest updates on our launch &
+                    Please join our newsletter to get latest updates on our launch &
                     offers!
                   </h3>
                   <NewsletterForm />
@@ -852,7 +852,7 @@ export default function Home() {
               {/* <div className="lg:max-w-[85%] ml-auto">
                 <div className="bg-white/30 backdrop-blur-md p-6 sm:p-8 rounded-lg">
                   <h3 className="text-white font-semibold text-base sm:text-lg mb-4 sm:mb-6">
-                    Join our newsletter to get latest updates on our launch &
+                    Please join our newsletter to get latest updates on our launch &
                     offers!
                   </h3>
                   <NewsletterForm />
@@ -968,7 +968,7 @@ export default function Home() {
               {/* <div className="lg:max-w-[85%] ml-auto">
                 <div className="bg-white/30 backdrop-blur-md p-6 sm:p-8 rounded-lg">
                   <h3 className="text-white font-semibold text-base sm:text-lg mb-4 sm:mb-6">
-                    Join our newsletter to get latest updates on our launch &
+                    Please join our newsletter to get latest updates on our launch &
                     offers!
                   </h3>
                   <NewsletterForm />
