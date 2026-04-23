@@ -659,7 +659,7 @@ export default function MerchCheckoutPage() {
                   disabled={loading}
                   className="w-full py-4 rounded-2xl font-bold text-lg text-white bg-[#BF0637] hover:bg-[#a0052e] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-[#BF0637]/20 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0"
                 >
-                  {loading ? "Redirecting to secure payment…" : `Pay · $${orderTotal.toFixed(2)} est.`}
+                  {loading ? "Redirecting to secure payment…" : `Pay · $${orderTotal.toFixed(2)}`}
                 </button>
                 <p className="text-center text-xs text-slate-400">
                   You&apos;ll complete payment on Stripe. Your print order is placed only after payment succeeds.

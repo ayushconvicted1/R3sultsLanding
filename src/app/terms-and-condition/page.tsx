@@ -345,6 +345,9 @@ export default function TermsAndConditionPage() {
                   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND
                   NON-INFRINGEMENT.
                 </p>
+                <p className="mt-2 text-right text-sm text-slate-500">
+                  Date: April 23, 2026
+                </p>
               </LegalSection>
 
               <LegalSection title="13. Limitation of Liability" id="liability">
@@ -439,6 +442,10 @@ export default function TermsAndConditionPage() {
                   .
                 </p>
               </LegalSection>
+
+              <p className="text-slate-700">
+                The terms and condition are subject to change without notice.
+              </p>
 
             </div>
           </article>

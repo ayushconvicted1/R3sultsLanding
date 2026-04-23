@@ -50,61 +50,8 @@ export default function About() {
       {/* Mission & Vision */}
       <section className="py-16 sm:py-20 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Mission - Text Left, Image Right */}
+          {/* Vision - Text Left, Image Right */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-16 sm:mb-20">
-            {/* Mobile: Box with image and content */}
-            <div className="lg:hidden">
-              <div className="bg-white border border-slate-200 shadow-md rounded-lg overflow-hidden">
-                <div className="w-full h-48 sm:h-56 md:h-64 overflow-hidden">
-                  <Image
-                    src="/OurMission.png"
-                    alt="Our Mission"
-                    width={400}
-                    height={300}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="p-6">
-                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-6">
-                    Our <span className="text-[#BF0637]">Mission</span>
-                  </h2>
-                  <p className="text-slate-700 text-base sm:text-lg leading-relaxed">
-                    To transform disaster relief through speed, intelligence,
-                    and innovation—saving lives, protecting livelihoods, and
-                    restoring communities when it matters most.
-                  </p>
-                </div>
-              </div>
-            </div>
-            {/* Desktop: Text only */}
-            <div className="hidden lg:flex lg:items-center lg:pr-6">
-              <div className="max-w-lg">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-6">
-                  Our <span className="text-[#BF0637]">Mission</span>
-                </h2>
-                <p className="text-slate-700 text-base sm:text-lg leading-relaxed">
-                  To transform disaster relief through speed, intelligence, and
-                  innovation—saving lives, protecting livelihoods, and restoring
-                  communities when it matters most.
-                </p>
-              </div>
-            </div>
-            {/* Desktop: Image only */}
-            <div className="hidden lg:flex lg:items-center lg:justify-end lg:pl-6">
-              <div className="w-72 h-60 rounded-lg overflow-hidden">
-                <Image
-                  src="/OurMission.png"
-                  alt="Our Mission"
-                  width={400}
-                  height={300}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Vision - Image Left, Text Right */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
             {/* Mobile: Box with image and content */}
             <div className="lg:hidden">
               <div className="bg-white border border-slate-200 shadow-md rounded-lg overflow-hidden">
@@ -130,8 +77,22 @@ export default function About() {
                 </div>
               </div>
             </div>
+            {/* Desktop: Text only */}
+            <div className="hidden lg:flex lg:items-center lg:pr-6">
+              <div className="max-w-lg">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-6">
+                  Our <span className="text-[#BF0637]">Vision</span>
+                </h2>
+                <p className="text-slate-700 text-base sm:text-lg leading-relaxed">
+                  To become the world's most trusted private disaster relief
+                  platform—setting the global standard for technology-powered
+                  emergency response, resilience, and sustainable recovery
+                  across North America, the Caribbean, and beyond.
+                </p>
+              </div>
+            </div>
             {/* Desktop: Image only */}
-            <div className="hidden lg:flex lg:items-center lg:justify-start lg:order-1 lg:pr-6">
+            <div className="hidden lg:flex lg:items-center lg:justify-end lg:pl-6">
               <div className="w-72 h-60 rounded-lg overflow-hidden">
                 <Image
                   src="/OurVision.png"
@@ -142,17 +103,56 @@ export default function About() {
                 />
               </div>
             </div>
+          </div>
+
+          {/* Mission - Image Left, Text Right */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+            {/* Mobile: Box with image and content */}
+            <div className="lg:hidden">
+              <div className="bg-white border border-slate-200 shadow-md rounded-lg overflow-hidden">
+                <div className="w-full h-48 sm:h-56 md:h-64 overflow-hidden">
+                  <Image
+                    src="/OurMission.png"
+                    alt="Our Mission"
+                    width={400}
+                    height={300}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-6">
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-6">
+                    Our <span className="text-[#BF0637]">Mission</span>
+                  </h2>
+                  <p className="text-slate-700 text-base sm:text-lg leading-relaxed">
+                    To transform disaster relief through speed, intelligence,
+                    and innovation—saving lives, protecting livelihoods, and
+                    restoring communities when it matters most.
+                  </p>
+                </div>
+              </div>
+            </div>
+            {/* Desktop: Image only */}
+            <div className="hidden lg:flex lg:items-center lg:justify-start lg:order-1 lg:pr-6">
+              <div className="w-72 h-60 rounded-lg overflow-hidden">
+                <Image
+                  src="/OurMission.png"
+                  alt="Our Mission"
+                  width={400}
+                  height={300}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
             {/* Desktop: Text only */}
             <div className="hidden lg:flex lg:items-center lg:order-2 lg:pl-6">
               <div className="max-w-lg">
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-6">
-                  Our <span className="text-[#BF0637]">Vision</span>
+                  Our <span className="text-[#BF0637]">Mission</span>
                 </h2>
                 <p className="text-slate-700 text-base sm:text-lg leading-relaxed">
-                  To become the world's most trusted private disaster relief
-                  platform—setting the global standard for technology-powered
-                  emergency response, resilience, and sustainable recovery
-                  across North America, the Caribbean, and beyond.
+                  To transform disaster relief through speed, intelligence, and
+                  innovation—saving lives, protecting livelihoods, and restoring
+                  communities when it matters most.
                 </p>
               </div>
             </div>
@@ -181,7 +181,7 @@ export default function About() {
                   <div className="w-full h-80 sm:h-96 md:h-112 overflow-hidden">
                     <Image
                       src="/Team2.png"
-                      alt="Ajay Verma"
+                      alt="Ajay Verma (CTO)"
                       width={500}
                       height={600}
                       className="w-full h-full object-cover object-top"
@@ -189,7 +189,7 @@ export default function About() {
                   </div>
                   <div className="p-6">
                     <h3 className="text-2xl sm:text-3xl font-bold text-black">
-                      Ajay Verma
+                      Ajay Verma (CTO)
                     </h3>
                     <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
                       CEO and Founder
@@ -210,7 +210,7 @@ export default function About() {
               <div className="hidden lg:flex lg:items-center lg:order-1 lg:pr-6">
                 <div>
                   <h3 className="text-2xl sm:text-3xl font-bold text-black">
-                    Ajay Verma
+                    Ajay Verma (CTO)
                   </h3>
                   <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
                     Technology, Engineering & Product
@@ -229,7 +229,7 @@ export default function About() {
                 <div className="w-96 h-96 rounded-lg overflow-hidden">
                   <Image
                     src="/Team2.png"
-                    alt="Ajay Verma"
+                    alt="Ajay Verma (CTO)"
                     width={500}
                     height={600}
                     className="w-full h-full object-cover object-top"
@@ -256,7 +256,7 @@ export default function About() {
                       S. Robert August
                     </h3>
                     <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                      Disaster Relief and Management Expert
+                      Chief Revenue Officer
                     </p>
                     <p className="text-slate-700 mt-6 text-base leading-relaxed">
                       Nationally and globally accomplished, acclaimed, and
@@ -288,7 +288,7 @@ export default function About() {
                     S. Robert August
                   </h3>
                   <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                    Disaster Relief and Management Expert
+                    Chief Revenue Officer
                   </p>
                   <p className="text-slate-700 mt-6 text-base leading-relaxed">
                     Nationally and globally accomplished, acclaimed, and awarded
@@ -309,7 +309,7 @@ export default function About() {
                   <div className="w-full h-80 sm:h-96 md:h-112 overflow-hidden">
                     <Image
                       src="/Team3.png"
-                      alt="Herbert V. Tremble II"
+                      alt="Herbert V. Tremble II (COO)"
                       width={500}
                       height={600}
                       className="w-full h-full object-cover object-top"
@@ -317,10 +317,10 @@ export default function About() {
                   </div>
                   <div className="p-6">
                     <h3 className="text-2xl sm:text-3xl font-bold text-black">
-                      Herbert V. Tremble II
+                      Herbert V. Tremble II (COO)
                     </h3>
                     <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                      Disaster Relief and Management Expert
+                      Chief Revenue Officer
                     </p>
                     <p className="text-slate-700 mt-6 text-base leading-relaxed">
                       A seasoned disaster-relief and construction expert with
@@ -337,10 +337,10 @@ export default function About() {
               <div className="hidden lg:flex lg:items-center lg:order-1 lg:pr-6">
                 <div>
                   <h3 className="text-2xl sm:text-3xl font-bold text-black">
-                    Herbert V. Tremble II
+                    Herbert V. Tremble II (COO)
                   </h3>
                   <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                    Marketing, Operations & Fundraising
+                    Shipper and third-generation commercial and residential builder-developer
                   </p>
                   <p className="text-slate-700 mt-6 text-base leading-relaxed">
                     A seasoned disaster-relief and construction expert with
@@ -356,7 +356,7 @@ export default function About() {
                 <div className="w-96 h-96 rounded-lg overflow-hidden">
                   <Image
                     src="/Team3.png"
-                    alt="Herbert V. Tremble II"
+                    alt="Herbert V. Tremble II (COO)"
                     width={500}
                     height={600}
                     className="w-full h-full object-cover object-top"
@@ -379,8 +379,8 @@ export default function About() {
                 <div className="bg-white border border-slate-200 shadow-md rounded-lg overflow-hidden">
                   <div className="w-full h-80 sm:h-96 md:h-112 overflow-hidden">
                     <Image
-                      src="/Team4.png"
-                      alt="Jeff Wilson"
+                      src="/Team.png"
+                      alt="Matt Cohen (CEO)"
                       width={450}
                       height={550}
                       className="w-full h-full object-cover object-top"
@@ -388,7 +388,7 @@ export default function About() {
                   </div>
                   <div className="p-6">
                     <h3 className="text-2xl sm:text-3xl font-bold text-black">
-                      Jeff Wilson
+                      Matt Cohen (CEO)
                     </h3>
                     <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
                       Strategy & Scaling
@@ -404,8 +404,8 @@ export default function About() {
               <div className="hidden lg:flex lg:items-center lg:justify-start lg:order-1 lg:pr-6">
                 <div className="w-80 h-80 rounded-lg overflow-hidden">
                   <Image
-                    src="/Team4.png"
-                    alt="Jeff Wilson"
+                    src="/Team.png"
+                    alt="Matt Cohen (CEO)"
                     width={450}
                     height={550}
                     className="w-full h-full object-cover object-top"
@@ -416,7 +416,7 @@ export default function About() {
               <div className="hidden lg:flex lg:items-center lg:order-2 lg:pl-6">
                 <div>
                   <h3 className="text-2xl sm:text-3xl font-bold text-black">
-                    Jeff Wilson
+                    Matt Cohen (CEO)
                   </h3>
                   <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
                     Strategy & Scaling
@@ -453,7 +453,9 @@ export default function About() {
                     <p className="text-slate-700 mt-6 text-base leading-relaxed">
                       Extensive experience in community-based programs,
                       volunteer mobilization, and humanitarian operations at
-                      scale.
+                      scale. She also builds strategic partnerships that expand
+                      local impact. Her leadership helps convert community trust
+                      into measurable emergency preparedness outcomes.
                     </p>
                   </div>
                 </div>
@@ -469,7 +471,10 @@ export default function About() {
                   </p>
                   <p className="text-slate-700 mt-6 text-base leading-relaxed">
                     Extensive experience in community-based programs, volunteer
-                    mobilization, and humanitarian operations at scale.
+                    mobilization, and humanitarian operations at scale. She also
+                    builds strategic partnerships that expand local impact. Her
+                    leadership helps convert community trust into measurable
+                    emergency preparedness outcomes.
                   </p>
                 </div>
               </div>
@@ -512,7 +517,10 @@ export default function About() {
                     <p className="text-slate-700 mt-6 text-base leading-relaxed">
                       A veteran communicator who has shaped public perception
                       across industries, will lead our media presence and
-                      amplify our message.
+                      amplify our message. He crafts clear crisis narratives
+                      that keep communities informed and calm. His media
+                      strategy strengthens public confidence during critical
+                      response moments.
                     </p>
                   </div>
                 </div>
@@ -541,7 +549,10 @@ export default function About() {
                   <p className="text-slate-700 mt-6 text-base leading-relaxed">
                     A veteran communicator who has shaped public perception
                     across industries, will lead our media presence and amplify
-                    our message.
+                    our message. He crafts clear crisis narratives that keep
+                    communities informed and calm. His media strategy
+                    strengthens public confidence during critical response
+                    moments.
                   </p>
                 </div>
               </div>
