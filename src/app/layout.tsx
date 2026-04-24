@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Header from "@/components/Header";
 import CartProviderWithDrawer from "@/components/CartProviderWithDrawer";
 import ToastProvider from "@/components/ToastProvider";
+import ScrollToTopButton from "@/components/ScrollToTopButton";
 import { AuthProvider } from "@/context/AuthContext";
 import { MerchCartProvider } from "@/context/MerchCartContext";
 import GoogleAuthProvider from "@/components/auth/GoogleAuthProvider";
@@ -103,6 +104,7 @@ export default function RootLayout({
                 <CartProviderWithDrawer>
                   <Header />
                   <main>{children}</main>
+                  <ScrollToTopButton />
                 </CartProviderWithDrawer>
               </MerchCartProvider>
             </AuthProvider>

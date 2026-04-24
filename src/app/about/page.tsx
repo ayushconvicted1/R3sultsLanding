@@ -180,8 +180,8 @@ export default function About() {
                 <div className="bg-white border border-slate-200 shadow-md rounded-lg overflow-hidden">
                   <div className="w-full h-80 sm:h-96 md:h-112 overflow-hidden">
                     <Image
-                      src="/Team2.png"
-                      alt="Ajay Verma (CTO)"
+                      src="/Team4.png"
+                      alt="Matthew Cohen (CEO)"
                       width={500}
                       height={600}
                       className="w-full h-full object-cover object-top"
@@ -189,19 +189,14 @@ export default function About() {
                   </div>
                   <div className="p-6">
                     <h3 className="text-2xl sm:text-3xl font-bold text-black">
-                      Ajay Verma (CTO)
+                      Matthew Cohen (CEO)
                     </h3>
                     <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                      CEO and Founder
-                      <br />
-                      Technology, Engineering & Product
+                      Strategy & Scaling
                     </p>
                     <p className="text-slate-700 mt-6 text-base leading-relaxed">
-                      An accomplished tech leader with 24 years of international
-                      experience in tech, AI, operations, marketing and business
-                      strategy. Engineering graduate from IIT, MBA from Harvard
-                      University. Lived and worked across 4 countries, bringing
-                      a global perspective to disaster tech innovation.
+                      Proven expertise scaling high-volume operations and
+                      managing complex logistics for rapid deployment scenarios.
                     </p>
                   </div>
                 </div>
@@ -210,17 +205,14 @@ export default function About() {
               <div className="hidden lg:flex lg:items-center lg:order-1 lg:pr-6">
                 <div>
                   <h3 className="text-2xl sm:text-3xl font-bold text-black">
-                    Ajay Verma (CTO)
+                    Matthew Cohen (CEO)
                   </h3>
                   <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                    Technology, Engineering & Product
+                    Strategy & Scaling
                   </p>
                   <p className="text-slate-700 mt-6 text-base leading-relaxed">
-                    An accomplished tech leader with 24 years of international
-                    experience in tech, AI, operations, marketing and business
-                    strategy. Engineering graduate from IIT, MBA from Harvard
-                    University. Lived and worked across 4 countries, bringing a
-                    global perspective to disaster tech innovation.
+                    Proven expertise scaling high-volume operations and managing
+                    complex logistics for rapid deployment scenarios.
                   </p>
                 </div>
               </div>
@@ -228,8 +220,8 @@ export default function About() {
               <div className="hidden lg:flex lg:items-center lg:justify-end lg:order-2 lg:pl-6">
                 <div className="w-96 h-96 rounded-lg overflow-hidden">
                   <Image
-                    src="/Team2.png"
-                    alt="Ajay Verma (CTO)"
+                    src="/Team4.png"
+                    alt="Matthew Cohen (CEO)"
                     width={500}
                     height={600}
                     className="w-full h-full object-cover object-top"
@@ -238,70 +230,6 @@ export default function About() {
               </div>
             </div>
             {/* Founder 2 - Image Left, Text Right */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 space-y-0">
-              {/* Mobile: Box with image and content */}
-              <div className="lg:hidden">
-                <div className="bg-white border border-slate-200 shadow-md rounded-lg overflow-hidden">
-                  <div className="w-full h-80 sm:h-96 md:h-112 overflow-hidden">
-                    <Image
-                      src="/Team1.png"
-                      alt="S. Robert August"
-                      width={500}
-                      height={600}
-                      className="w-full h-full object-cover object-top"
-                    />
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-2xl sm:text-3xl font-bold text-black">
-                      S. Robert August
-                    </h3>
-                    <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                      Chief Revenue Officer
-                    </p>
-                    <p className="text-slate-700 mt-6 text-base leading-relaxed">
-                      Nationally and globally accomplished, acclaimed, and
-                      awarded 50+ year marketing, management, fundraising, and
-                      sales executive professional, specializing in new and
-                      evolving real estate development and construction. He has
-                      a successful history of disaster relief preparedness and
-                      recovery.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              {/* Desktop: Image only */}
-              <div className="hidden lg:flex lg:items-center lg:justify-start lg:order-1 lg:pr-6">
-                <div className="w-96 h-96 rounded-lg overflow-hidden">
-                  <Image
-                    src="/Team1.png"
-                    alt="S. Robert August"
-                    width={500}
-                    height={600}
-                    className="w-full h-full object-cover object-top"
-                  />
-                </div>
-              </div>
-              {/* Desktop: Text only */}
-              <div className="hidden lg:flex lg:items-center lg:order-2 lg:pl-6">
-                <div>
-                  <h3 className="text-2xl sm:text-3xl font-bold text-black">
-                    S. Robert August
-                  </h3>
-                  <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                    Chief Revenue Officer
-                  </p>
-                  <p className="text-slate-700 mt-6 text-base leading-relaxed">
-                    Nationally and globally accomplished, acclaimed, and awarded
-                    50+ year marketing, management, fundraising, and sales
-                    executive professional, specializing in new and evolving
-                    real estate development and construction. He has a
-                    successful history of disaster relief preparedness and
-                    recovery.
-                  </p>
-                </div>
-              </div>
-            </div>
-            {/* Founder 3 - Image Left, Text Right */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 space-y-0">
               {/* Mobile: Box with image and content */}
               <div className="lg:hidden">
@@ -320,7 +248,7 @@ export default function About() {
                       Herbert V. Tremble II (COO)
                     </h3>
                     <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                      Chief Revenue Officer
+                      Shipper and third-generation commercial and residential builder-developer
                     </p>
                     <p className="text-slate-700 mt-6 text-base leading-relaxed">
                       A seasoned disaster-relief and construction expert with
@@ -333,8 +261,20 @@ export default function About() {
                   </div>
                 </div>
               </div>
+              {/* Desktop: Image only */}
+              <div className="hidden lg:flex lg:items-center lg:justify-start lg:order-1 lg:pr-6">
+                <div className="w-96 h-96 rounded-lg overflow-hidden">
+                  <Image
+                    src="/Team3.png"
+                    alt="Herbert V. Tremble II (COO)"
+                    width={500}
+                    height={600}
+                    className="w-full h-full object-cover object-top"
+                  />
+                </div>
+              </div>
               {/* Desktop: Text only */}
-              <div className="hidden lg:flex lg:items-center lg:order-1 lg:pr-6">
+              <div className="hidden lg:flex lg:items-center lg:order-2 lg:pl-6">
                 <div>
                   <h3 className="text-2xl sm:text-3xl font-bold text-black">
                     Herbert V. Tremble II (COO)
@@ -351,12 +291,64 @@ export default function About() {
                   </p>
                 </div>
               </div>
+            </div>
+            {/* Founder 3 - Image Left, Text Right */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 space-y-0">
+              {/* Mobile: Box with image and content */}
+              <div className="lg:hidden">
+                <div className="bg-white border border-slate-200 shadow-md rounded-lg overflow-hidden">
+                  <div className="w-full h-80 sm:h-96 md:h-112 overflow-hidden">
+                    <Image
+                      src="/Team1.png"
+                      alt="S. Robert August (CRO)"
+                      width={500}
+                      height={600}
+                      className="w-full h-full object-cover object-top"
+                    />
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-2xl sm:text-3xl font-bold text-black">
+                      S. Robert August (CRO)
+                    </h3>
+                    <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
+                      Chief Revenue Officer
+                    </p>
+                    <p className="text-slate-700 mt-6 text-base leading-relaxed">
+                      Nationally and globally accomplished, acclaimed, and
+                      awarded 50+ year marketing, management, fundraising, and
+                      sales executive professional, specializing in new and
+                      evolving real estate development and construction. He has
+                      a successful history of disaster relief preparedness and
+                      recovery.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              {/* Desktop: Text only */}
+              <div className="hidden lg:flex lg:items-center lg:order-1 lg:pr-6">
+                <div>
+                  <h3 className="text-2xl sm:text-3xl font-bold text-black">
+                    S. Robert August (CRO)
+                  </h3>
+                  <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
+                    Chief Revenue Officer
+                  </p>
+                  <p className="text-slate-700 mt-6 text-base leading-relaxed">
+                    Nationally and globally accomplished, acclaimed, and awarded
+                    50+ year marketing, management, fundraising, and sales
+                    executive professional, specializing in new and evolving
+                    real estate development and construction. He has a
+                    successful history of disaster relief preparedness and
+                    recovery.
+                  </p>
+                </div>
+              </div>
               {/* Desktop: Image only */}
               <div className="hidden lg:flex lg:items-center lg:justify-end lg:order-2 lg:pl-6">
                 <div className="w-96 h-96 rounded-lg overflow-hidden">
                   <Image
-                    src="/Team3.png"
-                    alt="Herbert V. Tremble II (COO)"
+                    src="/Team1.png"
+                    alt="S. Robert August (CRO)"
                     width={500}
                     height={600}
                     className="w-full h-full object-cover object-top"
@@ -379,8 +371,8 @@ export default function About() {
                 <div className="bg-white border border-slate-200 shadow-md rounded-lg overflow-hidden">
                   <div className="w-full h-80 sm:h-96 md:h-112 overflow-hidden">
                     <Image
-                      src="/Team.png"
-                      alt="Matt Cohen (CEO)"
+                      src="/Team2.png"
+                      alt="Ajay Verma (CTO)"
                       width={450}
                       height={550}
                       className="w-full h-full object-cover object-top"
@@ -388,14 +380,19 @@ export default function About() {
                   </div>
                   <div className="p-6">
                     <h3 className="text-2xl sm:text-3xl font-bold text-black">
-                      Matt Cohen (CEO)
+                      Ajay Verma (CTO)
                     </h3>
                     <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                      Strategy & Scaling
+                      CEO and Founder
+                      <br />
+                      Technology, Engineering & Product
                     </p>
                     <p className="text-slate-700 mt-6 text-base leading-relaxed">
-                      Proven expertise scaling high-volume operations and
-                      managing complex logistics for rapid deployment scenarios.
+                      An accomplished tech leader with 24 years of international
+                      experience in tech, AI, operations, marketing and business
+                      strategy. Engineering graduate from IIT, MBA from Harvard
+                      University. Lived and worked across 4 countries, bringing
+                      a global perspective to disaster tech innovation.
                     </p>
                   </div>
                 </div>
@@ -404,8 +401,8 @@ export default function About() {
               <div className="hidden lg:flex lg:items-center lg:justify-start lg:order-1 lg:pr-6">
                 <div className="w-80 h-80 rounded-lg overflow-hidden">
                   <Image
-                    src="/Team.png"
-                    alt="Matt Cohen (CEO)"
+                    src="/Team2.png"
+                    alt="Ajay Verma (CTO)"
                     width={450}
                     height={550}
                     className="w-full h-full object-cover object-top"
@@ -416,84 +413,23 @@ export default function About() {
               <div className="hidden lg:flex lg:items-center lg:order-2 lg:pl-6">
                 <div>
                   <h3 className="text-2xl sm:text-3xl font-bold text-black">
-                    Matt Cohen (CEO)
+                    Ajay Verma (CTO)
                   </h3>
                   <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                    Strategy & Scaling
+                    Technology, Engineering & Product
                   </p>
                   <p className="text-slate-700 mt-6 text-base leading-relaxed">
-                    Proven expertise scaling high-volume operations and managing
-                    complex logistics for rapid deployment scenarios.
+                    An accomplished tech leader with 24 years of international
+                    experience in tech, AI, operations, marketing and business
+                    strategy. Engineering graduate from IIT, MBA from Harvard
+                    University. Lived and worked across 4 countries, bringing a
+                    global perspective to disaster tech innovation.
                   </p>
                 </div>
               </div>
             </div>
 
             {/* Team Member 2 - Text Left, Image Right */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 space-y-0">
-              {/* Mobile: Box with image and content */}
-              <div className="lg:hidden">
-                <div className="bg-white border border-slate-200 shadow-md rounded-lg overflow-hidden">
-                  <div className="w-full h-80 sm:h-96 md:h-112 overflow-hidden">
-                    <Image
-                      src="/Team5.png"
-                      alt="KT Catlin"
-                      width={450}
-                      height={550}
-                      className="w-full h-full object-cover object-top"
-                    />
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-2xl sm:text-3xl font-bold text-black">
-                      KT Catlin
-                    </h3>
-                    <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                      Non-Profit & Fundraising
-                    </p>
-                    <p className="text-slate-700 mt-6 text-base leading-relaxed">
-                      Extensive experience in community-based programs,
-                      volunteer mobilization, and humanitarian operations at
-                      scale. She also builds strategic partnerships that expand
-                      local impact. Her leadership helps convert community trust
-                      into measurable emergency preparedness outcomes.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              {/* Desktop: Text only */}
-              <div className="hidden lg:flex lg:items-center lg:order-1 lg:pr-6">
-                <div>
-                  <h3 className="text-2xl sm:text-3xl font-bold text-black">
-                    KT Catlin
-                  </h3>
-                  <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                    Non-Profit & Fundraising
-                  </p>
-                  <p className="text-slate-700 mt-6 text-base leading-relaxed">
-                    Extensive experience in community-based programs, volunteer
-                    mobilization, and humanitarian operations at scale. She also
-                    builds strategic partnerships that expand local impact. Her
-                    leadership helps convert community trust into measurable
-                    emergency preparedness outcomes.
-                  </p>
-                </div>
-              </div>
-              {/* Desktop: Image only */}
-              <div className="hidden lg:flex lg:items-center lg:justify-end lg:order-2 lg:pl-6">
-                <div className="w-80 h-80 rounded-lg overflow-hidden">
-                  <Image
-                    src="/Team5.png"
-                    alt="KT Caitlin"
-                    width={450}
-                    height={550}
-                    className="w-full h-full object-cover object-top"
-                  />
-                </div>
-              </div>
-           
-            </div>
-
-            {/* Team Member 3 - Image Left, Text Right */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 space-y-0">
               {/* Mobile: Box with image and content */}
               <div className="lg:hidden">
@@ -525,20 +461,8 @@ export default function About() {
                   </div>
                 </div>
               </div>
-              {/* Desktop: Image only */}
-              <div className="hidden lg:flex lg:items-center lg:justify-start lg:order-1 lg:pr-6">
-                <div className="w-80 h-80 rounded-lg overflow-hidden">
-                  <Image
-                    src="/Team6.png"
-                    alt="Sam Yates"
-                    width={450}
-                    height={550}
-                    className="w-full h-full object-cover object-top"
-                  />
-                </div>
-              </div>
               {/* Desktop: Text only */}
-              <div className="hidden lg:flex lg:items-center lg:order-2 lg:pl-6">
+              <div className="hidden lg:flex lg:items-center lg:order-1 lg:pr-6">
                 <div>
                   <h3 className="text-2xl sm:text-3xl font-bold text-black">
                     Sam Yates
@@ -553,6 +477,82 @@ export default function About() {
                     communities informed and calm. His media strategy
                     strengthens public confidence during critical response
                     moments.
+                  </p>
+                </div>
+              </div>
+              {/* Desktop: Image only */}
+              <div className="hidden lg:flex lg:items-center lg:justify-end lg:order-2 lg:pl-6">
+                <div className="w-80 h-80 rounded-lg overflow-hidden">
+                  <Image
+                    src="/Team6.png"
+                    alt="Sam Yates"
+                    width={450}
+                    height={550}
+                    className="w-full h-full object-cover object-top"
+                  />
+                </div>
+              </div>
+           
+            </div>
+
+            {/* Team Member 3 - Image Left, Text Right */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 space-y-0">
+              {/* Mobile: Box with image and content */}
+              <div className="lg:hidden">
+                <div className="bg-white border border-slate-200 shadow-md rounded-lg overflow-hidden">
+                  <div className="w-full h-80 sm:h-96 md:h-112 overflow-hidden">
+                    <Image
+                      src="/Team5.png"
+                      alt="KT Catlin"
+                      width={450}
+                      height={550}
+                      className="w-full h-full object-cover object-top"
+                    />
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-2xl sm:text-3xl font-bold text-black">
+                      KT Catlin
+                    </h3>
+                    <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
+                      Non-Profit & Fundraising
+                    </p>
+                    <p className="text-slate-700 mt-6 text-base leading-relaxed">
+                      Extensive experience in community-based programs,
+                      volunteer mobilization, and humanitarian operations at
+                      scale. She also builds strategic partnerships that expand
+                      local impact. Her leadership helps convert community trust
+                      into measurable emergency preparedness outcomes.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              {/* Desktop: Image only */}
+              <div className="hidden lg:flex lg:items-center lg:justify-start lg:order-1 lg:pr-6">
+                <div className="w-80 h-80 rounded-lg overflow-hidden">
+                  <Image
+                    src="/Team5.png"
+                    alt="KT Catlin"
+                    width={450}
+                    height={550}
+                    className="w-full h-full object-cover object-top"
+                  />
+                </div>
+              </div>
+              {/* Desktop: Text only */}
+              <div className="hidden lg:flex lg:items-center lg:order-2 lg:pl-6">
+                <div>
+                  <h3 className="text-2xl sm:text-3xl font-bold text-black">
+                    KT Catlin
+                  </h3>
+                  <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
+                    Non-Profit & Fundraising
+                  </p>
+                  <p className="text-slate-700 mt-6 text-base leading-relaxed">
+                    Extensive experience in community-based programs, volunteer
+                    mobilization, and humanitarian operations at scale. She also
+                    builds strategic partnerships that expand local impact. Her
+                    leadership helps convert community trust into measurable
+                    emergency preparedness outcomes.
                   </p>
                 </div>
               </div>
