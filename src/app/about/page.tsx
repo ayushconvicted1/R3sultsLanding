@@ -189,10 +189,10 @@ export default function About() {
                   </div>
                   <div className="p-6">
                     <h3 className="text-2xl sm:text-3xl font-bold text-black">
-                      Matthew Cohen (CEO)
+                      Matthew Cohen
                     </h3>
                     <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                      Strategy & Scaling
+                      Chief Executive Officer
                     </p>
                     <p className="text-slate-700 mt-6 text-base leading-relaxed">
                       Proven expertise scaling high-volume operations and
@@ -205,10 +205,10 @@ export default function About() {
               <div className="hidden lg:flex lg:items-center lg:order-1 lg:pr-6">
                 <div>
                   <h3 className="text-2xl sm:text-3xl font-bold text-black">
-                    Matthew Cohen (CEO)
+                    Matthew Cohen 
                   </h3>
                   <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                    Strategy & Scaling
+                    Chief Executive Officer
                   </p>
                   <p className="text-slate-700 mt-6 text-base leading-relaxed">
                     Proven expertise scaling high-volume operations and managing
@@ -245,10 +245,10 @@ export default function About() {
                   </div>
                   <div className="p-6">
                     <h3 className="text-2xl sm:text-3xl font-bold text-black">
-                      Herbert V. Tremble II (COO)
+                      Herbert V. Tremble II
                     </h3>
                     <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                      Shipper and third-generation commercial and residential builder-developer
+                      Chief Operating Officer
                     </p>
                     <p className="text-slate-700 mt-6 text-base leading-relaxed">
                       A seasoned disaster-relief and construction expert with
@@ -266,7 +266,7 @@ export default function About() {
                 <div className="w-96 h-96 rounded-lg overflow-hidden">
                   <Image
                     src="/Team3.png"
-                    alt="Herbert V. Tremble II (COO)"
+                    alt="Herbert V. Tremble II"
                     width={500}
                     height={600}
                     className="w-full h-full object-cover object-top"
@@ -277,10 +277,10 @@ export default function About() {
               <div className="hidden lg:flex lg:items-center lg:order-2 lg:pl-6">
                 <div>
                   <h3 className="text-2xl sm:text-3xl font-bold text-black">
-                    Herbert V. Tremble II (COO)
+                    Herbert V. Tremble II
                   </h3>
                   <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                    Shipper and third-generation commercial and residential builder-developer
+                    Chief Operating Officer
                   </p>
                   <p className="text-slate-700 mt-6 text-base leading-relaxed">
                     A seasoned disaster-relief and construction expert with
@@ -300,7 +300,7 @@ export default function About() {
                   <div className="w-full h-80 sm:h-96 md:h-112 overflow-hidden">
                     <Image
                       src="/Team1.png"
-                      alt="S. Robert August (CRO)"
+                      alt="S. Robert August"
                       width={500}
                       height={600}
                       className="w-full h-full object-cover object-top"
@@ -308,7 +308,7 @@ export default function About() {
                   </div>
                   <div className="p-6">
                     <h3 className="text-2xl sm:text-3xl font-bold text-black">
-                      S. Robert August (CRO)
+                      S. Robert August
                     </h3>
                     <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
                       Chief Revenue Officer
@@ -328,7 +328,7 @@ export default function About() {
               <div className="hidden lg:flex lg:items-center lg:order-1 lg:pr-6">
                 <div>
                   <h3 className="text-2xl sm:text-3xl font-bold text-black">
-                    S. Robert August (CRO)
+                    S. Robert August
                   </h3>
                   <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
                     Chief Revenue Officer
@@ -348,7 +348,7 @@ export default function About() {
                 <div className="w-96 h-96 rounded-lg overflow-hidden">
                   <Image
                     src="/Team1.png"
-                    alt="S. Robert August (CRO)"
+                    alt="S. Robert August"
                     width={500}
                     height={600}
                     className="w-full h-full object-cover object-top"
@@ -372,7 +372,7 @@ export default function About() {
                   <div className="w-full h-80 sm:h-96 md:h-112 overflow-hidden">
                     <Image
                       src="/Team2.png"
-                      alt="Ajay Verma (CTO)"
+                      alt="Ajay Verma"
                       width={450}
                       height={550}
                       className="w-full h-full object-cover object-top"
@@ -380,12 +380,12 @@ export default function About() {
                   </div>
                   <div className="p-6">
                     <h3 className="text-2xl sm:text-3xl font-bold text-black">
-                      Ajay Verma (CTO)
+                      Ajay Verma 
                     </h3>
                     <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                      CEO and Founder
+                 
                       <br />
-                      Technology, Engineering & Product
+                      Chief Technology Officer
                     </p>
                     <p className="text-slate-700 mt-6 text-base leading-relaxed">
                       An accomplished tech leader with 24 years of international
@@ -402,7 +402,7 @@ export default function About() {
                 <div className="w-80 h-80 rounded-lg overflow-hidden">
                   <Image
                     src="/Team2.png"
-                    alt="Ajay Verma (CTO)"
+                    alt="Ajay Verma"
                     width={450}
                     height={550}
                     className="w-full h-full object-cover object-top"
@@ -413,10 +413,10 @@ export default function About() {
               <div className="hidden lg:flex lg:items-center lg:order-2 lg:pl-6">
                 <div>
                   <h3 className="text-2xl sm:text-3xl font-bold text-black">
-                    Ajay Verma (CTO)
+                    Ajay Verma
                   </h3>
                   <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                    Technology, Engineering & Product
+                    Chief Technology Officer
                   </p>
                   <p className="text-slate-700 mt-6 text-base leading-relaxed">
                     An accomplished tech leader with 24 years of international
