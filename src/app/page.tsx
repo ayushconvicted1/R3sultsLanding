@@ -23,6 +23,7 @@ export default function Home() {
         {/* Video Background - plays once, pauses at end */}
         <VideoPlayOnce
           src="/HeroVid1.mp4"
+          stopBeforeEndSeconds={1}
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 hero-overlay"></div>
