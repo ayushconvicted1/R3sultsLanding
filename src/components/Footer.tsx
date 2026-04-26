@@ -10,9 +10,8 @@ export default function Footer() {
           <div>
             <LogoSvg height={30} width={100} color="white" />
             <p className="text-slate-400 text-sm leading-relaxed mt-4">
-              R3sults Group is an end-to-end Disaster Management platform that
-              saves lives through real-time intelligence, proactive alerts, and
-              immediate response coordination.
+              Respond. Recover. Rebuild. — A Disaster Management Ecosystem That
+              Saves Lives!
             </p>
           </div>
           <div>
