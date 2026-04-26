@@ -30,7 +30,7 @@ export default function Home() {
         <div className="relative z-10 flex flex-col flex-1 min-h-0 w-full">
           {/* Align hero content with header navbar edges on large screens.
               Keep the live ticker always visible by letting only this middle area scroll when needed. */}
-          <div className="flex-1 min-h-0 flex items-center w-[90%] mx-auto px-6 py-10 sm:py-14 md:py-16">
+          <div className="flex-1 min-h-0 flex items-start md:items-center w-[90%] mx-auto px-6 pt-4 pb-6 sm:py-14 md:py-16">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 lg:gap-14 items-center w-full">
             <div className="md:col-span-7 lg:col-span-7 w-full min-w-0 max-w-full overflow-x-clip -mt-2 sm:-mt-4 md:-mt-6 md:pr-2 lg:pr-4 text-center md:text-left">
               <h1
@@ -47,7 +47,7 @@ export default function Home() {
                 </span>
               </h1>
               <p className="text-white text-sm sm:text-base md:text-lg mb-4 sm:mb-6 max-w-full sm:max-w-2xl mx-auto md:mx-0">
-              A disaster management ecosystem that helps people ,through real time Intelligent , connected devices and active people coordination.
+              A disaster management ecosystem that helps people , through coordination of real time Intelligence , connected devices and active people.
               </p>
               <hr className="border-white/30 mb-6 sm:mb-8 md:mb-10 max-md:mx-auto max-md:max-w-xs" />
               {/* <div className="flex gap-4 sm:gap-5">
@@ -148,7 +148,7 @@ export default function Home() {
             The True Cost of{" "}
             <span className="text-[#BF0637]">Delayed Emergency Response</span>
           </h2>
-          <p className="text-center font-lato italic text-black max-w-3xl mx-auto text-md sm:text-base px-4 mb-12 sm:mb-16">
+          <p className="text-center font-lato italic text-black max-w-3xl mx-auto text-md sm:text-base px-4 mb-6 sm:mb-12">
             Disasters don't just destroy infrastructure – they steal time,
             lives, and hope.
           </p>
@@ -175,7 +175,7 @@ export default function Home() {
             ></div>
 
             {/* Statistics Cards Section */}
-            <div className="relative z-10 pt-8 sm:pt-12 pb-8 sm:pb-12">
+            <div className="relative z-10 pt-4 sm:pt-10 pb-6 sm:pb-10">
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 max-w-7xl mx-auto">
                 <div
                   className="text-center p-4 sm:p-6 rounded-lg w-full"
@@ -258,7 +258,7 @@ export default function Home() {
                   </p>
                 </div>
               </div>
-              <div className="text-center mt-12 sm:mt-16">
+              <div className="text-center mt-6 sm:mt-12">
                 <p className="text-xl font-lato italic sm:text-2xl md:text-3xl text-black">
                   When help is late,{" "}
                   <span className="text-[#BF0637]">
@@ -275,7 +275,7 @@ export default function Home() {
       {/* What we are building? */}
       <section
         id="features"
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-10 md:pt-12 pb-0"
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-8 md:pt-10 pb-0"
       >
         <h2 className="text-center text-3xl sm:text-4xl md:text-5xl font-bold text-black mb-4 sm:mb-6">
           What we are <span className="text-[#BF0637]">building?</span>
@@ -286,7 +286,7 @@ export default function Home() {
           recover from any crisis.
         </p>
 
-        <div className="relative mt-12 sm:mt-16 md:mt-20">
+        <div className="relative mt-8 sm:mt-12 md:mt-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Left Half - 3D Carousel (client) */}
             <Carousel3D />

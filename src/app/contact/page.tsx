@@ -67,16 +67,19 @@ export default function Contact() {
       {/* Hero Section */}
       <section
         id="hero"
-        className="hero relative min-h-screen flex items-center pt-24 sm:pt-28 md:pt-32 lg:pt-40"
-        style={{
-          backgroundImage: "url('/ContactBG.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
+        className="hero relative min-h-[240px] sm:min-h-screen flex items-start sm:items-center pt-24 sm:pt-28 md:pt-32 lg:pt-40"
       >
+        <div
+          className="absolute inset-0 hidden sm:block"
+          style={{
+            backgroundImage: "url('/ContactBG.png')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        />
         <div className="absolute inset-0 hero-overlay"></div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12 sm:py-16 md:py-20">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-6 sm:py-16 md:py-20">
           <div className="max-w-2xl lg:pb-30">
             <h1
               className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-extrabold text-white leading-tight sm:leading-normal mb-4 sm:mb-6 md:mb-8"
@@ -88,7 +91,7 @@ export default function Contact() {
               Connect with us
             </h1>
             <p
-              className="text-white text-sm sm:text-base md:text-lg font-lato italic mb-4 sm:mb-6 max-w-xl"
+              className="hidden sm:block text-white text-sm sm:text-base md:text-lg font-lato italic mb-4 sm:mb-6 max-w-xl"
               style={{
                 textShadow: "1px 1px 4px rgba(0, 0, 0, 0.5)",
               }}
@@ -96,7 +99,7 @@ export default function Contact() {
               to respond faster, recover smarter, and <br />
               rebuild stronger
             </p>
-            <hr className="border-white/30 w-24 sm:w-32" />
+            <hr className="hidden sm:block border-white/30 w-24 sm:w-32" />
           </div>
         </div>
       </section>

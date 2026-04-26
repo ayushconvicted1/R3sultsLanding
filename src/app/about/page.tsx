@@ -2,6 +2,16 @@ import Image from "next/image";
 import Header from "@/components/Header";
 import LogoSvg from "@/components/images/Logo";
 import Footer from "@/components/Footer";
+import ExpandableBio from "@/components/ExpandableBio";
+
+const robertBio =
+  "Nationally and globally accomplished, acclaimed, and award-winning 50+ year veteran in marketing, management, fundraising, and sales leadership, with deep expertise in new and existing real estate development and large-scale construction projects. He brings a proven track record across public and private sectors, uniting strategic growth, capital formation, and operational excellence. His career includes a distinguished history of disaster relief preparedness, emergency response coordination, and long-term recovery, leading multi-stakeholder initiatives with government agencies, NGOs, private sector partners, and community organizations to deliver resilient, sustainable outcomes at scale.";
+
+const samBio =
+  "A veteran communicator who has shaped public perception across industries. Sam leads R3sults' media presence, amplifying our mission and ensuring our work reaches the communities, partners, and supporters who need to hear it most.";
+
+const ktBio =
+  "Katherine \"K.T.\" Catlin is a highly accomplished sales and marketing executive in the real estate and home building industries, with decades of experience driving revenue growth, market penetration, and strategic initiatives. Since 2018, as owner of KT Consulting & Associates LLC in Palm Beach, Florida, she offers specialized marketing strategies, consultations, and team-building solutions for housing professionals and property owners. From 2013 to 2023, K.T. served as Executive Officer for multiple Local Builders Associations, managing daily operations, educational programs, advocacy, budgeting, and fundraising. Earlier in her career (1989-2017), she held senior leadership roles, including Director of Sales & Marketing, Sales Manager, Regional New Homes Director, and Licensed Real Estate Broker at major firms such as Weichert Realtors, Coldwell Banker, Century 21, and RE/MAX. K.T. has consistently earned top industry recognition, including Sales Director of the Year, Associate of the Year, and induction into the NJBA Associate Hall of Fame. A dedicated leader, she holds prestigious certifications: GRI, CSP, CMP, and CLHMS. Civically engaged, K.T. is a member of the Town of Palm Beach Architectural Review Commission and a United Way volunteer. She earned a B.A. in Fine Arts from Fairleigh Dickinson University and brings strategic vision, strong leadership, and deep industry expertise to deliver exceptional results at R3sults Foundation.";
 
 export default function About() {
   return (
@@ -31,7 +41,7 @@ export default function About() {
             >
               Building a Disaster
               <br /> Ecosystem Powered
-              <br /> by Advanced Technology <br /> and 100+ Years of <br />
+              <br /> by Advanced Technology <br /> and 220+ Years of <br />
               Combined Expertise
             </h1>
             <p
@@ -191,10 +201,13 @@ export default function About() {
                     <h3 className="text-2xl sm:text-3xl font-bold text-black">
                       Matthew Cohen
                     </h3>
-                    <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
+                    <p className="mt-2 inline-flex rounded-full bg-[#FFF5F8] px-3 py-1 text-xs sm:text-sm font-semibold text-[#BF0637]">
                       Chief Executive Officer
                     </p>
-                    <p className="text-slate-700 mt-6 text-base leading-relaxed">
+                    <p className="text-slate-900 font-semibold mt-3 text-sm sm:text-base leading-relaxed">
+                      Strategy & Scaling
+                    </p>
+                    <p className="text-slate-700 mt-4 text-base leading-relaxed">
                       Proven expertise scaling high-volume operations and
                       managing complex logistics for rapid deployment scenarios.
                     </p>
@@ -207,10 +220,13 @@ export default function About() {
                   <h3 className="text-2xl sm:text-3xl font-bold text-black">
                     Matthew Cohen 
                   </h3>
-                  <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
+                  <p className="mt-2 inline-flex rounded-full bg-[#FFF5F8] px-3 py-1 text-xs sm:text-sm font-semibold text-[#BF0637]">
                     Chief Executive Officer
                   </p>
-                  <p className="text-slate-700 mt-6 text-base leading-relaxed">
+                  <p className="text-slate-900 font-semibold mt-3 text-sm sm:text-base leading-relaxed">
+                    Strategy & Scaling
+                  </p>
+                  <p className="text-slate-700 mt-4 text-base leading-relaxed">
                     Proven expertise scaling high-volume operations and managing
                     complex logistics for rapid deployment scenarios.
                   </p>
@@ -247,10 +263,13 @@ export default function About() {
                     <h3 className="text-2xl sm:text-3xl font-bold text-black">
                       Herbert V. Tremble II
                     </h3>
-                    <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
+                    <p className="mt-2 inline-flex rounded-full bg-[#FFF5F8] px-3 py-1 text-xs sm:text-sm font-semibold text-[#BF0637]">
                       Chief Operating Officer
                     </p>
-                    <p className="text-slate-700 mt-6 text-base leading-relaxed">
+                    <p className="text-slate-900 font-semibold mt-3 text-sm sm:text-base leading-relaxed">
+                      Operations, Response & Recovery
+                    </p>
+                    <p className="text-slate-700 mt-4 text-base leading-relaxed">
                       A seasoned disaster-relief and construction expert with
                       decades of experience across the U.S. and the Caribbean.
                       FA, TA-trained operator and successful
@@ -279,10 +298,13 @@ export default function About() {
                   <h3 className="text-2xl sm:text-3xl font-bold text-black">
                     Herbert V. Tremble II
                   </h3>
-                  <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
+                  <p className="mt-2 inline-flex rounded-full bg-[#FFF5F8] px-3 py-1 text-xs sm:text-sm font-semibold text-[#BF0637]">
                     Chief Operating Officer
                   </p>
-                  <p className="text-slate-700 mt-6 text-base leading-relaxed">
+                  <p className="text-slate-900 font-semibold mt-3 text-sm sm:text-base leading-relaxed">
+                    Operations, Response & Recovery
+                  </p>
+                  <p className="text-slate-700 mt-4 text-base leading-relaxed">
                     A seasoned disaster-relief and construction expert with
                     decades of experience across the U.S. and the Caribbean. FA,
                     TA-trained operator and successful multi-million-dollar
@@ -310,17 +332,16 @@ export default function About() {
                     <h3 className="text-2xl sm:text-3xl font-bold text-black">
                       S. Robert August
                     </h3>
-                    <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                      Chief Revenue Officer
+                    <p className="mt-2 inline-flex rounded-full bg-[#FFF5F8] px-3 py-1 text-xs sm:text-sm font-semibold text-[#BF0637]">
+                      Chief Revenue Office
                     </p>
-                    <p className="text-slate-700 mt-6 text-base leading-relaxed">
-                      Nationally and globally accomplished, acclaimed, and
-                      awarded 50+ year marketing, management, fundraising, and
-                      sales executive professional, specializing in new and
-                      evolving real estate development and construction. He has
-                      a successful history of disaster relief preparedness and
-                      recovery.
+                    <p className="text-slate-900 font-semibold mt-3 text-sm sm:text-base leading-relaxed">
+                      Red Sales, Marketing, Management, and Disaster Relief Expert
                     </p>
+                    <ExpandableBio
+                      text={robertBio}
+                      className="text-slate-700 text-base leading-relaxed"
+                    />
                   </div>
                 </div>
               </div>
@@ -330,17 +351,16 @@ export default function About() {
                   <h3 className="text-2xl sm:text-3xl font-bold text-black">
                     S. Robert August
                   </h3>
-                  <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                    Chief Revenue Officer
+                  <p className="mt-2 inline-flex rounded-full bg-[#FFF5F8] px-3 py-1 text-xs sm:text-sm font-semibold text-[#BF0637]">
+                    Chief Revenue Office
                   </p>
-                  <p className="text-slate-700 mt-6 text-base leading-relaxed">
-                    Nationally and globally accomplished, acclaimed, and awarded
-                    50+ year marketing, management, fundraising, and sales
-                    executive professional, specializing in new and evolving
-                    real estate development and construction. He has a
-                    successful history of disaster relief preparedness and
-                    recovery.
+                  <p className="text-slate-900 font-semibold mt-3 text-sm sm:text-base leading-relaxed">
+                    Red Sales, Marketing, Management, and Disaster Relief Expert
                   </p>
+                  <ExpandableBio
+                    text={robertBio}
+                    className="text-slate-700 text-base leading-relaxed"
+                  />
                 </div>
               </div>
               {/* Desktop: Image only */}
@@ -382,12 +402,13 @@ export default function About() {
                     <h3 className="text-2xl sm:text-3xl font-bold text-black">
                       Ajay Verma 
                     </h3>
-                    <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                 
-                      <br />
-                      Chief Technology Officer
+                    <p className="mt-2 inline-flex rounded-full bg-[#FFF5F8] px-3 py-1 text-xs sm:text-sm font-semibold text-[#BF0637]">
+                      Chief Technology Advisor
                     </p>
-                    <p className="text-slate-700 mt-6 text-base leading-relaxed">
+                    <p className="text-slate-900 font-semibold mt-3 text-sm sm:text-base leading-relaxed">
+                      Technology, Engineering & Product
+                    </p>
+                    <p className="text-slate-700 mt-4 text-base leading-relaxed">
                       An accomplished tech leader with 24 years of international
                       experience in tech, AI, operations, marketing and business
                       strategy. Engineering graduate from IIT, MBA from Harvard
@@ -415,10 +436,13 @@ export default function About() {
                   <h3 className="text-2xl sm:text-3xl font-bold text-black">
                     Ajay Verma
                   </h3>
-                  <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                    Chief Technology Officer
+                  <p className="mt-2 inline-flex rounded-full bg-[#FFF5F8] px-3 py-1 text-xs sm:text-sm font-semibold text-[#BF0637]">
+                    Chief Technology Advisor
                   </p>
-                  <p className="text-slate-700 mt-6 text-base leading-relaxed">
+                  <p className="text-slate-900 font-semibold mt-3 text-sm sm:text-base leading-relaxed">
+                    Technology, Engineering & Product
+                  </p>
+                  <p className="text-slate-700 mt-4 text-base leading-relaxed">
                     An accomplished tech leader with 24 years of international
                     experience in tech, AI, operations, marketing and business
                     strategy. Engineering graduate from IIT, MBA from Harvard
@@ -447,17 +471,16 @@ export default function About() {
                     <h3 className="text-2xl sm:text-3xl font-bold text-black">
                       Sam Yates
                     </h3>
-                    <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                      Media Coverage and Spokesperson
+                    <p className="mt-2 inline-flex rounded-full bg-[#FFF5F8] px-3 py-1 text-xs sm:text-sm font-semibold text-[#BF0637]">
+                      Head of Media & PR
                     </p>
-                    <p className="text-slate-700 mt-6 text-base leading-relaxed">
-                      A veteran communicator who has shaped public perception
-                      across industries, will lead our media presence and
-                      amplify our message. He crafts clear crisis narratives
-                      that keep communities informed and calm. His media
-                      strategy strengthens public confidence during critical
-                      response moments.
+                    <p className="text-slate-900 font-semibold mt-3 text-sm sm:text-base leading-relaxed">
+                      Media Coverage & Spokesperson
                     </p>
+                    <ExpandableBio
+                      text={samBio}
+                      className="text-slate-700 text-base leading-relaxed"
+                    />
                   </div>
                 </div>
               </div>
@@ -467,17 +490,16 @@ export default function About() {
                   <h3 className="text-2xl sm:text-3xl font-bold text-black">
                     Sam Yates
                   </h3>
-                  <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                    Media Coverage and Spokesperson
+                  <p className="mt-2 inline-flex rounded-full bg-[#FFF5F8] px-3 py-1 text-xs sm:text-sm font-semibold text-[#BF0637]">
+                    Head of Media & PR
                   </p>
-                  <p className="text-slate-700 mt-6 text-base leading-relaxed">
-                    A veteran communicator who has shaped public perception
-                    across industries, will lead our media presence and amplify
-                    our message. He crafts clear crisis narratives that keep
-                    communities informed and calm. His media strategy
-                    strengthens public confidence during critical response
-                    moments.
+                  <p className="text-slate-900 font-semibold mt-3 text-sm sm:text-base leading-relaxed">
+                    Media Coverage & Spokesperson
                   </p>
+                  <ExpandableBio
+                    text={samBio}
+                    className="text-slate-700 text-base leading-relaxed"
+                  />
                 </div>
               </div>
               {/* Desktop: Image only */}
@@ -513,16 +535,16 @@ export default function About() {
                     <h3 className="text-2xl sm:text-3xl font-bold text-black">
                       KT Catlin
                     </h3>
-                    <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                      Non-Profit & Fundraising
+                    <p className="mt-2 inline-flex rounded-full bg-[#FFF5F8] px-3 py-1 text-xs sm:text-sm font-semibold text-[#BF0637]">
+                      CEO & Co-Founder
                     </p>
-                    <p className="text-slate-700 mt-6 text-base leading-relaxed">
-                      Extensive experience in community-based programs,
-                      volunteer mobilization, and humanitarian operations at
-                      scale. She also builds strategic partnerships that expand
-                      local impact. Her leadership helps convert community trust
-                      into measurable emergency preparedness outcomes.
+                    <p className="text-slate-900 font-semibold mt-3 text-sm sm:text-base leading-relaxed">
+                      Non-Profit & Fundraising - Strategy & Scaling
                     </p>
+                    <ExpandableBio
+                      text={ktBio}
+                      className="text-slate-700 text-base leading-relaxed"
+                    />
                   </div>
                 </div>
               </div>
@@ -544,16 +566,16 @@ export default function About() {
                   <h3 className="text-2xl sm:text-3xl font-bold text-black">
                     KT Catlin
                   </h3>
-                  <p className="text-[#BF0637] font-semibold mt-2 text-sm sm:text-base">
-                    Non-Profit & Fundraising
+                  <p className="mt-2 inline-flex rounded-full bg-[#FFF5F8] px-3 py-1 text-xs sm:text-sm font-semibold text-[#BF0637]">
+                    CEO & Co-Founder
                   </p>
-                  <p className="text-slate-700 mt-6 text-base leading-relaxed">
-                    Extensive experience in community-based programs, volunteer
-                    mobilization, and humanitarian operations at scale. She also
-                    builds strategic partnerships that expand local impact. Her
-                    leadership helps convert community trust into measurable
-                    emergency preparedness outcomes.
+                  <p className="text-slate-900 font-semibold mt-3 text-sm sm:text-base leading-relaxed">
+                    Non-Profit & Fundraising - Strategy & Scaling
                   </p>
+                  <ExpandableBio
+                    text={ktBio}
+                    className="text-slate-700 text-base leading-relaxed"
+                  />
                 </div>
               </div>
             </div>
@@ -562,7 +584,7 @@ export default function About() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 sm:py-20 md:py-24 bg-white">
+      {/* <section className="py-16 sm:py-20 md:py-24 bg-white">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 lg:gap-12">
             <div className="text-center p-6 sm:p-8 bg-[#FFF5F8] rounded-lg">
@@ -599,7 +621,7 @@ export default function About() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       <Footer />
     </div>
