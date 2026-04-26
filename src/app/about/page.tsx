@@ -13,6 +13,9 @@ const samBio =
 const ktBio =
   "Katherine \"K.T.\" Catlin is a highly accomplished sales and marketing executive in the real estate and home building industries, with decades of experience driving revenue growth, market penetration, and strategic initiatives. Since 2018, as owner of KT Consulting & Associates LLC in Palm Beach, Florida, she offers specialized marketing strategies, consultations, and team-building solutions for housing professionals and property owners. From 2013 to 2023, K.T. served as Executive Officer for multiple Local Builders Associations, managing daily operations, educational programs, advocacy, budgeting, and fundraising. Earlier in her career (1989-2017), she held senior leadership roles, including Director of Sales & Marketing, Sales Manager, Regional New Homes Director, and Licensed Real Estate Broker at major firms such as Weichert Realtors, Coldwell Banker, Century 21, and RE/MAX. K.T. has consistently earned top industry recognition, including Sales Director of the Year, Associate of the Year, and induction into the NJBA Associate Hall of Fame. A dedicated leader, she holds prestigious certifications: GRI, CSP, CMP, and CLHMS. Civically engaged, K.T. is a member of the Town of Palm Beach Architectural Review Commission and a United Way volunteer. She earned a B.A. in Fine Arts from Fairleigh Dickinson University and brings strategic vision, strong leadership, and deep industry expertise to deliver exceptional results at R3sults Foundation.";
 
+const matthewBio =
+  "Matthew Cohen is an experienced executive, founder, and advisor with more than 40 years of experience working with both public and private companies in complex financial and operational environments. Over the course of his career, he has guided organizations through the full business lifecycle, often described as supporting companies \"from womb to tomb,\" meaning from formation and capital raising to growth, public market transactions, and strategic exits. Mr. Cohen has founded and advised several public and private companies, with deep experience in areas such as going-public transactions, reverse mergers, complex SEC reporting, technical accounting, derivative liability analysis, business combinations, valuations, and structuring debt and equity financings. He is particularly well known in the microcap space, where he collaborates closely with attorneys, accounting firms, and investment bankers to help companies navigate sophisticated transactions and maintain strong governance. He has more than 30 years of experience managing public companies and serving in board and executive leadership roles. Currently, Mr. Cohen serves as CEO of two public companies and CFO of two private companies, where he focuses on strategic growth initiatives, capital markets strategy, and expanding companies into new domestic and international markets through specialty services and targeted acquisitions.";
+
 export default function About() {
   return (
     <div className="w-full bg-white">
@@ -207,10 +210,10 @@ export default function About() {
                     <p className="text-slate-900 font-semibold mt-3 text-sm sm:text-base leading-relaxed">
                       Strategy & Scaling
                     </p>
-                    <p className="text-slate-700 mt-4 text-base leading-relaxed">
-                      Proven expertise scaling high-volume operations and
-                      managing complex logistics for rapid deployment scenarios.
-                    </p>
+                    <ExpandableBio
+                      text={matthewBio}
+                      className="text-slate-700 text-base leading-relaxed"
+                    />
                   </div>
                 </div>
               </div>
@@ -226,10 +229,10 @@ export default function About() {
                   <p className="text-slate-900 font-semibold mt-3 text-sm sm:text-base leading-relaxed">
                     Strategy & Scaling
                   </p>
-                  <p className="text-slate-700 mt-4 text-base leading-relaxed">
-                    Proven expertise scaling high-volume operations and managing
-                    complex logistics for rapid deployment scenarios.
-                  </p>
+                  <ExpandableBio
+                    text={matthewBio}
+                    className="text-slate-700 text-base leading-relaxed"
+                  />
                 </div>
               </div>
               {/* Desktop: Image only */}
