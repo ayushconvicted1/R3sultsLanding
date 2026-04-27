@@ -336,10 +336,10 @@ export default function About() {
                       S. Robert August
                     </h3>
                     <p className="mt-2 inline-flex rounded-full bg-[#FFF5F8] px-3 py-1 text-xs sm:text-sm font-semibold text-[#BF0637]">
-                      Chief Revenue Office
+                      Chief Revenue Officer
                     </p>
                     <p className="text-slate-900 font-semibold mt-3 text-sm sm:text-base leading-relaxed">
-                      Red Sales, Marketing, Management, and Disaster Relief Expert
+                      Sales, Marketing, Management, and Disaster Relief Expert
                     </p>
                     <ExpandableBio
                       text={robertBio}
@@ -355,10 +355,10 @@ export default function About() {
                     S. Robert August
                   </h3>
                   <p className="mt-2 inline-flex rounded-full bg-[#FFF5F8] px-3 py-1 text-xs sm:text-sm font-semibold text-[#BF0637]">
-                    Chief Revenue Office
+                    Chief Revenue Officer
                   </p>
                   <p className="text-slate-900 font-semibold mt-3 text-sm sm:text-base leading-relaxed">
-                    Red Sales, Marketing, Management, and Disaster Relief Expert
+                    Sales, Marketing, Management, and Disaster Relief Expert
                   </p>
                   <ExpandableBio
                     text={robertBio}
