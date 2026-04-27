@@ -47,7 +47,7 @@ export default function Home() {
                 </span>
               </h1>
               <p className="text-white text-sm sm:text-base md:text-lg mb-4 sm:mb-6 max-w-full sm:max-w-2xl mx-auto md:mx-0">
-              A disaster management ecosystem that helps people , through coordination of real time Intelligence , connected devices and active people.
+              A disaster management ecosystem that helps people , through coordination of real time intelligence , connected devices and active people.
               </p>
               <hr className="border-white/30 mb-6 sm:mb-8 md:mb-10 max-md:mx-auto max-md:max-w-xs" />
               {/* <div className="flex gap-4 sm:gap-5">
