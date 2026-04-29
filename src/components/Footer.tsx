@@ -87,7 +87,7 @@ export default function Footer() {
             <h5 className="font-semibold mb-4">Connect</h5>
             <div className="flex gap-4 mb-4">
               <a
-                href="https://facebook.com"
+                href="https://www.facebook.com/profile.php?id=61583899421911"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-slate-400 hover:text-white transition-colors"
@@ -107,7 +107,7 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/r3sultsglobal/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-slate-400 hover:text-white transition-colors"
@@ -131,18 +131,18 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="https://twitter.com"
+                href="https://www.linkedin.com/company/r3sults/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-slate-400 hover:text-white transition-colors"
-                aria-label="X (Twitter)"
+                aria-label="LinkedIn"
               >
                 <svg
                   className="w-6 h-6"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                 >
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  <path d="M20.447 20.452H17.21v-5.569c0-1.328-.027-3.037-1.852-3.037-1.852 0-2.136 1.445-2.136 2.939v5.667H10.01V9h3.094v1.561h.043c.431-.815 1.484-1.675 3.053-1.675 3.263 0 3.864 2.148 3.864 4.943v6.523zM5.337 7.433c-1.066 0-1.93-.87-1.93-1.936 0-1.066.864-1.93 1.93-1.93 1.067 0 1.931.864 1.931 1.93 0 1.066-.864 1.936-1.931 1.936zM6.76 20.452H3.915V9h2.845v11.452z" />
                 </svg>
               </a>
             </div>

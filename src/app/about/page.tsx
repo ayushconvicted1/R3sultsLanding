@@ -406,7 +406,7 @@ export default function About() {
                       Ajay Verma 
                     </h3>
                     <p className="mt-2 inline-flex rounded-full bg-[#FFF5F8] px-3 py-1 text-xs sm:text-sm font-semibold text-[#BF0637]">
-                      Chief Technology Advisor
+                      Chief Technology Officer
                     </p>
                     <p className="text-slate-900 font-semibold mt-3 text-sm sm:text-base leading-relaxed">
                       Technology, Engineering & Product
@@ -440,7 +440,7 @@ export default function About() {
                     Ajay Verma
                   </h3>
                   <p className="mt-2 inline-flex rounded-full bg-[#FFF5F8] px-3 py-1 text-xs sm:text-sm font-semibold text-[#BF0637]">
-                    Chief Technology Advisor
+                    Chief Technology Officer
                   </p>
                   <p className="text-slate-900 font-semibold mt-3 text-sm sm:text-base leading-relaxed">
                     Technology, Engineering & Product
@@ -539,7 +539,7 @@ export default function About() {
                       KT Catlin
                     </h3>
                     <p className="mt-2 inline-flex rounded-full bg-[#FFF5F8] px-3 py-1 text-xs sm:text-sm font-semibold text-[#BF0637]">
-                      CEO & Co-Founder
+                      CEO and Co-founder at R3sults Foundation
                     </p>
                     <p className="text-slate-900 font-semibold mt-3 text-sm sm:text-base leading-relaxed">
                       Non-Profit & Fundraising - Strategy & Scaling
@@ -570,7 +570,7 @@ export default function About() {
                     KT Catlin
                   </h3>
                   <p className="mt-2 inline-flex rounded-full bg-[#FFF5F8] px-3 py-1 text-xs sm:text-sm font-semibold text-[#BF0637]">
-                    CEO & Co-Founder
+                    CEO and Co-founder at R3sults Foundation
                   </p>
                   <p className="text-slate-900 font-semibold mt-3 text-sm sm:text-base leading-relaxed">
                     Non-Profit & Fundraising - Strategy & Scaling
