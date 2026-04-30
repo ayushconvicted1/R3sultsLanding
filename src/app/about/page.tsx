@@ -475,10 +475,10 @@ export default function About() {
                       Sam Yates
                     </h3>
                     <p className="mt-2 inline-flex rounded-full bg-[#FFF5F8] px-3 py-1 text-xs sm:text-sm font-semibold text-[#BF0637]">
-                      Head of Media & PR
+                      Executive VP
                     </p>
                     <p className="text-slate-900 font-semibold mt-3 text-sm sm:text-base leading-relaxed">
-                      Media Coverage & Spokesperson
+                      Public Relations & Communication
                     </p>
                     <ExpandableBio
                       text={samBio}
@@ -494,10 +494,10 @@ export default function About() {
                     Sam Yates
                   </h3>
                   <p className="mt-2 inline-flex rounded-full bg-[#FFF5F8] px-3 py-1 text-xs sm:text-sm font-semibold text-[#BF0637]">
-                    Head of Media & PR
+                    Executive VP
                   </p>
                   <p className="text-slate-900 font-semibold mt-3 text-sm sm:text-base leading-relaxed">
-                    Media Coverage & Spokesperson
+                    Public Relations & Communication
                   </p>
                   <ExpandableBio
                     text={samBio}
