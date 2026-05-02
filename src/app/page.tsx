@@ -20,12 +20,17 @@ export default function Home() {
         id="hero"
         className="hero relative h-[100dvh] min-h-[100dvh] flex flex-col pt-24 sm:pt-28 md:pt-32 lg:pt-40"
       >
-        {/* Video Background - plays once, pauses at end */}
-        <VideoPlayOnce
-          src="/HeroVid1.mp4"
-          stopBeforeEndSeconds={1}
+        {/* Video Background - loops continuously */}
+        <video
           className="absolute inset-0 w-full h-full object-cover"
-        />
+          autoPlay
+          muted
+          loop
+          playsInline
+          aria-hidden
+        >
+          <source src="/HeroVid1.mp4" type="video/mp4" />
+        </video>
         <div className="absolute inset-0 hero-overlay"></div>
         <div className="relative z-10 flex flex-col flex-1 min-h-0 w-full">
           {/* Align hero content with header navbar edges on large screens.
@@ -40,10 +45,11 @@ export default function Home() {
                   letterSpacing: "-0.02em",
                 }}
               >
-                <span className="block w-full max-w-full">Helping resolve the</span>
-                <span className="block w-full max-w-full">Overcoming Disaster&nbsp;:</span>
+                <span className="block w-full max-w-full">
+                  Helping Overcome Disasters&nbsp;:
+                </span>
                 <span className="block w-full max-w-full whitespace-normal">
-                  Using People, Technology & AI
+                  Using People , Technology & AI
                 </span>
               </h1>
               <p className="text-white text-sm sm:text-base md:text-lg mb-4 sm:mb-6 max-w-full sm:max-w-2xl mx-auto md:mx-0">
@@ -645,12 +651,12 @@ export default function Home() {
               },
             ].map((item, idx) => (
               <div key={idx} className="lifeline-card relative">
-                {/* Red warning icon box */}
-                <div className="lifeline-warning-icon h-[36px] w-[36px] z-0">
+                {/* Red warning icon — above the frosted panel */}
+                <div className="lifeline-warning-icon h-[36px] w-[36px] z-20">
                   {item.icon()}
                 </div>
-                {/* Dark gray overlapping box */}
-                <div className="lifeline-content-box z-10 bg-white/20 backdrop-blur-md">
+                {/* Frosted content box — sits under the icon badge */}
+                <div className="lifeline-content-box z-0 bg-white/20 backdrop-blur-md">
                   <div className="font-bold text-lg mb-2 leading-tight">
                     {item.title}
                   </div>

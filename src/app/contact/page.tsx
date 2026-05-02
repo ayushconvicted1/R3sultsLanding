@@ -1,5 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import {
+  loadCaptchaEnginge,
+  LoadCanvasTemplate,
+  validateCaptcha,
+} from "react-simple-captcha";
 import Header from "@/components/Header";
 import LogoSvg from "@/components/images/Logo";
 import Footer from "@/components/Footer";
@@ -14,9 +19,22 @@ export default function Contact() {
   const [submitStatus, setSubmitStatus] = useState<
     "idle" | "success" | "error"
   >("idle");
+  const [captchaInput, setCaptchaInput] = useState("");
+
+  useEffect(() => {
+    loadCaptchaEnginge(6);
+  }, []);
+
+  const captchaValid =
+    captchaInput.length > 0 && validateCaptcha(captchaInput, false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!validateCaptcha(captchaInput, true)) {
+      setSubmitStatus("error");
+      setCaptchaInput("");
+      return;
+    }
     setIsSubmitting(true);
     setSubmitStatus("idle");
 
@@ -43,6 +61,8 @@ export default function Contact() {
 
       setSubmitStatus("success");
       setFormData({ name: "", email: "", message: "" });
+      setCaptchaInput("");
+      loadCaptchaEnginge(6);
     } catch (error) {
       console.error("Error submitting form:", error);
       setSubmitStatus("error");
@@ -191,9 +211,35 @@ export default function Contact() {
                     placeholder="Enter your message"
                   />
                 </div>
+                <div>
+                  <label
+                    htmlFor="captcha"
+                    className="block text-sm sm:text-base font-medium text-slate-700 mb-2"
+                  >
+                    Captcha :
+                  </label>
+                  <div className="mb-3 rounded-md overflow-hidden border border-slate-200 bg-slate-50 p-2 inline-block max-w-full [&_canvas]:max-w-full">
+                    <LoadCanvasTemplate />
+                  </div>
+                  <input
+                    type="text"
+                    id="captcha"
+                    name="captcha"
+                    value={captchaInput}
+                    onChange={(e) => setCaptchaInput(e.target.value)}
+                    autoComplete="off"
+                    className="w-full bg-transparent border-x-0 border-t-0 border-b-2 border-slate-300 focus:border-x-0 focus:border-t-0 focus:border-b-2 focus:border-b-[#BF0637] focus:ring-0 outline-none py-2 text-slate-700 text-sm sm:text-base transition-colors"
+                    style={{
+                      borderLeft: "none",
+                      borderRight: "none",
+                      borderTop: "none",
+                    }}
+                    placeholder="Enter the characters shown above"
+                  />
+                </div>
                 <button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !captchaValid}
                   className="bg-[#696969] hover:bg-slate-900 w-full text-white px-8 py-3 rounded-md font-semibold transition-colors text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? "Sending..." : "Send"}

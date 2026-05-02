@@ -1,0 +1,173 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "page": "contact",
+    "description": "CMS content contract for Contact Us page.",
+    "notes": [
+      "This file focuses on editable content only.",
+      "Header is excluded as requested.",
+      "Footer content is included because it appears on the page."
+    ]
+  },
+  "shared": {
+    "footer": {
+      "brand": {
+        "logoColor": "white",
+        "tagline": "Respond. Recover. Rebuild. — A Disaster Management Ecosystem That Saves Lives!"
+      },
+      "quickLinksTitle": "Quick Links",
+      "quickLinks": [
+        { "label": "About", "href": "/about" },
+        { "label": "Contact", "href": "/contact" },
+        { "label": "News and Media", "href": "/news-and-media" },
+        { "label": "Privacy Policy", "href": "/privacy-policy" },
+        { "label": "Terms and conditions", "href": "/terms-and-condition" }
+      ],
+      "contactTitle": "Contact",
+      "contact": {
+        "phone": { "display": "+1 954-231-1750", "href": "tel:+19542311750" },
+        "email": { "display": "info@r3sults.com", "href": "mailto:info@r3sults.com" },
+        "address": "2120 SW , 60th Ter Miramar, FL 33023"
+      },
+      "connectTitle": "Connect",
+      "socialLinks": [
+        {
+          "platform": "Facebook",
+          "href": "https://www.facebook.com/profile.php?id=61583899421911",
+          "ariaLabel": "Facebook",
+          "iconKey": "facebook"
+        },
+        {
+          "platform": "Instagram",
+          "href": "https://www.instagram.com/r3sultsglobal/",
+          "ariaLabel": "Instagram",
+          "iconKey": "instagram"
+        },
+        {
+          "platform": "LinkedIn",
+          "href": "https://www.linkedin.com/company/r3sults/",
+          "ariaLabel": "LinkedIn",
+          "iconKey": "linkedin"
+        }
+      ],
+      "newsletter": {
+        "title": "Subscribe to our newsletter",
+        "input": {
+          "placeholder": "Enter your email",
+          "ariaLabel": "email"
+        },
+        "button": {
+          "defaultLabel": "Please join",
+          "loadingLabel": "Subscribing"
+        },
+        "api": {
+          "endpoint": "/api/newsletter/subscribe",
+          "method": "POST",
+          "payload": { "email": "<email>" }
+        }
+      },
+      "copyrightText": "© 2026 R3sults. All rights reserved."
+    }
+  },
+  "page": {
+    "hero": {
+      "sectionId": "hero",
+      "backgroundImageDesktop": "/ContactBG.png",
+      "title": "Connect with us",
+      "subtitleLines": [
+        "to respond faster, recover smarter, and",
+        "rebuild stronger"
+      ]
+    },
+    "contactSection": {
+      "title": "Contact Us",
+      "description": "Please feel free to contact us, we'll get back to you as soon as possible.",
+      "form": {
+        "fields": [
+          {
+            "name": "name",
+            "label": "Name :",
+            "type": "text",
+            "placeholder": "Enter your name",
+            "required": true
+          },
+          {
+            "name": "email",
+            "label": "Email :",
+            "type": "email",
+            "placeholder": "Enter your email",
+            "required": true
+          },
+          {
+            "name": "message",
+            "label": "Message :",
+            "type": "textarea",
+            "placeholder": "Enter your message",
+            "rows": 6,
+            "required": true
+          }
+        ],
+        "submitButton": {
+          "defaultLabel": "Send",
+          "loadingLabel": "Sending..."
+        },
+        "messages": {
+          "success": "Thank you! We've received your message and will get back to you soon.",
+          "error": "Something went wrong. Please try again."
+        },
+        "api": {
+          "primaryEndpoint": "/api/email",
+          "method": "POST",
+          "payload": {
+            "email": "<email>",
+            "source": "contact"
+          },
+          "notes": [
+            "Current frontend sends email+source only.",
+            "name and message are collected in UI and logged in console; extend backend endpoint if full message capture is required."
+          ]
+        }
+      },
+      "contactInfo": {
+        "visitUs": {
+          "title": "Visit us",
+          "text": "2120 SW , 60th Ter Miramar, FL 33023"
+        },
+        "callUs": {
+          "title": "Call us",
+          "phone": {
+            "display": "+1 954-231-1750",
+            "href": "tel:+19542311750"
+          }
+        },
+        "followUs": {
+          "title": "Follow Us on",
+          "links": [
+            {
+              "platform": "Facebook",
+              "href": "https://www.facebook.com/profile.php?id=61583899421911&mibextid=wwXIfr&rdid=uDRB3XdrvUZvjwir&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1CH3z97LJM%2F%3Fmibextid%3DwwXIfr#",
+              "ariaLabel": "Facebook",
+              "iconKey": "facebook"
+            },
+            {
+              "platform": "Instagram",
+              "href": "https://www.instagram.com/r3sultsglobal/",
+              "ariaLabel": "Instagram",
+              "iconKey": "instagram"
+            },
+            {
+              "platform": "Twitter/X",
+              "href": "https://twitter.com",
+              "ariaLabel": "Twitter/X",
+              "iconKey": "twitter_x"
+            }
+          ]
+        }
+      }
+    },
+    "quoteSection": {
+      "quote": "\"Safety should depend on dissaster preparedness!\""
+    },
+    "footerRef": "shared.footer"
+  }
+}
