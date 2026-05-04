@@ -25,13 +25,26 @@ export default function About() {
       <section
         id="hero"
         className="hero relative min-h-screen flex items-center pt-24 sm:pt-28 md:pt-32 lg:pt-40 pb-20"
-        style={{
-          backgroundImage: "url('/AboutHeroBG.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
       >
+        {/* Background images (mobile vs desktop) */}
+        <Image
+          src="/About us_Mobile.jpg.jpeg"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover sm:hidden"
+          aria-hidden
+        />
+        <Image
+          src="/AboutHeroBG.png"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="hidden object-cover sm:block"
+          aria-hidden
+        />
         <div className="absolute inset-0 hero-overlay"></div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-20">
           <div className="max-w-2xl">
