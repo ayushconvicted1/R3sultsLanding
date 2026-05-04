@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 
-/** Maps card title to `/public` filename: snake_case + `.jpeg` */
+/** Maps card title to `/public` filename: snake_case + `.jpg` */
 function imagePathForTitle(title: string): string {
   const slug = title
     .toLowerCase()
@@ -17,7 +17,7 @@ function imagePathForTitle(title: string): string {
     .trim()
     .replace(/[^a-z0-9]+/g, "_")
     .replace(/^_|_$/g, "");
-  return `/${slug}.jpeg`;
+  return `/${slug}.jpg`;
 }
 
 const LIFELINE_ITEMS = [

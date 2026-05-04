@@ -753,7 +753,7 @@ export default function Home() {
                 "Flash floods devastate coastal cities, emergency services overwhelmed",
               description:
                 "Floods devastate coastal cities, infrastructure overwhelmed, emergency systems over-stressed.",
-              image: "/Impact3.jpeg",
+              image: "/Impact3.jpg",
               partners: 12,
               donations: 198500,
             },
