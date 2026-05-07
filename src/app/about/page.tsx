@@ -16,6 +16,8 @@ const ktBio =
 const matthewBio =
   "Matthew Cohen is an experienced executive, founder, and advisor with more than 40 years of experience working with both public and private companies in complex financial and operational environments. Over the course of his career, he has guided organizations through the full business lifecycle, often described as supporting companies \"from womb to tomb,\" meaning from formation and capital raising to growth, public market transactions, and strategic exits. Mr. Cohen has founded and advised several public and private companies, with deep experience in areas such as going-public transactions, reverse mergers, complex SEC reporting, technical accounting, derivative liability analysis, business combinations, valuations, and structuring debt and equity financings. He is particularly well known in the microcap space, where he collaborates closely with attorneys, accounting firms, and investment bankers to help companies navigate sophisticated transactions and maintain strong governance. He has more than 30 years of experience managing public companies and serving in board and executive leadership roles. Currently, Mr. Cohen serves as CEO of two public companies and CFO of two private companies, where he focuses on strategic growth initiatives, capital markets strategy, and expanding companies into new domestic and international markets through specialty services and targeted acquisitions.";
 
+const ajayBio = "A seasoned disaster relief and construction leader with decades of field experience across the U.S. and Caribbean — from preparedness and emergency response to post-disaster reconstruction. An experienced construction executive and industry consultant who is a multimillion-dollar entrepreneur, Herb has coordinated logistics, personnel, and resources in the most demanding, time-critical environments imaginable. At R3SULTS, he is the operational backbone — the person who has actually been in the field during the exact disasters this platform is built to solve.";
+
 export default function About() {
   return (
     <div className="w-full bg-white">
@@ -234,7 +236,7 @@ export default function About() {
               <div className="hidden lg:flex lg:items-center lg:order-1 lg:pr-6">
                 <div>
                   <h3 className="text-2xl sm:text-3xl font-bold text-black">
-                    Matthew Cohen 
+                    Matthew Cohen
                   </h3>
                   <p className="mt-2 inline-flex rounded-full bg-[#FFF5F8] px-3 py-1 text-xs sm:text-sm font-semibold text-[#BF0637]">
                     Chief Executive Officer
@@ -416,7 +418,7 @@ export default function About() {
                   </div>
                   <div className="p-6">
                     <h3 className="text-2xl sm:text-3xl font-bold text-black">
-                      Ajay Verma 
+                      Ajay Verma
                     </h3>
                     <p className="mt-2 inline-flex rounded-full bg-[#FFF5F8] px-3 py-1 text-xs sm:text-sm font-semibold text-[#BF0637]">
                       Chief Technology Officer
@@ -425,11 +427,11 @@ export default function About() {
                       Technology, Engineering & Product
                     </p>
                     <p className="text-slate-700 mt-4 text-base leading-relaxed">
-                      An accomplished tech leader with 24 years of international
-                      experience in tech, AI, operations, marketing and business
-                      strategy. Engineering graduate from IIT, MBA from Harvard
-                      University. Lived and worked across 4 countries, bringing
-                      a global perspective to disaster tech innovation.
+                      <ExpandableBio
+                        text={ajayBio}
+                        className="text-slate-700 text-base leading-relaxed"
+                      />
+
                     </p>
                   </div>
                 </div>
@@ -459,11 +461,11 @@ export default function About() {
                     Technology, Engineering & Product
                   </p>
                   <p className="text-slate-700 mt-4 text-base leading-relaxed">
-                    An accomplished tech leader with 24 years of international
-                    experience in tech, AI, operations, marketing and business
-                    strategy. Engineering graduate from IIT, MBA from Harvard
-                    University. Lived and worked across 4 countries, bringing a
-                    global perspective to disaster tech innovation.
+
+                    <ExpandableBio
+                      text={ajayBio}
+                      className="text-slate-700 text-base leading-relaxed"
+                    />
                   </p>
                 </div>
               </div>
@@ -530,7 +532,7 @@ export default function About() {
                   />
                 </div>
               </div>
-           
+
             </div>
 
             {/* Team Member 3 - Image Left, Text Right */}
