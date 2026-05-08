@@ -16,16 +16,37 @@
       },
       "quickLinksTitle": "Quick Links",
       "quickLinks": [
-        { "label": "About", "href": "/about" },
-        { "label": "Contact", "href": "/contact" },
-        { "label": "News and Media", "href": "/news-and-media" },
-        { "label": "Privacy Policy", "href": "/privacy-policy" },
-        { "label": "Terms and conditions", "href": "/terms-and-condition" }
+        {
+          "label": "About",
+          "href": "/about"
+        },
+        {
+          "label": "Contact",
+          "href": "/contact"
+        },
+        {
+          "label": "News and Media",
+          "href": "/news-and-media"
+        },
+        {
+          "label": "Privacy Policy",
+          "href": "/privacy-policy"
+        },
+        {
+          "label": "Terms and conditions",
+          "href": "/terms-and-condition"
+        }
       ],
       "contactTitle": "Contact",
       "contact": {
-        "phone": { "display": "+1 954-231-1750", "href": "tel:+19542311750" },
-        "email": { "display": "info@r3sults.com", "href": "mailto:info@r3sults.com" },
+        "phone": {
+          "display": "+1 954-231-1750",
+          "href": "tel:+19542311750"
+        },
+        "email": {
+          "display": "info@r3sults.com",
+          "href": "mailto:info@r3sults.com"
+        },
         "address": "2120 SW , 60th Ter Miramar, FL 33023"
       },
       "connectTitle": "Connect",
@@ -47,6 +68,24 @@
           "href": "https://www.linkedin.com/company/r3sults/",
           "ariaLabel": "LinkedIn",
           "iconKey": "linkedin"
+        },
+        {
+          "platform": "YouTube",
+          "href": "https://youtube.com/@r3sults-global?si=X7TY0w28nM9pDrei",
+          "ariaLabel": "YouTube",
+          "iconKey": "youtube"
+        },
+        {
+          "platform": "Twitter/X",
+          "href": "https://x.com/R3sultsGlobal",
+          "ariaLabel": "Twitter/X",
+          "iconKey": "twitter_x"
+        },
+        {
+          "platform": "Reddit",
+          "href": "https://www.reddit.com/user/Sea-End-4763/",
+          "ariaLabel": "Reddit",
+          "iconKey": "reddit"
         }
       ],
       "newsletter": {
@@ -62,7 +101,9 @@
         "api": {
           "endpoint": "/api/newsletter/subscribe",
           "method": "POST",
-          "payload": { "email": "<email>" }
+          "payload": {
+            "email": "<email>"
+          }
         }
       },
       "copyrightText": "© 2026 R3sults. All rights reserved."
@@ -206,7 +247,8 @@
               "notifications for imminent",
               "threats in your area"
             ],
-            "iconKey": "disaster_alerts"
+            "iconKey": "disaster_alerts",
+            "image": "/disaster_alerts.jpg"
           },
           {
             "title": "Shelter Locator",
@@ -215,7 +257,8 @@
               "find nearby safe shelters",
               "with live capacity information"
             ],
-            "iconKey": "shelter_locator"
+            "iconKey": "shelter_locator",
+            "image": "/shelter_locator.jpg"
           },
           {
             "title": "Medical Assistance",
@@ -224,7 +267,8 @@
               "connect with emergency",
               "medical services and resources"
             ],
-            "iconKey": "medical_assistance"
+            "iconKey": "medical_assistance",
+            "image": "/medical_assistance.jpg"
           },
           {
             "title": "Insurance & Relief",
@@ -233,7 +277,8 @@
               "streamline insurance claims",
               "and relief program access"
             ],
-            "iconKey": "insurance_relief"
+            "iconKey": "insurance_relief",
+            "image": "/insurance_relief.jpg"
           },
           {
             "title": "Emergency Supplies",
@@ -242,7 +287,8 @@
               "locate stores for essential",
               "supplies and provisions"
             ],
-            "iconKey": "emergency_supplies"
+            "iconKey": "emergency_supplies",
+            "image": "/emergency_supplies.jpg"
           },
           {
             "title": "Family Finder",
@@ -251,7 +297,8 @@
               "pinpoint loved ones",
               "via GPS or data"
             ],
-            "iconKey": "family_finder"
+            "iconKey": "family_finder",
+            "image": "/family_finder.jpg"
           },
           {
             "title": "Damage Reporting",
@@ -260,7 +307,8 @@
               "document and report damage",
               "for expedited aid efforts"
             ],
-            "iconKey": "damage_reporting"
+            "iconKey": "damage_reporting",
+            "image": "/damage_reporting.jpg"
           },
           {
             "title": "Recovery Tracking",
@@ -269,7 +317,8 @@
               "monitor restoration progress",
               "and community rebuilding"
             ],
-            "iconKey": "recovery_tracking"
+            "iconKey": "recovery_tracking",
+            "image": "/recovery_tracking.jpg"
           }
         ],
         "newsletterCta": {
@@ -286,7 +335,11 @@
           "src": "/WatchImg.png",
           "alt": "Smart Safety Wearable"
         },
-        "titleLines": ["IOT-powered Wearable", "for emergency", "tracking"],
+        "titleLines": [
+          "IOT-powered Wearable",
+          "for emergency",
+          "tracking"
+        ],
         "subtitle": "Join the Early Access Program",
         "form": {
           "source": "newsletter",
@@ -361,39 +414,78 @@
         "items": [
           {
             "title": "Flash floods devastate coastal cities, emergency services overwhelmed",
-            "description": "Floods devastate coastal cities, infrastructure overwhelmed, emergency systems over-stressed.",
+            "paragraph": "Floods devastate coastal cities, infrastructure overwhelmed, emergency systems over-stressed.",
+            "date": "May 8, 2026",
+            "time": "10:30 AM",
             "image": "/Impact3.jpeg",
-            "partners": 12,
-            "donations": 198500,
-            "partnersLabel": "Active Relief Partners:",
-            "donationsLabel": "Donations Raised:"
+            "sourceLink": "https://r3sults.com/impact/coastal-floods",
+            "country": "USA"
           },
           {
             "title": "Wildfires spread rapidly, communities evacuated",
-            "description": "Wildfires spread rapidly, communities evacuated, homes lost and people struggling.",
+            "paragraph": "Wildfires spread rapidly, communities evacuated, homes lost and people struggling.",
+            "date": "May 7, 2026",
+            "time": "02:15 PM",
             "image": "/Impact1.jpg",
-            "partners": 15,
-            "donations": 128300,
-            "partnersLabel": "Active Relief Partners:",
-            "donationsLabel": "Donations Raised:"
+            "sourceLink": "https://r3sults.com/impact/wildfires",
+            "country": "Canada"
           },
           {
             "title": "Earthquake strikes urban region, buildings damaged, rescue operations underway",
-            "description": "Earthquake strikes urban region, buildings damaged, rescue operations underway.",
+            "paragraph": "Earthquake strikes urban region, buildings damaged, rescue operations underway.",
+            "date": "May 6, 2026",
+            "time": "08:45 AM",
             "image": "/Impact4.jpg",
-            "partners": 8,
-            "donations": 450000,
-            "partnersLabel": "Active Relief Partners:",
-            "donationsLabel": "Donations Raised:"
+            "sourceLink": "https://r3sults.com/impact/earthquake",
+            "country": "Japan"
           },
           {
             "title": "Hurricane causes widespread power outages, relief efforts mobilized",
-            "description": "Hurricane causes widespread power outages, relief efforts mobilized across affected regions.",
+            "paragraph": "Hurricane causes widespread power outages, relief efforts mobilized across affected regions.",
+            "date": "May 5, 2026",
+            "time": "11:20 PM",
             "image": "/Impact2.jpg",
-            "partners": 20,
-            "donations": 320000,
-            "partnersLabel": "Active Relief Partners:",
-            "donationsLabel": "Donations Raised:"
+            "sourceLink": "https://r3sults.com/impact/hurricane",
+            "country": "Bahamas"
+          }
+        ]
+      },
+      "instagramReels": {
+        "title": {
+          "prefix": "Our",
+          "highlight": "Instagram Reels"
+        },
+        "description": "Check out our latest updates and stories on Instagram.",
+        "reels": [
+          {
+            "videoPath": "/Action.mp4",
+            "title": "Community Resilience",
+            "subtitle": "How we rebuild together",
+            "link": "https://www.instagram.com/r3sultsglobal/"
+          },
+          {
+            "videoPath": "/HeroVid1.mp4",
+            "title": "AI in Action",
+            "subtitle": "Predicting threats in real-time",
+            "link": "https://www.instagram.com/r3sultsglobal/"
+          },
+          {
+            "videoPath": "/Action.mp4",
+            "title": "Field Support",
+            "subtitle": "On the ground when it matters",
+            "link": "https://www.instagram.com/r3sultsglobal/"
+          },
+          {
+            "videoPath": "/HeroVid1.mp4",
+            "title": "Join the Mission",
+            "subtitle": "Together we save lives",
+            "link": "https://www.instagram.com/r3sultsglobal/"
+          },
+          {
+            "videoPath": "/Action.mp4",
+            "title": "Tech for Good",
+            "subtitle": "Innovating disaster response",
+            "link": "https://www.instagram.com/r3sultsglobal/"
           }
         ]
       },
@@ -521,7 +613,9 @@
             "api": {
               "endpoint": "/api/newsletter/subscribe",
               "method": "POST",
-              "payload": { "email": "<email>" }
+              "payload": {
+                "email": "<email>"
+              }
             },
             "successToast": "You’re in — welcome to the community.",
             "errorToast": "Something went wrong. Please try again."
@@ -583,7 +677,10 @@
               "alt": "Matthew Cohen (CEO)"
             },
             "bio": "Matthew Cohen is an experienced executive, founder, and advisor with more than 40 years of experience working with both public and private companies in complex financial and operational environments. Over the course of his career, he has guided organizations through the full business lifecycle, often described as supporting companies \"from womb to tomb,\" meaning from formation and capital raising to growth, public market transactions, and strategic exits. Mr. Cohen has founded and advised several public and private companies, with deep experience in areas such as going-public transactions, reverse mergers, complex SEC reporting, technical accounting, derivative liability analysis, business combinations, valuations, and structuring debt and equity financings. He is particularly well known in the microcap space, where he collaborates closely with attorneys, accounting firms, and investment bankers to help companies navigate sophisticated transactions and maintain strong governance. He has more than 30 years of experience managing public companies and serving in board and executive leadership roles. Currently, Mr. Cohen serves as CEO of two public companies and CFO of two private companies, where he focuses on strategic growth initiatives, capital markets strategy, and expanding companies into new domestic and international markets through specialty services and targeted acquisitions.",
-            "bioPresentation": { "type": "expandable", "previewLines": 4 }
+            "bioPresentation": {
+              "type": "expandable",
+              "previewLines": 4
+            }
           },
           {
             "name": "Herbert V. Tremble II",
@@ -594,7 +691,9 @@
               "alt": "Herbert V. Tremble II (COO)"
             },
             "bio": "A seasoned disaster-relief and construction expert with decades of experience across the U.S. and the Caribbean. FA, TA-trained operator and successful multi-million-dollar entrepreneur, he brings deep operational and on-ground response expertise to large-scale disasters.",
-            "bioPresentation": { "type": "static" }
+            "bioPresentation": {
+              "type": "static"
+            }
           },
           {
             "name": "S. Robert August",
@@ -605,7 +704,10 @@
               "alt": "S. Robert August"
             },
             "bio": "Nationally and globally accomplished, acclaimed, and award-winning 50+ year veteran in marketing, management, fundraising, and sales leadership, with deep expertise in new and existing real estate development and large-scale construction projects. He brings a proven track record across public and private sectors, uniting strategic growth, capital formation, and operational excellence. His career includes a distinguished history of disaster relief preparedness, emergency response coordination, and long-term recovery, leading multi-stakeholder initiatives with government agencies, NGOs, private sector partners, and community organizations to deliver resilient, sustainable outcomes at scale.",
-            "bioPresentation": { "type": "expandable", "previewLines": 4 }
+            "bioPresentation": {
+              "type": "expandable",
+              "previewLines": 4
+            }
           }
         ]
       },
@@ -620,7 +722,9 @@
               "alt": "Ajay Verma"
             },
             "bio": "An accomplished tech leader with 24 years of international experience in tech, AI, operations, marketing and business strategy. Engineering graduate from IIT, MBA from Harvard University. Lived and worked across 4 countries, bringing a global perspective to disaster tech innovation.",
-            "bioPresentation": { "type": "static" }
+            "bioPresentation": {
+              "type": "static"
+            }
           },
           {
             "name": "Sam Yates",
@@ -631,7 +735,10 @@
               "alt": "Sam Yates"
             },
             "bio": "A veteran communicator who has shaped public perception across industries. Sam leads R3sults' media presence, amplifying our mission and ensuring our work reaches the communities, partners, and supporters who need to hear it most.",
-            "bioPresentation": { "type": "expandable", "previewLines": 4 }
+            "bioPresentation": {
+              "type": "expandable",
+              "previewLines": 4
+            }
           },
           {
             "name": "KT Catlin",
@@ -642,7 +749,10 @@
               "alt": "KT Catlin"
             },
             "bio": "Katherine \"K.T.\" Catlin is a highly accomplished sales and marketing executive in the real estate and home building industries, with decades of experience driving revenue growth, market penetration, and strategic initiatives. Since 2018, as owner of KT Consulting & Associates LLC in Palm Beach, Florida, she offers specialized marketing strategies, consultations, and team-building solutions for housing professionals and property owners. From 2013 to 2023, K.T. served as Executive Officer for multiple Local Builders Associations, managing daily operations, educational programs, advocacy, budgeting, and fundraising. Earlier in her career (1989-2017), she held senior leadership roles, including Director of Sales & Marketing, Sales Manager, Regional New Homes Director, and Licensed Real Estate Broker at major firms such as Weichert Realtors, Coldwell Banker, Century 21, and RE/MAX. K.T. has consistently earned top industry recognition, including Sales Director of the Year, Associate of the Year, and induction into the NJBA Associate Hall of Fame. A dedicated leader, she holds prestigious certifications: GRI, CSP, CMP, and CLHMS. Civically engaged, K.T. is a member of the Town of Palm Beach Architectural Review Commission and a United Way volunteer. She earned a B.A. in Fine Arts from Fairleigh Dickinson University and brings strategic vision, strong leadership, and deep industry expertise to deliver exceptional results at R3sults Foundation.",
-            "bioPresentation": { "type": "expandable", "previewLines": 4 }
+            "bioPresentation": {
+              "type": "expandable",
+              "previewLines": 4
+            }
           }
         ]
       },
