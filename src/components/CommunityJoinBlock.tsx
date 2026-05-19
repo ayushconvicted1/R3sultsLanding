@@ -11,6 +11,7 @@ import {
 } from "react-simple-captcha";
 import { toast } from "react-toastify";
 import { US_STATES } from "@/lib/us-states";
+import { useCMSContent } from "@/context/CMSContentContext";
 
 const BASE_URL =
   (process.env.NEXT_PUBLIC_USER_API_BASE_URL ||
@@ -24,6 +25,9 @@ const inputClass =
 const labelClass = "block text-xs font-medium text-slate-300 mb-1.5";
 
 export default function CommunityJoinBlock() {
+  const { data } = useCMSContent();
+  const communityData = data?.home.communitySection;
+  
   const formId = useId();
   const [mounted, setMounted] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -119,15 +123,14 @@ export default function CommunityJoinBlock() {
 
     setLoading(true);
     try {
-      // Newsletter endpoint expects { email }; extra fields collected for UX (extend API if needed).
       const response = await fetch(getApiUrl("/api/newsletter/subscribe"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: em }),
       });
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(data?.message || "Failed to join");
-      const message = data?.message || "You’re in — welcome to the community.";
+      const resData = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(resData?.message || "Failed to join");
+      const message = resData?.message || "You’re in — welcome to the community.";
       toast.success(message);
       closeModal();
     } catch (err) {
@@ -138,11 +141,13 @@ export default function CommunityJoinBlock() {
     }
   }
 
+  if (!communityData) return null;
+
   return (
     <>
       <div className="mt-0 flex flex-col gap-3 w-full max-w-full min-w-0">
         <p className="text-slate-200 text-sm mt-0 mb-0">
-          Tap below to open the form and join.
+          {communityData.card.joinTrigger.helperText}
         </p>
         <div className="flex items-center gap-2">
           <input
@@ -154,14 +159,14 @@ export default function CommunityJoinBlock() {
             aria-haspopup="dialog"
             aria-expanded={modalOpen}
             className="h-10 min-w-0 flex-1 cursor-pointer px-4 rounded-md bg-white/10 text-white placeholder:text-slate-300 text-base leading-tight border border-white/20 focus:outline-none focus:border-white/50"
-            placeholder="Enter your email"
+            placeholder={communityData.card.joinTrigger.inputPlaceholder}
           />
           <button
             type="button"
             onClick={openModal}
             className="h-10 bg-[#BF0637] px-4 rounded-md text-white text-sm inline-flex items-center gap-2 min-w-[110px] shrink-0 justify-center whitespace-nowrap hover:opacity-95"
           >
-            Join
+            {communityData.card.joinTrigger.buttonLabel}
           </button>
         </div>
       </div>
@@ -190,10 +195,10 @@ export default function CommunityJoinBlock() {
                   id={`${formId}-community-title`}
                   className="text-lg font-semibold text-white"
                 >
-                  Join our community
+                  {communityData.card.joinModal.title}
                 </h4>
                 <p className="text-xs text-slate-400 mt-1">
-                  Alerts, preparedness tips, and product updates.
+                  {communityData.card.joinModal.subtitle}
                 </p>
               </div>
               <button
@@ -210,7 +215,7 @@ export default function CommunityJoinBlock() {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label htmlFor={`${formId}-first`} className={labelClass}>
-                    First name
+                    {communityData.card.joinModal.fields.firstNameLabel}
                   </label>
                   <input
                     id={`${formId}-first`}
@@ -223,7 +228,7 @@ export default function CommunityJoinBlock() {
                 </div>
                 <div>
                   <label htmlFor={`${formId}-last`} className={labelClass}>
-                    Last name
+                    {communityData.card.joinModal.fields.lastNameLabel}
                   </label>
                   <input
                     id={`${formId}-last`}
@@ -238,7 +243,7 @@ export default function CommunityJoinBlock() {
 
               <div>
                 <label htmlFor={`${formId}-phone`} className={labelClass}>
-                  Phone number
+                  {communityData.card.joinModal.fields.phoneLabel}
                 </label>
                 <div
                   className="[&_.PhoneInput]:flex [&_.PhoneInput]:gap-2 [&_.PhoneInputInput]:min-w-0 [&_.PhoneInputInput]:flex-1 [&_.PhoneInputInput]:rounded-lg [&_.PhoneInputInput]:border [&_.PhoneInputInput]:border-slate-600/80 [&_.PhoneInputInput]:bg-slate-900/80 [&_.PhoneInputInput]:px-3 [&_.PhoneInputInput]:py-2.5 [&_.PhoneInputInput]:text-sm [&_.PhoneInputInput]:text-white [&_.PhoneInputCountry]:border [&_.PhoneInputCountry]:border-slate-600/80 [&_.PhoneInputCountry]:rounded-lg [&_.PhoneInputCountry]:bg-slate-900/80"
@@ -261,7 +266,7 @@ export default function CommunityJoinBlock() {
 
               <div>
                 <label htmlFor={`${formId}-state`} className={labelClass}>
-                  State
+                  {communityData.card.joinModal.fields.stateLabel}
                 </label>
                 <select
                   id={`${formId}-state`}
@@ -270,7 +275,7 @@ export default function CommunityJoinBlock() {
                   onChange={(e) => setState(e.target.value)}
                   required
                 >
-                  <option value="">Select state</option>
+                  <option value="">{communityData.card.joinModal.fields.statePlaceholder}</option>
                   {US_STATES.map((s) => (
                     <option key={s.code} value={s.code}>
                       {s.name}
@@ -281,7 +286,7 @@ export default function CommunityJoinBlock() {
 
               <div>
                 <label htmlFor={`${formId}-email`} className={labelClass}>
-                  Email
+                  {communityData.card.joinModal.fields.emailLabel}
                 </label>
                 <input
                   id={`${formId}-email`}
@@ -295,12 +300,12 @@ export default function CommunityJoinBlock() {
               </div>
 
               <div className="rounded-xl border border-slate-600/60 bg-slate-900/50 p-3">
-                <label className={labelClass}>Verification</label>
+                <label className={labelClass}>{communityData.card.joinModal.fields.captchaTitle}</label>
                 <div className="captcha-wrap text-slate-200 text-sm [&_a]:text-cyan-400 [&_a]:underline">
                   <LoadCanvasTemplate reloadText="New code" reloadColor="#22d3ee" />
                 </div>
                 <label htmlFor={`${formId}-captcha`} className={`${labelClass} mt-3`}>
-                  Enter the characters shown
+                  {communityData.card.joinModal.fields.captchaPlaceholder || "Enter the characters shown"}
                 </label>
                 <input
                   id={`${formId}-captcha`}
@@ -328,10 +333,10 @@ export default function CommunityJoinBlock() {
                 {loading ? (
                   <span className="inline-flex items-center justify-center gap-2">
                     <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    Joining…
+                    {communityData.card.joinModal.buttonLoadingLabel || "Joining…"}
                   </span>
                 ) : (
-                  "Join"
+                  communityData.card.joinModal.buttonLabel || "Join"
                 )}
               </button>
             </form>

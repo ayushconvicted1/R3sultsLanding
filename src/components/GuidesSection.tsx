@@ -3,8 +3,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import ImageFallback from "./ImageFallback";
-
-const TOAST_MESSAGE = "We have received your email for newsletter subscription.";
+import { useCMSContent } from "@/context/CMSContentContext";
 
 interface Guide {
   title: string;
@@ -14,71 +13,16 @@ interface Guide {
   date: string;
 }
 
-const guides: Guide[] = [
-  {
-    title: "Emergency Kit Preparation Guide",
-    image: "/Guide1.png",
-    description:
-      "Essential items and supplies checklist for emergency preparedness.",
-    date: "Dec 27, 2025",
-  },
-  {
-    title: "Disaster Risk Planning Handbook",
-    image: "/Guide2.png",
-    description:
-      "Comprehensive guide for disaster risk planning and mitigation strategies.",
-    date: "Dec 27, 2025",
-  },
-  {
-    title: "Government Emergency Action Guide",
-    image: "/Guide3.png",
-    description:
-      "Official protocols and procedures for government agencies during emergencies.",
-    date: "Dec 27, 2025",
-  },
-  {
-    title: "Community Preparedness Toolkit",
-    image: "/Guide4.png",
-    description:
-      "Resources for building resilient communities and neighborhood networks.",
-    date: "Dec 27, 2025",
-  },
-  {
-    title: "Wildfire Safety & Evacuation Guide",
-    image: "/Guide5.png",
-    description:
-      "Critical safety measures and evacuation procedures for wildfire emergencies.",
-    date: "Dec 27, 2025",
-  },
-  {
-    title: "Emergency Wearables Guide",
-    image: "/Guide6.png",
-    description:
-      "How to use smart devices and wearables for emergency alerts and communication.",
-    date: "Dec 27, 2025",
-  },
-  {
-    title: "Coastal Disaster Readiness Guide",
-    image: "/Guide7.png",
-    description:
-      "Preparedness strategies for hurricanes, tsunamis, and coastal emergencies.",
-    date: "Dec 27, 2025",
-  },
-  {
-    title: "Emergency Coordination Guide",
-    image: "/Guide8.png",
-    description:
-      "Effective communication and coordination protocols for emergency response teams.",
-    date: "Dec 27, 2025",
-  },
-];
-
 export default function GuidesSection() {
+  const { data } = useCMSContent();
   const [showModal, setShowModal] = useState(false);
   const [selectedGuide, setSelectedGuide] = useState<Guide | null>(null);
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const guidesData = data?.home.guidesResourcesSection;
+  if (!guidesData) return null;
 
   const handleDownloadClick = (guide: Guide) => {
     setSelectedGuide(guide);
@@ -117,7 +61,7 @@ export default function GuidesSection() {
 
       setIsSubmitting(false);
       setIsSubmitted(true);
-      toast.success(TOAST_MESSAGE);
+      toast.success("We have received your email for newsletter subscription.");
       setTimeout(() => {
         handleCloseModal();
       }, 2000);
@@ -130,23 +74,22 @@ export default function GuidesSection() {
 
   return (
     <>
-      {/* Disaster Preparedness Guides & Resources */}
       <section
-        id="resources"
+        id={guidesData.sectionId}
         className="resources-section relative py-12 sm:py-16 md:py-20 bg-black"
       >
         <div className="absolute inset-0 resources-bg opacity-40"></div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
           <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-3 sm:mb-4">
-            Disaster Preparedness{" "}
-            <span className="accent-color">Guides & Resources</span>
+            {guidesData.title.prefix}{" "}
+            <span className="accent-color">{guidesData.title.highlight}</span>
           </h3>
           <p className="text-center text-slate-300 mt-4 sm:mt-5 max-w-3xl mx-auto text-base sm:text-lg px-4">
-            Stay informed and be ready for any situation.
+            {guidesData.description}
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mt-10 sm:mt-12 md:mt-16">
-            {guides.map((item, i) => (
+            {guidesData.guides.map((item, i) => (
               <div
                 key={i}
                 className="bg-white/5 backdrop-blur-sm rounded-lg overflow-hidden border border-white/10 hover:shadow-xl transition-shadow relative"
@@ -210,7 +153,6 @@ export default function GuidesSection() {
         </div>
       </section>
 
-      {/* Download Modal */}
       {showModal && selectedGuide && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
@@ -220,7 +162,6 @@ export default function GuidesSection() {
             className="bg-white/20 backdrop-blur-md rounded-lg p-6 sm:p-8 w-full max-w-md mx-4 relative"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close Button */}
             <button
               onClick={handleCloseModal}
               className="absolute top-4 right-4 text-white/80 hover:text-white transition-colors p-1"

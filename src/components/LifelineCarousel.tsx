@@ -8,68 +8,16 @@ import {
   useRef,
   useState,
 } from "react";
-
-/** Maps card title to `/public` filename: snake_case + `.jpg` */
-function imagePathForTitle(title: string): string {
-  const slug = title
-    .toLowerCase()
-    .replace(/&/g, "")
-    .trim()
-    .replace(/[^a-z0-9]+/g, "_")
-    .replace(/^_|_$/g, "");
-  return `/${slug}.jpg`;
-}
-
-const LIFELINE_ITEMS = [
-  {
-    title: "Disaster Alerts",
-    subtitle:
-      "AI-powered real-time notifications for imminent threats in your area",
-  },
-  {
-    title: "Shelter Locator",
-    subtitle:
-      "Find nearby safe shelters with live capacity information",
-  },
-  {
-    title: "Medical Assistance",
-    subtitle:
-      "Connect with emergency medical services and first-aid guidance",
-  },
-  {
-    title: "Insurance & Relief",
-    subtitle:
-      "Streamline insurance claims and relief program access",
-  },
-  {
-    title: "Emergency Supplies",
-    subtitle:
-      "Locate stores for essential supplies and provisions",
-  },
-  {
-    title: "Family Finder",
-    subtitle: "Pinpoint loved ones via GPS or verified contact data",
-  },
-  {
-    title: "Damage Reporting",
-    subtitle:
-      "Document and report damage for expedited aid efforts",
-  },
-  {
-    title: "Recovery Tracking",
-    subtitle:
-      "Monitor restoration progress and community rebuilding",
-  },
-].map((item) => ({
-  ...item,
-  image: imagePathForTitle(item.title),
-}));
+import { useCMSContent } from "@/context/CMSContentContext";
 
 export default function LifelineCarousel() {
-  const n = LIFELINE_ITEMS.length;
+  const { data } = useCMSContent();
+  const lifelineItems = data?.home.lifelineSection.featureCards || [];
+  const n = lifelineItems.length;
+
   const slides = useMemo(
-    () => [...LIFELINE_ITEMS, ...LIFELINE_ITEMS],
-    []
+    () => [...lifelineItems, ...lifelineItems],
+    [lifelineItems]
   );
 
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -124,7 +72,6 @@ export default function LifelineCarousel() {
   const onTransitionEnd = useCallback(
     (e: React.TransitionEvent<HTMLDivElement>) => {
       if (e.propertyName !== "transform") return;
-      // Wrap seamlessly when we reach the duplicated half.
       if (index >= n) {
         setNoTransition(true);
         setIndex(index - n);
@@ -135,6 +82,8 @@ export default function LifelineCarousel() {
     },
     [index, n]
   );
+
+  if (lifelineItems.length === 0) return null;
 
   return (
     <div className="relative mt-8 sm:mt-10 md:mt-12">
@@ -177,9 +126,11 @@ export default function LifelineCarousel() {
                 <h4 className="text-lg font-bold leading-snug text-white sm:text-xl">
                   {item.title}
                 </h4>
-                <p className="mt-1.5 text-sm leading-relaxed text-white/90">
-                  {item.subtitle}
-                </p>
+                <div className="mt-1.5 text-sm leading-relaxed text-white/90">
+                  {item.descriptionLines.map((line, i) => (
+                    <p key={i}>{line}</p>
+                  ))}
+                </div>
               </div>
             </article>
           ))}

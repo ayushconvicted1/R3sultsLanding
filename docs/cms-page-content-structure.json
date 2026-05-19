@@ -849,6 +849,24 @@
                 "href": "https://twitter.com",
                 "ariaLabel": "Twitter/X",
                 "iconKey": "twitter_x"
+              },
+              {
+                "platform": "Linkdin",
+                "href": "https://www.linkedin.com/company/r3sults/",
+                "ariaLabel": "Linkdin",
+                "iconKey": "linkedin"
+              },
+              {
+                "platform": "Youtube",
+                "href": "https://youtube.com/@r3sults-global?si=X7TY0w28nM9pDrei",
+                "ariaLabel": "Youtube",
+                "iconKey": "youtube"
+              },
+              {
+                "platform": "Reddit",
+                "href": "https://www.reddit.com/r/r3sults/",
+                "ariaLabel": "Reddit",
+                "iconKey": "reddit"
               }
             ]
           }

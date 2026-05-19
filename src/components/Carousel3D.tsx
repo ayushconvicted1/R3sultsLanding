@@ -1,7 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { useCMSContent } from "@/context/CMSContentContext";
 
 export default function Carousel3D() {
+  const { data } = useCMSContent();
+  const carouselData = data?.home.buildingSection.carouselCards || [];
+  const CARD_COUNT = carouselData.length;
+
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [prevCardIndex, setPrevCardIndex] = useState(0);
@@ -9,7 +14,6 @@ export default function Carousel3D() {
     null
   );
   const [isMobile, setIsMobile] = useState(false);
-  const CARD_COUNT = 3;
 
   useEffect(() => {
     const checkMobile = () => {
@@ -38,7 +42,7 @@ export default function Carousel3D() {
   }, [animatingFromRight]);
 
   useEffect(() => {
-    if (!isMobile) {
+    if (!isMobile && CARD_COUNT > 0) {
       const interval = setInterval(() => {
         setCurrentCardIndex((prev) => {
           setPrevCardIndex(prev);
@@ -51,7 +55,7 @@ export default function Carousel3D() {
       }, 5000);
       return () => clearInterval(interval);
     }
-  }, [isMobile]);
+  }, [isMobile, CARD_COUNT]);
 
   const goToNext = () => {
     setPrevCardIndex(currentCardIndex);
@@ -69,9 +73,44 @@ export default function Carousel3D() {
     setCurrentCardIndex(newIndex);
   };
 
+  const renderIcon = (iconKey: string) => {
+    switch (iconKey) {
+      case "consumer_mobile_app":
+        return (
+          <svg className="w-6 h-6 sm:w-7 sm:h-7 shrink-0" viewBox="0 0 24 24" fill="none">
+            <rect x="6" y="3" width="12" height="18" rx="2" fill="#BF0637" />
+            <rect x="8.5" y="6" width="2" height="2" fill="white" />
+            <rect x="11.5" y="6" width="2" height="2" fill="white" />
+            <rect x="14.5" y="6" width="2" height="2" fill="white" />
+            <rect x="8.5" y="9" width="2" height="2" fill="white" />
+            <rect x="11.5" y="9" width="2" height="2" fill="white" />
+            <rect x="14.5" y="9" width="2" height="2" fill="white" />
+            <rect x="8.5" y="12" width="2" height="2" fill="white" />
+            <rect x="11.5" y="12" width="2" height="2" fill="white" />
+            <rect x="14.5" y="12" width="2" height="2" fill="white" />
+          </svg>
+        );
+      case "family_finder_system":
+        return (
+          <svg className="w-6 h-6 sm:w-7 sm:h-7 shrink-0" viewBox="0 0 24 24" fill="none">
+            <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" stroke="#BF0637" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+          </svg>
+        );
+      case "smart_safety_wearable":
+        return (
+          <svg className="w-6 h-6 sm:w-7 sm:h-7 shrink-0" viewBox="0 0 24 24" fill="none">
+            <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" stroke="#BF0637" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+          </svg>
+        );
+      default:
+        return null;
+    }
+  };
+
+  if (CARD_COUNT === 0) return null;
+
   return (
     <div className="relative w-full lg:w-1/2">
-      {/* Desktop navigation button */}
       {!isMobile && (
         <button
           onClick={goToNext}
@@ -94,7 +133,6 @@ export default function Carousel3D() {
         </button>
       )}
 
-      {/* Mobile navigation buttons */}
       {isMobile && (
         <>
           <button
@@ -144,113 +182,8 @@ export default function Carousel3D() {
         } w-full`}
       >
         <div className="carousel-3d-wrapper relative w-full h-full">
-          {[
-            {
-              key: 0,
-              title: (
-                <>
-                  Consumer <span className="text-[#BF0637]">Mobile App</span>
-                </>
-              ),
-              icon: (
-                <svg
-                  className="w-6 h-6 sm:w-7 sm:h-7 shrink-0"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <rect
-                    x="6"
-                    y="3"
-                    width="12"
-                    height="18"
-                    rx="2"
-                    fill="#BF0637"
-                  />
-                  <rect x="8.5" y="6" width="2" height="2" fill="white" />
-                  <rect x="11.5" y="6" width="2" height="2" fill="white" />
-                  <rect x="14.5" y="6" width="2" height="2" fill="white" />
-                  <rect x="8.5" y="9" width="2" height="2" fill="white" />
-                  <rect x="11.5" y="9" width="2" height="2" fill="white" />
-                  <rect x="14.5" y="9" width="2" height="2" fill="white" />
-                  <rect x="8.5" y="12" width="2" height="2" fill="white" />
-                  <rect x="11.5" y="12" width="2" height="2" fill="white" />
-                  <rect x="14.5" y="12" width="2" height="2" fill="white" />
-                </svg>
-              ),
-              bullets: [
-                "Real-time disaster alerts powered by AI",
-                "Preparedness checklists and safety protocols",
-                "Shelter & evacuation mapping",
-                "Insurance guidance & emergency supplies",
-                "Medical & first-aid support",
-              ],
-            },
-            {
-              key: 1,
-              title: (
-                <>
-                  Family <span className="text-[#BF0637]">Finder System</span>
-                </>
-              ),
-              icon: (
-                <svg
-                  className="w-6 h-6 sm:w-7 sm:h-7 shrink-0"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path
-                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                    stroke="#BF0637"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    fill="none"
-                  />
-                </svg>
-              ),
-              bullets: [
-                "Real-Time Location Tracking",
-                "Status Sharing & Safety Check-Ins",
-                "Offline & Low-Network Functionality",
-                "Rescue Coordination Support",
-              ],
-            },
-            {
-              key: 2,
-              title: (
-                <>
-                  Smart Safety <span className="text-[#BF0637]">Wearable</span>
-                </>
-              ),
-              icon: (
-                <svg
-                  className="w-6 h-6 sm:w-7 sm:h-7 shrink-0"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path
-                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                    stroke="#BF0637"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    fill="none"
-                  />
-                </svg>
-              ),
-              bullets: [
-                "GPS enable live tracking",
-                "Live Family Finder",
-                "Emergency SOS",
-                "Heart Rate, Temperature and step counts",
-                "Fall detection for seniors",
-                "Waterproof",
-                "Up to 7 days battery life",
-              ],
-            },
-          ].map((card) => {
+          {carouselData.map((card, idx) => {
             const n = CARD_COUNT;
-            const idx = card.key as number;
             const raw = (idx - currentCardIndex + n) % n;
             const signed = raw > n / 2 ? raw - n : raw;
 
@@ -268,7 +201,6 @@ export default function Carousel3D() {
             let opacity = 1;
             let zIndex = 10;
 
-            // Mobile: show only one card at a time
             if (isMobile) {
               if (signed === 0) {
                 left = "0%";
@@ -290,7 +222,6 @@ export default function Carousel3D() {
                 zIndex = 5;
               }
             } else {
-              // Desktop: 3D carousel effect
               if (signed === 0) {
                 left = "0%";
                 rotateY = "0deg";
@@ -320,7 +251,7 @@ export default function Carousel3D() {
 
             return (
               <div
-                key={card.key}
+                key={idx}
                 className="carousel-3d-card absolute"
                 style={{
                   left,
@@ -341,7 +272,7 @@ export default function Carousel3D() {
               >
                 <div className="bg-gray-200 rounded-lg p-6 sm:p-7 w-[102%] h-full flex flex-col justify-between">
                   <div className="flex items-center gap-3 mb-4">
-                    {card.icon}
+                    {renderIcon(card.iconKey)}
                     <h4 className="font-bold text-base sm:text-lg text-black">
                       {card.title}
                     </h4>

@@ -277,7 +277,7 @@ export default function Contact() {
                     Visit us
                   </h3>
                   <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-                   2120 SW , 60th Ter Miramar, FL 33023
+                    2120 SW , 60th Ter Miramar, FL 33023
                   </p>
                 </div>
                 <div>

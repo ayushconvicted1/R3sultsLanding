@@ -9,6 +9,7 @@ import ToastProvider from "@/components/ToastProvider";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
 import { AuthProvider } from "@/context/AuthContext";
 import { MerchCartProvider } from "@/context/MerchCartContext";
+import { CMSContentProvider } from "@/context/CMSContentContext";
 import GoogleAuthProvider from "@/components/auth/GoogleAuthProvider";
 
 const cabin = Cabin({
@@ -101,11 +102,13 @@ export default function RootLayout({
           <GoogleAuthProvider>
             <AuthProvider>
               <MerchCartProvider>
-                <CartProviderWithDrawer>
-                  <Header />
-                  <main>{children}</main>
-                  <ScrollToTopButton />
-                </CartProviderWithDrawer>
+                <CMSContentProvider>
+                  <CartProviderWithDrawer>
+                    <Header />
+                    <main>{children}</main>
+                    <ScrollToTopButton />
+                  </CartProviderWithDrawer>
+                </CMSContentProvider>
               </MerchCartProvider>
             </AuthProvider>
           </GoogleAuthProvider>
