@@ -933,3 +933,58 @@ button:disabled {
 .merch-tab-panel {
   animation: merchTabFade 0.45s ease-out forwards;
 }
+
+/* Reels Carousel */
+.reels-carousel-wrapper {
+  overflow: hidden;
+  position: relative;
+  padding: 10px 0;
+}
+
+.reels-carousel-left,
+.reels-carousel-right {
+  display: flex;
+  gap: 16px;
+  width: fit-content;
+}
+
+@media (min-width: 640px) {
+  .reels-carousel-left,
+  .reels-carousel-right {
+    gap: 24px;
+  }
+}
+
+.reels-carousel-left {
+  animation: partners-scroll-left 40s linear infinite;
+}
+
+.reels-carousel-right {
+  animation: partners-scroll-right 40s linear infinite;
+}
+
+.reels-carousel-wrapper:hover .reels-carousel-left,
+.reels-carousel-wrapper:hover .reels-carousel-right {
+  animation-play-state: paused;
+}
+
+.reels-carousel-fade-left,
+.reels-carousel-fade-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 20px; /* smaller fade for reels */
+  pointer-events: none;
+  z-index: 2;
+}
+
+.reels-carousel-fade-left {
+  left: 0;
+  background: linear-gradient(to right, white 0%, transparent 100%);
+}
+
+.reels-carousel-fade-right {
+  right: 0;
+  background: linear-gradient(to left, white 0%, transparent 100%);
+}
+
