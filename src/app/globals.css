@@ -934,11 +934,14 @@ button:disabled {
   animation: merchTabFade 0.45s ease-out forwards;
 }
 
-/* Reels Carousel */
-.reels-carousel-wrapper {
-  overflow: hidden;
-  position: relative;
-  padding: 10px 0;
+:root {
+  --reel-step: 296px; /* 280px width + 16px gap */
+}
+
+@media (min-width: 640px) {
+  :root {
+    --reel-step: 304px; /* 280px width + 24px gap */
+  }
 }
 
 .reels-carousel-left,
@@ -953,19 +956,6 @@ button:disabled {
   .reels-carousel-right {
     gap: 24px;
   }
-}
-
-.reels-carousel-left {
-  animation: partners-scroll-left 40s linear infinite;
-}
-
-.reels-carousel-right {
-  animation: partners-scroll-right 40s linear infinite;
-}
-
-.reels-carousel-wrapper:hover .reels-carousel-left,
-.reels-carousel-wrapper:hover .reels-carousel-right {
-  animation-play-state: paused;
 }
 
 .reels-carousel-fade-left,
