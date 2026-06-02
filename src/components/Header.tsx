@@ -114,7 +114,6 @@ export default function Header() {
               className="relative"
               ref={shopDropdownRef}
               onMouseEnter={() => setShowShopDropdown(true)}
-              onMouseLeave={() => setShowShopDropdown(false)}
             >
               <button
                 type="button"

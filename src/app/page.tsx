@@ -354,11 +354,15 @@ export default function Home() {
         id={homeData.inActionVideos.mobileSection.sectionId}
         className="hero flex lg:hidden relative min-h-screen items-center pt-24 sm:pt-28 md:pt-32"
       >
-        {/* Video Background - plays once, pauses at end */}
-        <VideoPlayOnce
+        {/* Video Background - loops continuously */}
+        <video
           src={homeData.inActionVideos.mobileSection.videoSrc}
           className="absolute inset-0 w-full h-full object-cover"
-          controls={homeData.inActionVideos.mobileSection.controls}
+          autoPlay
+          muted
+          loop
+          playsInline
+          {...(homeData.inActionVideos.mobileSection.controls && { controls: true })}
         />
         {/* <div className="absolute inset-0 hero-overlay"></div> */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12 sm:py-16 md:py-20">
@@ -470,11 +474,15 @@ export default function Home() {
         id={homeData.inActionVideos.desktopSection.sectionId}
         className="hero hidden lg:flex relative min-h-screen items-center pt-24 sm:pt-28 md:pt-32 lg:pt-40"
       >
-        {/* Video Background - plays once, pauses at end */}
-        <VideoPlayOnce
+        {/* Video Background - loops continuously */}
+        <video
           src={homeData.inActionVideos.desktopSection.videoSrc}
           className="absolute inset-0 w-full h-full object-cover"
-          controls={homeData.inActionVideos.desktopSection.controls}
+          autoPlay
+          muted
+          loop
+          playsInline
+          {...(homeData.inActionVideos.desktopSection.controls && { controls: true })}
         />
         {/* <div className="absolute inset-0 hero-overlay"></div> */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12 sm:py-16 md:py-20">
