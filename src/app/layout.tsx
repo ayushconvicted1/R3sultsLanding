@@ -11,6 +11,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import { MerchCartProvider } from "@/context/MerchCartContext";
 import { CMSContentProvider } from "@/context/CMSContentContext";
 import GoogleAuthProvider from "@/components/auth/GoogleAuthProvider";
+import { CMSData } from "@/types/cms";
 
 const cabin = Cabin({
   subsets: ["latin"],
@@ -87,11 +88,27 @@ export const metadata: Metadata = {
     "An end-to-end Disaster Management platform that saves lives through real-time intel, proactive alerts, and immediate response.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  let initialCMSData: CMSData | null = null;
+  try {
+    const domain = process.env.NEXT_PUBLIC_DOMAIN_NAME || process.env.API_URL || "http://localhost:5001";
+    const res = await fetch(`${domain}/api/landing-content/full`, {
+      next: { revalidate: 60 }
+    });
+    if (res.ok) {
+      const json = await res.json();
+      if (json.success) {
+        initialCMSData = json.data;
+      }
+    }
+  } catch (err) {
+    console.error("Error fetching initial CMS data in layout:", err);
+  }
+
   return (
     <html
       lang="en"
@@ -102,7 +119,7 @@ export default function RootLayout({
           <GoogleAuthProvider>
             <AuthProvider>
               <MerchCartProvider>
-                <CMSContentProvider>
+                <CMSContentProvider initialData={initialCMSData}>
                   <CartProviderWithDrawer>
                     <Header />
                     <main>{children}</main>

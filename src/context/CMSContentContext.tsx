@@ -19,11 +19,12 @@ const CMSContentContext = createContext<CMSContentContextType>({
 
 export const useCMSContent = () => useContext(CMSContentContext);
 
-export const CMSContentProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const [data, setData] = useState<CMSData | null>(null);
-  const [loading, setLoading] = useState(true);
+export const CMSContentProvider: React.FC<{
+  children: React.ReactNode;
+  initialData?: CMSData | null;
+}> = ({ children, initialData = null }) => {
+  const [data, setData] = useState<CMSData | null>(initialData);
+  const [loading, setLoading] = useState(!initialData);
   const [error, setError] = useState<string | null>(null);
 
   const fetchData = async () => {
@@ -54,8 +55,10 @@ export const CMSContentProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (!initialData) {
+      fetchData();
+    }
+  }, [initialData]);
 
   return (
     <CMSContentContext.Provider
