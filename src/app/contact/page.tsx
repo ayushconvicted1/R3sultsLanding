@@ -312,7 +312,7 @@ export default function Contact() {
                       </svg>
                     </a>
                     <a
-                      href="https://www.instagram.com/r3sultsglobal/"
+                      href="https://www.instagram.com/r3sultsgroup/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-slate-700 hover:text-[#BF0637] transition-colors"

@@ -17,16 +17,37 @@
       },
       "quickLinksTitle": "Quick Links",
       "quickLinks": [
-        { "label": "About", "href": "/about" },
-        { "label": "Contact", "href": "/contact" },
-        { "label": "News and Media", "href": "/news-and-media" },
-        { "label": "Privacy Policy", "href": "/privacy-policy" },
-        { "label": "Terms and conditions", "href": "/terms-and-condition" }
+        {
+          "label": "About",
+          "href": "/about"
+        },
+        {
+          "label": "Contact",
+          "href": "/contact"
+        },
+        {
+          "label": "News and Media",
+          "href": "/news-and-media"
+        },
+        {
+          "label": "Privacy Policy",
+          "href": "/privacy-policy"
+        },
+        {
+          "label": "Terms and conditions",
+          "href": "/terms-and-condition"
+        }
       ],
       "contactTitle": "Contact",
       "contact": {
-        "phone": { "display": "+1 954-231-1750", "href": "tel:+19542311750" },
-        "email": { "display": "info@r3sults.com", "href": "mailto:info@r3sults.com" },
+        "phone": {
+          "display": "+1 954-231-1750",
+          "href": "tel:+19542311750"
+        },
+        "email": {
+          "display": "info@r3sults.com",
+          "href": "mailto:info@r3sults.com"
+        },
         "address": "2120 SW , 60th Ter Miramar, FL 33023"
       },
       "connectTitle": "Connect",
@@ -39,7 +60,7 @@
         },
         {
           "platform": "Instagram",
-          "href": "https://www.instagram.com/r3sultsglobal/",
+          "href": "https://www.instagram.com/r3sultsgroup/",
           "ariaLabel": "Instagram",
           "iconKey": "instagram"
         },
@@ -63,7 +84,9 @@
         "api": {
           "endpoint": "/api/newsletter/subscribe",
           "method": "POST",
-          "payload": { "email": "<email>" }
+          "payload": {
+            "email": "<email>"
+          }
         }
       },
       "copyrightText": "© 2026 R3sults. All rights reserved."
@@ -151,7 +174,7 @@
             },
             {
               "platform": "Instagram",
-              "href": "https://www.instagram.com/r3sultsglobal/",
+              "href": "https://www.instagram.com/r3sultsgroup/",
               "ariaLabel": "Instagram",
               "iconKey": "instagram"
             },

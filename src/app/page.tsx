@@ -753,7 +753,7 @@ export default function Home() {
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6" /></svg>
             </button>
 
-            <div 
+            <div
               ref={desktopReelsRef}
               className="w-full overflow-x-auto no-scrollbar flex items-center snap-x snap-mandatory py-4 gap-4 sm:gap-6 px-4 md:px-0"
             >
