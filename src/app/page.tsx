@@ -215,26 +215,28 @@ export default function Home() {
             {/* Left Half - 3D Carousel (client) */}
             <Carousel3D />
 
-            {/* Right Half - Fixed iPad Image */}
+            {/* Right Half - Fixed iPad Video */}
             <div className="hidden lg:pt-10 lg:flex justify-center items-center">
-              <Image
-                src={homeData.buildingSection.supportImage.src}
-                alt={homeData.buildingSection.supportImage.alt}
-                width={400}
-                height={155}
-                className="w-full max-w-[400px] h-auto"
+              <video
+                src="/padvideo.mp4"
+                className="w-full max-w-[400px] h-auto rounded-xl"
+                autoPlay
+                loop
+                muted
+                playsInline
               />
             </div>
           </div>
 
-          {/* iPad Image for Mobile/Tablet - Below carousel */}
+          {/* iPad Video for Mobile/Tablet - Below carousel */}
           <div className="lg:hidden flex justify-center mt-8 sm:mt-10">
-            <Image
-              src={homeData.buildingSection.supportImage.src}
-              alt={homeData.buildingSection.supportImage.alt}
-              width={650}
-              height={295}
-              className="w-full max-w-[90%] sm:max-w-[80%] md:max-w-[600px] h-auto"
+            <video
+              src="/padvideo.mp4"
+              className="w-full max-w-[90%] sm:max-w-[80%] md:max-w-[600px] h-auto rounded-xl"
+              autoPlay
+              loop
+              muted
+              playsInline
             />
           </div>
         </div>
