@@ -23,6 +23,27 @@ export default function Home() {
   const [activeIndex, setActiveIndex] = React.useState(0);
   const desktopReelsRef = React.useRef<HTMLDivElement>(null);
 
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const sync = () => setIsMobile(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
+  const videoUrls = React.useMemo(() => {
+    const src = data?.home?.hero?.backgroundVideo?.src || "";
+    const urls = src.split(",").map((s) => s.trim()).filter(Boolean);
+    return {
+      desktop: urls[0] || "",
+      mobile: urls[1] || urls[0] || "",
+    };
+  }, [data?.home?.hero?.backgroundVideo?.src]);
+
+  const activeVideoSrc = isMobile ? videoUrls.mobile : videoUrls.desktop;
+
   const handleDesktopReelsScroll = (direction: "left" | "right") => {
     if (desktopReelsRef.current) {
       const scrollAmount = 300; // approximate width of one reel + gap
@@ -68,17 +89,19 @@ export default function Home() {
         className="hero relative h-[100dvh] min-h-[100dvh] flex flex-col pt-24 sm:pt-28 md:pt-32 lg:pt-40"
       >
         {/* Video Background - loops continuously */}
-        <video
-          className="absolute inset-0 w-full h-full object-cover"
-          autoPlay
-          muted
-          loop
-          playsInline
-          key={homeData.hero.backgroundVideo.src}
-          aria-hidden
-        >
-          <source src={homeData.hero.backgroundVideo.src} type="video/mp4" />
-        </video>
+        {activeVideoSrc && (
+          <video
+            className="absolute inset-0 w-full h-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            key={activeVideoSrc}
+            aria-hidden
+          >
+            <source src={activeVideoSrc} type="video/mp4" />
+          </video>
+        )}
         <div className="absolute inset-0 hero-overlay"></div>
         <div className="relative z-10 flex flex-col flex-1 min-h-0 w-full">
           {/* Align hero content with header navbar edges on large screens.
