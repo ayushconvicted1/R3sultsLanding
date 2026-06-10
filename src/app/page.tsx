@@ -218,7 +218,8 @@ export default function Home() {
             {/* Right Half - Fixed iPad Video */}
             <div className="hidden lg:pt-10 lg:flex justify-center items-center">
               <video
-                src="/padvideo.mp4"
+                src={homeData.buildingSection.supportImage.src}
+                // alt={homeData.buildingSection.supportImage.alt}
                 className="w-full max-w-[400px] h-auto rounded-xl"
                 autoPlay
                 loop
@@ -231,7 +232,8 @@ export default function Home() {
           {/* iPad Video for Mobile/Tablet - Below carousel */}
           <div className="lg:hidden flex justify-center mt-8 sm:mt-10">
             <video
-              src="/padvideo.mp4"
+              src={homeData.buildingSection.supportImage.src}
+              // alt={homeData.buildingSection.supportImage.alt}
               className="w-full max-w-[90%] sm:max-w-[80%] md:max-w-[600px] h-auto rounded-xl"
               autoPlay
               loop
