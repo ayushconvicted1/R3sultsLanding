@@ -291,6 +291,14 @@ export default function Contact() {
                     +1 954-231-1750
                   </a>
                 </div>
+                  <div>
+                  <h3 className="text-lg sm:text-xl font-semibold text-slate-800 mb-4">
+                    Email us
+                  </h3>
+                  <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+                    info@r3sults.com
+                  </p>
+                </div>
                 <div>
                   <h3 className="text-lg sm:text-xl font-semibold text-slate-800 mb-4">
                     Follow Us on
