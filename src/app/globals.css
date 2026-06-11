@@ -4,6 +4,15 @@
   --bg: #0f1724;
   --accent: #bf0637; /* brand red */
   --muted: #9ca3af;
+  
+  /* Fallback values for layout font variables */
+  --font-geist: "Geist", sans-serif;
+  --font-plus-jakarta-sans: "Plus Jakarta Sans", sans-serif;
+  
+  /* Map legacy font variables to the new system so they resolve to Geist/Plus Jakarta Sans automatically */
+  --font-cabin: var(--font-plus-jakarta-sans);
+  --font-lato: var(--font-plus-jakarta-sans);
+  --font-rajdhani: var(--font-geist);
 }
 
 /* Merch checkout phone (react-phone-number-input) */
@@ -48,39 +57,32 @@
   }
   body {
     @apply bg-white text-slate-800 antialiased;
-    font-family: var(--font-cabin), ui-sans-serif, system-ui, -apple-system,
-      "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, var(--font-lato);
+    font-family: var(--font-plus-jakarta-sans), "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  }
+  
+  /* Headings, titles, uppercase elements, and anything in ALL caps to use Geist font */
+  h1, h2, h3, h4, h5, h6,
+  .hero-title,
+  .hero-sub,
+  .title,
+  .heading,
+  button,
+  .btn,
+  th,
+  .uppercase,
+  [style*="text-transform: uppercase"],
+  .tracking-wider,
+  .tracking-widest {
+    font-family: var(--font-geist), "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif !important;
   }
 }
 
 @layer utilities {
   .font-lato {
-    font-family: var(
-      --font-lato,
-      "Lato",
-      ui-sans-serif,
-      system-ui,
-      -apple-system,
-      "Segoe UI",
-      Roboto,
-      "Helvetica Neue",
-      Arial,
-      sans-serif
-    ) !important;
+    font-family: var(--font-plus-jakarta-sans) !important;
   }
   .font-rajdhani {
-    font-family: var(
-      --font-rajdhani,
-      "Rajdhani",
-      ui-sans-serif,
-      system-ui,
-      -apple-system,
-      "Segoe UI",
-      Roboto,
-      "Helvetica Neue",
-      Arial,
-      sans-serif
-    ) !important;
+    font-family: var(--font-geist) !important;
   }
 
   /* Hide scrollbars but keep scrolling (used for hero middle panel) */
