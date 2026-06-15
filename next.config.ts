@@ -47,6 +47,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "cdn.printify.com", port: "", pathname: "**" },
       { protocol: "https", hostname: "printify.com", port: "", pathname: "**" },
       { protocol: "https", hostname: "images.printify.com", port: "", pathname: "**" },
+      { protocol: "https", hostname: "res.cloudinary.com", port: "", pathname: "**" },
     ],
   },
 };
