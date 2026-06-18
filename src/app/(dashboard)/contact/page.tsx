@@ -393,7 +393,7 @@ export default function Contact() {
       <section className="py-16 sm:py-20 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold accent-color">
-            "Safety should depend on dissaster preparedness!"
+            "Safety Should Depend on Dissaster Preparedness!"
           </p>
         </div>
       </section>

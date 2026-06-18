@@ -33,7 +33,7 @@ export default function RegisterPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (user) router.replace("/profile");
+    if (user) router.replace("/dashboard");
   }, [user, router]);
 
   const handleRegister = async (e: React.FormEvent) => {
@@ -91,7 +91,7 @@ export default function RegisterPage() {
       return;
     }
     toast.success("You're all set! Redirecting…");
-    router.push("/profile");
+    router.push("/dashboard");
   };
 
   if (user) return null;
@@ -107,7 +107,7 @@ export default function RegisterPage() {
             Create an account with your phone number or sign in with Google.
           </p>
 
-          <GoogleSignInButton className="mb-4" text="signup_with" onSuccessRedirect="/profile" />
+          <GoogleSignInButton className="mb-4" text="signup_with" onSuccessRedirect="/dashboard" />
 
           <div className="relative mb-4">
             <div className="absolute inset-0 flex items-center">

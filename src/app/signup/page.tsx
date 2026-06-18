@@ -11,7 +11,7 @@ export default function SignupPage() {
   const { user } = useAuth();
 
   useEffect(() => {
-    if (user) router.replace("/profile");
+    if (user) router.replace("/dashboard");
   }, [user, router]);
 
   useEffect(() => {

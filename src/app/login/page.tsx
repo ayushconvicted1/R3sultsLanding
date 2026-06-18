@@ -35,7 +35,7 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (user) router.replace("/profile");
+    if (user) router.replace("/dashboard");
   }, [user, router]);
 
   const handlePasswordLogin = async (e: React.FormEvent) => {
@@ -63,7 +63,7 @@ export default function LoginPage() {
       return;
     }
     toast.success("Welcome back!");
-    router.push("/profile");
+    router.push("/dashboard");
   };
 
   const handleSendOtp = async (e: React.FormEvent) => {
@@ -102,7 +102,7 @@ export default function LoginPage() {
       return;
     }
     toast.success("Welcome! Redirecting…");
-    router.push("/profile");
+    router.push("/dashboard");
   };
 
   const switchMode = (m: LoginMode) => {
@@ -138,7 +138,7 @@ export default function LoginPage() {
 
             {/* Google Sign-In */}
             <div className="mb-6">
-              <GoogleSignInButton className="w-full" onSuccessRedirect="/profile" />
+              <GoogleSignInButton className="w-full" onSuccessRedirect="/dashboard" />
             </div>
 
             {/* Divider */}

@@ -24,7 +24,7 @@ type Props = {
 export default function GoogleSignInButton({
   text = "signin_with",
   className = "",
-  onSuccessRedirect = "/profile",
+  onSuccessRedirect = "/dashboard",
 }: Props) {
   const { loginWithGoogle } = useAuth();
   const router = useRouter();

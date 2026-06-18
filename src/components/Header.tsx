@@ -198,37 +198,33 @@ export default function Header() {
                     <button
                       type="button"
                       onClick={() => setShowAccountDropdown((v) => !v)}
-                      className="flex items-center gap-2 text-black hover:text-[#BF0637] transition-colors"
+                      className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-50 text-black hover:text-[#BF0637] hover:bg-red-50 transition-colors font-medium border border-slate-200"
                       aria-expanded={showAccountDropdown}
                       aria-haspopup="true"
                       aria-label="Account menu"
                     >
-                      <span className="font-medium">
-                        {user.fullName ? `${fullNameToFirstLast(user.fullName).firstName || user.fullName}'s account` : "Account"}
+                      {user.profilePictureUrl ? (
+                        <img src={user.profilePictureUrl} alt="Profile" className="w-6 h-6 rounded-full object-cover" />
+                      ) : (
+                        <span className="text-lg leading-none">👤</span>
+                      )}
+                      <span className="hidden sm:inline">
+                        {user.fullName ? `${fullNameToFirstLast(user.fullName).firstName || user.fullName}` : "Dashboard"}
                       </span>
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                       </svg>
                     </button>
                     {showAccountDropdown && (
                       <div className="absolute right-0 top-full mt-1 w-48 py-1 bg-white rounded-lg shadow-xl border border-slate-200/80 z-50">
                         <Link
-                          href="/profile"
+                          href="/dashboard"
                           onClick={() => setShowAccountDropdown(false)}
                           className={`block px-4 py-2.5 text-sm font-medium transition-colors ${
-                            pathname === "/profile" ? "text-[#BF0637] bg-red-50/50" : "text-slate-700 hover:bg-slate-50 hover:text-[#BF0637]"
+                            pathname === "/dashboard" ? "text-[#BF0637] bg-red-50/50" : "text-slate-700 hover:bg-slate-50 hover:text-[#BF0637]"
                           }`}
                         >
-                          Profile
-                        </Link>
-                        <Link
-                          href="/account/orders"
-                          onClick={() => setShowAccountDropdown(false)}
-                          className={`block px-4 py-2.5 text-sm font-medium transition-colors ${
-                            pathname === "/account/orders" ? "text-[#BF0637] bg-red-50/50" : "text-slate-700 hover:bg-slate-50 hover:text-[#BF0637]"
-                          }`}
-                        >
-                          Orders
+                          Dashboard
                         </Link>
                         <button
                           type="button"

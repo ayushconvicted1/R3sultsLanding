@@ -78,13 +78,13 @@ export default function TestimonialsSection() {
                   "{item.feedback}"
                 </p>
 
-                <button
+                {/* <button
                   type="button"
                   onClick={() => setActiveVideo(item)}
                   className="mt-4 inline-flex items-center justify-center rounded-md bg-[#BF0637] px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90"
                 >
                   {item.buttonLabel || "Watch Video Feedback"}
-                </button>
+                </button> */}
               </article>
             ))}
         </div>

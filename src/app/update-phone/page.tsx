@@ -36,7 +36,7 @@ export default function UpdatePhonePage() {
       return;
     }
     if (user && !needsPhoneUpdate) {
-      router.replace("/profile");
+      router.replace("/dashboard");
     }
   }, [user, token, needsPhoneUpdate, router]);
 
@@ -78,7 +78,7 @@ export default function UpdatePhonePage() {
     }
     clearNeedsPhoneUpdate();
     toast.success("Phone number updated. Redirecting…");
-    router.push("/profile");
+    router.push("/dashboard");
   };
 
   if (!token && !user) return null;
@@ -162,7 +162,7 @@ export default function UpdatePhonePage() {
         <p className="mt-4 text-center text-slate-600 text-sm">
           <button
             type="button"
-            onClick={() => { clearNeedsPhoneUpdate(); router.push("/profile"); }}
+            onClick={() => { clearNeedsPhoneUpdate(); router.push("/dashboard"); }}
             className="font-semibold text-[#BF0637] hover:underline"
           >
             Skip for now

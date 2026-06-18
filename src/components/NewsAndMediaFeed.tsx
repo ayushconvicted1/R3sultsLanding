@@ -2,106 +2,91 @@
 
 import { useEffect, useMemo, useState } from "react";
 
-export type DisasterFeedItem = {
-  id: string;
-  title: string;
-  time: number;
-  source: string;
-  url: string;
-};
-
-type FeedResponse = {
-  items?: DisasterFeedItem[];
-  updatedAt?: number;
-  error?: string;
-};
-
-const SOURCES = ["USGS", "FEMA", "NWS", "NASA EONET"] as const;
-type SourceFilter = (typeof SOURCES)[number] | "all";
-
-function sourceMeta(source: string) {
-  const s = source.trim();
-  if (s === "USGS")
-    return {
-      short: "USGS",
-      name: "U.S. Geological Survey",
-      blurb: "Earthquake locations, magnitude, and official event pages.",
-      bar: "bg-emerald-500",
-      chip: "bg-emerald-500/12 text-emerald-800 ring-emerald-500/25",
-      cardBg: "from-emerald-500/[0.06] to-white",
+export type GDACSFeature = {
+  type: string;
+  properties: {
+    eventtype: string;
+    eventid: number;
+    episodeid: number;
+    name: string;
+    description: string;
+    htmldescription: string;
+    icon: string;
+    iconoverall: string;
+    url: {
+      report: string;
+      details: string;
     };
-  if (s === "FEMA")
-    return {
-      short: "FEMA",
-      name: "FEMA",
-      blurb: "Presidential disaster declarations and federal assistance programs.",
-      bar: "bg-blue-600",
-      chip: "bg-blue-500/12 text-blue-900 ring-blue-500/25",
-      cardBg: "from-blue-600/[0.06] to-white",
+    alertlevel: string; // Red, Orange, Green
+    alertscore: number;
+    country: string;
+    fromdate: string;
+    todate: string;
+    severitydata: {
+      severity: number;
+      severitytext: string;
+      severityunit: string;
     };
-  if (s === "NWS")
-    return {
-      short: "NWS",
-      name: "NOAA / National Weather Service",
-      blurb: "Active weather watches, warnings, and hazard statements.",
-      bar: "bg-sky-600",
-      chip: "bg-sky-500/12 text-sky-950 ring-sky-500/25",
-      cardBg: "from-sky-500/[0.08] to-white",
-    };
-  if (s === "NASA EONET")
-    return {
-      short: "EONET",
-      name: "NASA Earth Observatory (EONET)",
-      blurb: "Natural events layer — wildfires, storms, volcanoes, and more.",
-      bar: "bg-violet-600",
-      chip: "bg-violet-500/12 text-violet-950 ring-violet-500/25",
-      cardBg: "from-violet-500/[0.07] to-white",
-    };
-  return {
-    short: s.slice(0, 12),
-    name: s,
-    blurb: "Official source link opens in a new tab.",
-    bar: "bg-slate-500",
-    chip: "bg-slate-100 text-slate-800 ring-slate-200",
-    cardBg: "from-slate-100/80 to-white",
   };
-}
+};
 
-function inferKind(title: string): string {
-  const t = title.toLowerCase();
-  if (/\bearthquake\b|\bm\s*[\d.]+|seismic|usgs\b/i.test(t)) return "Earthquake";
-  if (/\bflood|flash flood|coastal flood|storm surge/i.test(t)) return "Flood";
-  if (/\bfire|wildfire|brush fire|red flag/i.test(t)) return "Fire";
-  if (/\btornado|severe thunderstorm|hail/i.test(t)) return "Severe storm";
-  if (/\bhurricane|tropical storm|tropical depression|cyclone|typhoon/i.test(t))
-    return "Tropical";
-  if (/\bblizzard|winter storm|snow|ice storm|freeze|wind chill|sleet/i.test(t))
-    return "Winter";
-  if (/\bheat advisory|excessive heat|extreme heat|drought/i.test(t)) return "Heat / drought";
-  if (/\bpower outage|blackout|no power|utilities.*outage/i.test(t)) return "Outage";
-  if (/\blandslide|mudslide|avalanche/i.test(t)) return "Landslide";
-  if (/\bvolcan|eruption|lava/i.test(t)) return "Volcano";
-  if (/\btsunami/i.test(t)) return "Tsunami";
-  if (/\bdisaster declaration|emergency declaration|fema\b/i.test(t)) return "Declaration";
-  return "Hazard alert";
-}
+type GDACSFeedResponse = {
+  type: string;
+  features: GDACSFeature[];
+};
 
-function formatAbsolute(ms: number): string {
-  if (!ms) return "Time not available";
+// Helper colors for alert levels
+const ALERT_COLORS: Record<string, { bar: string; chip: string; cardBg: string }> = {
+  Red: {
+    bar: "bg-red-600",
+    chip: "bg-red-100 text-red-800 ring-red-500/20",
+    cardBg: "from-red-600/[0.08] to-white",
+  },
+  Orange: {
+    bar: "bg-orange-500",
+    chip: "bg-orange-100 text-orange-800 ring-orange-500/20",
+    cardBg: "from-orange-500/[0.08] to-white",
+  },
+  Green: {
+    bar: "bg-emerald-500",
+    chip: "bg-emerald-100 text-emerald-800 ring-emerald-500/20",
+    cardBg: "from-emerald-500/[0.08] to-white",
+  },
+};
+
+const DEFAULT_ALERT_COLOR = {
+  bar: "bg-slate-500",
+  chip: "bg-slate-100 text-slate-800 ring-slate-500/20",
+  cardBg: "from-slate-500/[0.08] to-white",
+};
+
+// Event type readable names
+const EVENT_TYPES: Record<string, string> = {
+  EQ: "Earthquake",
+  TC: "Tropical Cyclone",
+  FL: "Flood",
+  VO: "Volcano",
+  DR: "Drought",
+  WF: "Wildfire",
+};
+
+function formatAbsolute(dateStr: string): string {
+  if (!dateStr) return "Time not available";
   try {
     return new Intl.DateTimeFormat(undefined, {
-      dateStyle: "long",
+      dateStyle: "medium",
       timeStyle: "short",
-    }).format(new Date(ms));
+    }).format(new Date(dateStr));
   } catch {
-    return new Date(ms).toLocaleString();
+    return new Date(dateStr).toLocaleString();
   }
 }
 
-function relativeTime(ms: number): string {
-  if (!ms) return "";
+function relativeTime(dateStr: string): string {
+  if (!dateStr) return "";
+  const ms = new Date(dateStr).getTime();
   const sec = Math.floor((Date.now() - ms) / 1000);
-  if (sec < 45) return "Just now";
+  if (sec < 60) return "Just now";
   if (sec < 3600) return `${Math.floor(sec / 60)} min ago`;
   if (sec < 86400) return `${Math.floor(sec / 3600)} hr ago`;
   if (sec < 172800) return "Yesterday";
@@ -116,290 +101,362 @@ function ExternalIcon({ className }: { className?: string }) {
   );
 }
 
+// Strip simple HTML tags if htmldescription has them
+function stripHtml(html: string) {
+  return html.replace(/<[^>]*>?/gm, '');
+}
+
+function NewsListItem({ item }: { item: GDACSFeature }) {
+  const [expanded, setExpanded] = useState(false);
+  const alertStyle = ALERT_COLORS[item.properties.alertlevel] || DEFAULT_ALERT_COLOR;
+  const eventName = EVENT_TYPES[item.properties.eventtype] || item.properties.eventtype;
+  
+  const text = stripHtml(item.properties.htmldescription || item.properties.description);
+  const hasSeverity = !!item.properties.severitydata?.severitytext;
+  const isLong = text.length > 80 || hasSeverity;
+
+  return (
+    <article className="group flex flex-col sm:flex-row rounded-xl border border-slate-200 bg-white overflow-hidden shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-300">
+      <div className={`w-full sm:w-1.5 ${alertStyle.bar} shrink-0 h-1.5 sm:h-auto`} />
+      <div className="flex flex-col flex-1 p-4 relative">
+        <div className="flex justify-between items-start mb-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ring-1 ${alertStyle.chip}`}>
+              <span className={`w-1.5 h-1.5 rounded-full ${alertStyle.bar}`}></span>
+              {item.properties.alertlevel}
+            </span>
+            <span className="inline-flex items-center rounded-full bg-slate-900/5 px-2 py-0.5 text-[10px] font-semibold text-slate-700 ring-1 ring-slate-200/80">
+              {eventName}
+            </span>
+          </div>
+          {item.properties.icon && (
+            <img src={item.properties.icon} alt={eventName} className="w-6 h-6 object-contain drop-shadow-sm" />
+          )}
+        </div>
+
+        <h3 className="text-lg font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#BF0637] transition-colors">
+          <a
+            href={item.properties.url?.report}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:underline decoration-[#BF0637]/40 underline-offset-2"
+          >
+            {item.properties.name || `${eventName} in ${item.properties.country}`}
+          </a>
+        </h3>
+        
+        <div className={`text-sm text-slate-600 mb-2 leading-relaxed transition-all duration-300 ${expanded ? '' : 'line-clamp-2'}`}>
+          <p>{text}</p>
+          {expanded && (
+            <div className="mt-3 flex flex-col sm:flex-row gap-4">
+              {hasSeverity && (
+                <div className="flex-1 p-2 bg-slate-50 rounded-md border border-slate-100">
+                  <span className="font-semibold text-slate-700 block text-xs uppercase mb-0.5 tracking-wider">Severity</span>
+                  <p className="text-slate-600 text-sm">{item.properties.severitydata.severitytext}</p>
+                </div>
+              )}
+              <div className="flex-1 p-2 bg-slate-50 rounded-md border border-slate-100">
+                <span className="font-semibold text-slate-700 block text-xs uppercase mb-0.5 tracking-wider">Event Period</span>
+                <p className="text-slate-600 text-sm">
+                  {formatAbsolute(item.properties.fromdate)} — {formatAbsolute(item.properties.todate)}
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {isLong && (
+          <button 
+            onClick={() => setExpanded(!expanded)} 
+            className="text-xs text-[#BF0637] font-bold self-start mb-2 flex items-center gap-1 hover:bg-red-50 px-2 py-1 -ml-2 rounded transition-colors"
+          >
+            {expanded ? "Read Less" : "Read More"}
+            <svg className={`w-3.5 h-3.5 transition-transform ${expanded ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+        )}
+
+        <div className="mt-auto pt-3 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-slate-500">
+          <span className="font-semibold text-slate-700 flex items-center gap-1.5">
+            <svg className="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            {item.properties.country}
+          </span>
+          <div className="flex items-center gap-3">
+            <span>{relativeTime(item.properties.fromdate)}</span>
+            <a
+              href={item.properties.url?.report}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-[#BF0637] hover:text-[#a00530] font-semibold"
+            >
+              Open Report
+              <ExternalIcon className="w-3.5 h-3.5" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
+
 export default function NewsAndMediaFeed() {
-  const [items, setItems] = useState<DisasterFeedItem[]>([]);
-  const [updatedAt, setUpdatedAt] = useState<number | null>(null);
+  const [items, setItems] = useState<GDACSFeature[]>([]);
   const [status, setStatus] = useState<"loading" | "ok" | "empty" | "error">("loading");
-  const [filter, setFilter] = useState<SourceFilter>("all");
+  
+  // Filters
+  const [eventTypeFilter, setEventTypeFilter] = useState<string>("all");
+  const [alertFilter, setAlertFilter] = useState<string>("all");
+  const [showOldDisasters, setShowOldDisasters] = useState<boolean>(false);
 
   useEffect(() => {
     let cancelled = false;
     (async () => {
       try {
-        const res = await fetch("/api/disaster-feed");
-        const data: FeedResponse = await res.json();
+        setStatus("loading");
+        const baseUrl = process.env.NEXT_PUBLIC_GDACS_API_URL;
+        if (!baseUrl) throw new Error("GDACS API URL not configured.");
+
+        const endpoint = showOldDisasters ? "/SEARCH" : "/LATEST";
+        const res = await fetch(`${baseUrl}${endpoint}`);
+        if (!res.ok) throw new Error("Failed to fetch GDACS data");
+        
+        const data: GDACSFeedResponse = await res.json();
         if (cancelled) return;
-        if (!res.ok) {
-          setStatus("error");
-          return;
-        }
-        const list = Array.isArray(data.items) ? data.items : [];
-        const sorted = [...list].sort((a, b) => (b.time || 0) - (a.time || 0));
+
+        const features = data.features || [];
+        
+        // Sort by date (descending)
+        const sorted = [...features].sort((a, b) => {
+          return new Date(b.properties.fromdate).getTime() - new Date(a.properties.fromdate).getTime();
+        });
+
         setItems(sorted);
-        setUpdatedAt(typeof data.updatedAt === "number" ? data.updatedAt : Date.now());
         setStatus(sorted.length ? "ok" : "empty");
-      } catch {
+      } catch (err) {
+        console.error("Error fetching GDACS:", err);
         if (!cancelled) setStatus("error");
       }
     })();
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [showOldDisasters]);
 
-  const filtered = useMemo(() => {
-    if (filter === "all") return items;
-    return items.filter((i) => i.source === filter);
-  }, [items, filter]);
-
-  const counts = useMemo(() => {
-    const c: Record<string, number> = {};
-    for (const s of SOURCES) c[s] = 0;
-    for (const i of items) {
-      if (c[i.source] !== undefined) c[i.source] += 1;
-    }
-    return c;
+  // Compute available event types for the filter
+  const availableEventTypes = useMemo(() => {
+    const types = new Set<string>();
+    items.forEach((item) => {
+      if (item.properties.eventtype) types.add(item.properties.eventtype);
+    });
+    return Array.from(types).sort();
   }, [items]);
+
+  // Compute filtered items
+  const filtered = useMemo(() => {
+    return items.filter((item) => {
+      const matchType = eventTypeFilter === "all" || item.properties.eventtype === eventTypeFilter;
+      const matchAlert = alertFilter === "all" || item.properties.alertlevel === alertFilter;
+      return matchType && matchAlert;
+    });
+  }, [items, eventTypeFilter, alertFilter]);
 
   const featured = filtered[0];
   const rest = filtered.slice(1);
 
-  if (status === "loading") {
-    return (
-      <div className="py-16 sm:py-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="rounded-2xl border border-slate-200 bg-white p-12 sm:p-16 shadow-sm">
-            <div className="mx-auto max-w-md text-center">
-              <div className="mx-auto mb-6 h-12 w-12 animate-spin rounded-full border-2 border-[#BF0637] border-t-transparent" aria-hidden />
-              <p className="text-lg font-semibold text-slate-900">Loading live feeds</p>
-              <p className="mt-2 text-sm text-slate-600">
-                Pulling the latest U.S. hazard data from USGS, FEMA, NWS, and NASA EONET…
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (status === "error") {
-    return (
-      <div className="py-16 sm:py-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="rounded-2xl border border-red-200 bg-red-50/80 p-8 sm:p-10 text-center">
-            <p className="text-lg font-semibold text-red-900">We couldn&apos;t load the feed</p>
-            <p className="mt-2 text-sm text-red-800/90 max-w-lg mx-auto">
-              The disaster feed API is temporarily unavailable. Please refresh the page in a few minutes.
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (status === "empty") {
-    return (
-      <div className="py-16 sm:py-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-10 text-center">
-            <p className="text-lg font-semibold text-slate-900">No items right now</p>
-            <p className="mt-2 text-sm text-slate-600 max-w-lg mx-auto">
-              There are no recent disaster-themed entries in the combined feeds. Check back later—data refreshes about every five minutes.
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="pb-16 sm:pb-20">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Toolbar */}
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between mb-10 sm:mb-12">
-          <div>
-            {/* <p className="text-xs font-semibold uppercase tracking-wider text-[#BF0637] mb-2">Live data</p> */}
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight mt-10">
-              U.S. disasters &amp; alerts
-            </h2>
-            <p className="mt-2 text-slate-600 text-sm sm:text-base max-w-2xl leading-relaxed">
-              Headlines are aggregated from authoritative public APIs. Each card links to the official page for full details, maps, and safety guidance.
-            </p>
-            {updatedAt != null && (
-              <p className="mt-3 text-xs text-slate-500">
-                Feed assembled{" "}
-                <time dateTime={new Date(updatedAt).toISOString()}>
-                  {formatAbsolute(updatedAt)}
-                </time>
-                <span className="text-slate-400"> · </span>
-                Updates about every 5 minutes
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Title and Subheading at the Top */}
+        <div className="flex flex-col gap-2 mb-6 mt-10">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+                Global Disaster Alerts
+              </h2>
+              <p className="text-slate-600 text-lg max-w-2xl leading-relaxed mt-2">
+                Real-time monitoring from the Global Disaster Alert and Coordination System (GDACS).
               </p>
-            )}
+            </div>
+            <label className="flex items-center gap-2 cursor-pointer bg-white border border-slate-200 px-4 py-2 rounded-lg shadow-sm hover:bg-slate-50 transition-colors self-start sm:self-auto shrink-0">
+              <input
+                type="checkbox"
+                className="w-4 h-4 text-[#BF0637] rounded focus:ring-[#BF0637]"
+                checked={showOldDisasters}
+                onChange={(e) => setShowOldDisasters(e.target.checked)}
+              />
+              <span className="text-sm font-bold text-slate-700">Include Historical Disasters</span>
+            </label>
           </div>
-          <div className="flex flex-wrap gap-2">
-            <button
-              type="button"
-              onClick={() => setFilter("all")}
-              className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ring-1 ring-inset ${
-                filter === "all"
-                  ? "bg-slate-900 text-white ring-slate-900"
-                  : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-50"
-              }`}
-            >
-              All ({items.length})
-            </button>
-            {SOURCES.map((s) => (
+        </div>
+        
+        {/* Filters Below Subheading */}
+        <div className="flex flex-col sm:flex-row gap-6 mb-10 pb-6 border-b border-slate-200">
+          {/* Event Type Filter */}
+          <div className="flex flex-col gap-2 flex-1">
+            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Event Type</label>
+            <div className="flex overflow-x-auto pb-2 scrollbar-hide gap-2">
               <button
-                key={s}
-                type="button"
-                onClick={() => setFilter(s)}
-                className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ring-1 ring-inset ${
-                  filter === s
-                    ? "bg-[#BF0637] text-white ring-[#BF0637]"
+                onClick={() => setEventTypeFilter("all")}
+                className={`whitespace-nowrap rounded-lg px-4 py-2 text-sm font-semibold transition-colors ring-1 ring-inset ${
+                  eventTypeFilter === "all"
+                    ? "bg-slate-900 text-white ring-slate-900 shadow-md"
                     : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-50"
                 }`}
               >
-                {s === "NASA EONET" ? "NASA" : s} ({counts[s] ?? 0})
+                All Events
               </button>
-            ))}
+              {availableEventTypes.map((t) => (
+                <button
+                  key={t}
+                  onClick={() => setEventTypeFilter(t)}
+                  className={`whitespace-nowrap rounded-lg px-4 py-2 text-sm font-semibold transition-colors ring-1 ring-inset ${
+                    eventTypeFilter === t
+                      ? "bg-[#BF0637] text-white ring-[#BF0637] shadow-md"
+                      : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-50"
+                  }`}
+                >
+                  {EVENT_TYPES[t] || t}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Alert Level Filter */}
+          <div className="flex flex-col gap-2 shrink-0">
+            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Alert Level</label>
+            <div className="flex overflow-x-auto pb-2 scrollbar-hide gap-2">
+              <button
+                onClick={() => setAlertFilter("all")}
+                className={`whitespace-nowrap rounded-lg px-4 py-2 text-sm font-semibold transition-colors ring-1 ring-inset ${
+                  alertFilter === "all"
+                    ? "bg-slate-900 text-white ring-slate-900 shadow-md"
+                    : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-50"
+                }`}
+              >
+                All Alerts
+              </button>
+              {["Red", "Orange", "Green"].map((level) => (
+                <button
+                  key={level}
+                  onClick={() => setAlertFilter(level)}
+                  className={`flex items-center gap-2 whitespace-nowrap rounded-lg px-4 py-2 text-sm font-semibold transition-colors ring-1 ring-inset ${
+                    alertFilter === level
+                      ? "bg-slate-800 text-white ring-slate-800 shadow-md"
+                      : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-50"
+                  }`}
+                >
+                  <span className={`w-2.5 h-2.5 rounded-full ${level === 'Red' ? 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]' : level === 'Orange' ? 'bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.6)]' : 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]'}`}></span>
+                  {level}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Source legend */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-10 sm:mb-12">
-          {SOURCES.map((s) => {
-            const m = sourceMeta(s);
-            return (
-              <div
-                key={s}
-                className="rounded-xl border border-slate-200/80 bg-white px-4 py-3 shadow-sm"
-              >
-                <div className={`h-1 w-10 rounded-full ${m.bar} mb-2`} />
-                <p className="text-sm font-bold text-slate-900">{m.name}</p>
-                <p className="text-xs text-slate-600 leading-snug mt-1">{m.blurb}</p>
+        {status === "loading" ? (
+          <div className="py-16">
+            <div className="rounded-2xl border border-slate-200 bg-white p-12 sm:p-16 shadow-sm">
+              <div className="mx-auto max-w-md text-center">
+                <div className="mx-auto mb-6 h-12 w-12 animate-spin rounded-full border-2 border-[#BF0637] border-t-transparent" aria-hidden />
+                <p className="text-lg font-semibold text-slate-900">Loading GDACS Live Feed</p>
+                <p className="mt-2 text-sm text-slate-600">
+                  Pulling the latest global disaster data...
+                </p>
               </div>
-            );
-          })}
-        </div>
-
-        {filtered.length === 0 ? (
-          <p className="text-center text-slate-600 py-12">No items for this source. Try &quot;All&quot;.</p>
+            </div>
+          </div>
+        ) : status === "error" ? (
+          <div className="py-16">
+            <div className="rounded-2xl border border-red-200 bg-red-50/80 p-8 sm:p-10 text-center">
+              <p className="text-lg font-semibold text-red-900">We couldn&apos;t load the feed</p>
+              <p className="mt-2 text-sm text-red-800/90 max-w-lg mx-auto">
+                The GDACS API is temporarily unavailable. Please refresh the page in a few minutes.
+              </p>
+            </div>
+          </div>
+        ) : status === "empty" || filtered.length === 0 ? (
+          <div className="py-16">
+            <div className="rounded-2xl border border-slate-200 bg-white p-12 text-center shadow-sm">
+              <p className="text-lg font-semibold text-slate-900">No events found</p>
+              <p className="mt-2 text-slate-500">Try adjusting your filters to see more results.</p>
+              <button 
+                onClick={() => { setEventTypeFilter("all"); setAlertFilter("all"); }}
+                className="mt-4 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 font-medium rounded-lg transition-colors"
+              >
+                Clear Filters
+              </button>
+            </div>
+          </div>
         ) : (
-          <>
-            {/* Featured */}
+          <div className="flex flex-col gap-6">
+            {/* Featured Top Story */}
             {featured && (
-              <article className="mb-10 sm:mb-12 rounded-3xl border border-slate-200/90 bg-white shadow-lg shadow-slate-200/50 overflow-hidden">
+              <article className="mb-4 rounded-3xl border border-slate-200/90 bg-white shadow-xl shadow-slate-200/50 overflow-hidden">
                 <div className="flex h-1.5 w-full">
-                  <div className={`min-w-[28%] sm:min-w-[32%] ${sourceMeta(featured.source).bar}`} />
-                  <div className="flex-1 bg-gradient-to-r from-[#BF0637] to-slate-500" />
+                  <div className={`w-1/3 ${(ALERT_COLORS[featured.properties.alertlevel] || DEFAULT_ALERT_COLOR).bar}`} />
+                  <div className="flex-1 bg-gradient-to-r from-slate-200 to-slate-400" />
                 </div>
-                <div className={`bg-gradient-to-br ${sourceMeta(featured.source).cardBg} p-6 sm:p-10 lg:p-12`}>
-                  <div className="flex flex-wrap items-center gap-2 mb-4">
-                    <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide ring-1 ${sourceMeta(featured.source).chip}`}>
-                      {sourceMeta(featured.source).short}
+                <div className={`bg-gradient-to-br ${(ALERT_COLORS[featured.properties.alertlevel] || DEFAULT_ALERT_COLOR).cardBg} p-6 sm:p-10 lg:p-12 relative`}>
+                  
+                  {/* GDACS Icon in background */}
+                  {featured.properties.icon && (
+                    <img 
+                      src={featured.properties.icon} 
+                      alt="" 
+                      className="absolute top-10 right-10 w-32 h-32 opacity-10 object-contain pointer-events-none hidden sm:block" 
+                    />
+                  )}
+
+                  <div className="flex flex-wrap items-center gap-2 mb-4 relative z-10">
+                    <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide ring-1 ${(ALERT_COLORS[featured.properties.alertlevel] || DEFAULT_ALERT_COLOR).chip}`}>
+                      <span className={`w-2 h-2 rounded-full ${(ALERT_COLORS[featured.properties.alertlevel] || DEFAULT_ALERT_COLOR).bar}`}></span>
+                      {featured.properties.alertlevel} Alert
                     </span>
                     <span className="inline-flex items-center rounded-full bg-slate-900/5 px-3 py-1 text-xs font-semibold text-slate-700 ring-1 ring-slate-200/80">
-                      {inferKind(featured.title)}
+                      {EVENT_TYPES[featured.properties.eventtype] || featured.properties.eventtype}
                     </span>
-                    {featured.time ? (
-                      <span className="text-xs font-medium text-slate-500">
-                        {relativeTime(featured.time)}
-                        <span className="text-slate-400"> · </span>
-                        {formatAbsolute(featured.time)}
-                      </span>
-                    ) : null}
+                    <span className="text-xs font-medium text-slate-500 flex items-center gap-1.5">
+                      <span className="font-semibold text-slate-700">{featured.properties.country}</span>
+                      <span className="text-slate-300">|</span>
+                      {relativeTime(featured.properties.fromdate)}
+                    </span>
                   </div>
-                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 leading-tight tracking-tight mb-4">
-                    {featured.title}
+                  
+                  <h3 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 leading-tight tracking-tight mb-4 relative z-10 max-w-4xl">
+                    {featured.properties.name || `${EVENT_TYPES[featured.properties.eventtype] || 'Event'} in ${featured.properties.country}`}
                   </h3>
-                  <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-3xl mb-6">
-                    <span className="font-semibold text-slate-800">{sourceMeta(featured.source).name}</span>
-                    {" — "}
-                    {sourceMeta(featured.source).blurb} Open the official link below for the complete bulletin, maps, and any recommended actions.
+                  
+                  <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-3xl mb-8 relative z-10">
+                    {stripHtml(featured.properties.htmldescription || featured.properties.description)}
                   </p>
-                  <a
-                    href={featured.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-xl bg-[#BF0637] px-5 py-3 text-sm font-bold text-white shadow-md shadow-[#BF0637]/25 hover:bg-[#a00530] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#BF0637] focus-visible:ring-offset-2"
-                  >
-                    View full official report
-                    <ExternalIcon className="w-4 h-4 opacity-90" />
-                  </a>
+                  
+                  <div className="flex flex-col sm:flex-row gap-4 relative z-10">
+                    <a
+                      href={featured.properties.url?.report}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#BF0637] px-6 py-3.5 text-sm font-bold text-white shadow-md shadow-[#BF0637]/25 hover:bg-[#a00530] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#BF0637] focus-visible:ring-offset-2"
+                    >
+                      Read Full Report
+                      <ExternalIcon className="w-4 h-4 opacity-90" />
+                    </a>
+                  </div>
                 </div>
               </article>
             )}
 
-            {/* Grid */}
-            <div className="grid gap-6 sm:gap-8 sm:grid-cols-2">
-              {rest.map((item) => {
-                const m = sourceMeta(item.source);
-                const kind = inferKind(item.title);
-                return (
-                  <article
-                    key={item.id}
-                    className="group flex flex-col rounded-2xl border border-slate-200 bg-white overflow-hidden shadow-sm hover:shadow-xl hover:border-slate-300/80 transition-all duration-300"
-                  >
-                    <div className={`h-1 w-full ${m.bar}`} />
-                    <div className="flex flex-col flex-1 p-5 sm:p-6">
-                      <div className="flex flex-wrap items-center gap-2 mb-3">
-                        <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide ring-1 ${m.chip}`}>
-                          {m.short}
-                        </span>
-                        <span className="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-semibold text-slate-700">
-                          {kind}
-                        </span>
-                      </div>
-                      <h3 className="text-lg sm:text-xl font-bold text-slate-900 leading-snug mb-3 group-hover:text-[#BF0637] transition-colors">
-                        <a
-                          href={item.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="hover:underline decoration-[#BF0637]/40 underline-offset-2"
-                        >
-                          {item.title}
-                        </a>
-                      </h3>
-                      <div className="mt-auto space-y-3 pt-2">
-                        <dl className="grid grid-cols-1 gap-2 text-xs sm:text-sm">
-                          <div className="flex flex-col sm:flex-row sm:gap-2 border-t border-slate-100 pt-3">
-                            <dt className="font-semibold text-slate-500 shrink-0 sm:w-28">Source</dt>
-                            <dd className="text-slate-800">{m.name}</dd>
-                          </div>
-                          <div className="flex flex-col sm:flex-row sm:gap-2">
-                            <dt className="font-semibold text-slate-500 shrink-0 sm:w-28">Reported</dt>
-                            <dd className="text-slate-800">
-                              {item.time ? (
-                                <>
-                                  <span className="font-medium text-slate-900">{formatAbsolute(item.time)}</span>
-                                  <span className="text-slate-500"> ({relativeTime(item.time)})</span>
-                                </>
-                              ) : (
-                                "Not specified"
-                              )}
-                            </dd>
-                          </div>
-                          <div className="flex flex-col sm:flex-row sm:gap-2">
-                            <dt className="font-semibold text-slate-500 shrink-0 sm:w-28">Summary</dt>
-                            <dd className="text-slate-600 leading-relaxed">{m.blurb}</dd>
-                          </div>
-                        </dl>
-                        <a
-                          href={item.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 text-sm font-bold text-[#BF0637] hover:text-[#a00530] mt-1"
-                        >
-                          Open official page
-                          <ExternalIcon className="w-4 h-4" />
-                        </a>
-                      </div>
-                    </div>
-                  </article>
-                );
-              })}
+            {/* List of remaining events */}
+            <div className="flex flex-col gap-3">
+              {rest.map((item, idx) => (
+                <NewsListItem key={`${item.properties.eventid}-${idx}`} item={item} />
+              ))}
             </div>
-          </>
+          </div>
         )}
       </div>
     </div>

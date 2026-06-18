@@ -6,7 +6,7 @@ import NewsAndMediaFeed from "@/components/NewsAndMediaFeed";
 export const metadata: Metadata = {
   title: "News & Media | R3sults",
   description:
-    "Live U.S. disaster and hazard headlines from USGS, FEMA, NOAA NWS, and NASA EONET—official sources with links to full reports.",
+    "Live global disaster and hazard headlines from the Global Disaster Alert and Coordination System (GDACS)—official sources with links to full reports.",
 };
 
 export default function NewsAndMediaPage() {
@@ -29,13 +29,13 @@ export default function NewsAndMediaPage() {
             <span className="text-white">News and Media</span>
           </nav>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#f47296] mb-3">
-            Official sources
+            Global Monitoring
           </p>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-5 max-w-3xl">
-            News &amp; media
+            News &amp; Media
           </h1>
           <p className="text-slate-300 text-lg sm:text-xl max-w-2xl leading-relaxed">
-            Real-time disaster and weather alerts drawn from the same live feed used on our home page—presented with context, timestamps, and direct links to each agency&apos;s full bulletin.
+            Real-time global disaster and emergency alerts powered by the Global Disaster Alert and Coordination System (GDACS)—presented with context, severity metrics, and direct links to official reports.
           </p>
         </div>
       </div>

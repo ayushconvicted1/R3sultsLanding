@@ -15,12 +15,6 @@ interface GoogleAuthResponse {
   message?: string;
 }
 
-/**
- * Proxy to external User API: POST /api/auth/google (Google Sign-In).
- * Body: { idToken: string } — Google ID token from client SDK.
- * Returns: { user, accessToken, refreshToken, needsPhoneUpdate? }
- * If needsPhoneUpdate is true, prompt user to add phone via POST /auth/update-phone.
- */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
