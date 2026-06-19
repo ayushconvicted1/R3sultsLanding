@@ -1006,7 +1006,7 @@ export default function Home() {
 
               <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 text-slate-100">
                 {homeData.communitySection.featureHighlights.map((highlight, idx) => (
-                  <div key={idx} className="rounded-lg border border-white/15 bg-white/10 px-4 py-3 text-sm">
+                  <div key={idx} className="rounded-lg border border-white/15 bg-white/10 px-4 py-3 text-xs ">
                     {highlight}
                   </div>
                 ))}

@@ -70,7 +70,7 @@ export default function NewsletterForm() {
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="h-10 min-w-0 flex-1 px-4 rounded-md bg-white/10 text-white placeholder:text-slate-300 text-base leading-tight border border-white/20 focus:outline-none focus:border-white/50"
+          className="h-10 min-w-0 flex-1 px-4 rounded-md bg-white/10 text-white placeholder:text-slate-300 text-sm leading-tight border border-white/20 focus:outline-none focus:border-white/50"
           placeholder="Enter your email"
           disabled={loading}
         />

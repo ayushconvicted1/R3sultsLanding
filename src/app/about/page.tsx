@@ -27,8 +27,8 @@ export default function About() {
   // Background images (mobile vs desktop)
   const backgroundImageStr = aboutData.hero?.backgroundImage || "";
   const bgUrls = backgroundImageStr.split(",").map((s: string) => s.trim()).filter(Boolean);
-  const bgMobile = bgUrls[0] || "/About us_Mobile.jpg.jpeg";
-  const bgDesktop = bgUrls[1] || bgUrls[0] || "/AboutHeroBG.png";
+  const bgDesktop = bgUrls[0];
+  const bgMobile = bgUrls[1] || bgUrls[0] ;
 
   const vision = aboutData.visionMissionSection?.vision;
   const mission = aboutData.visionMissionSection?.mission;

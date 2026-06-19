@@ -57,7 +57,7 @@ export default function Header() {
     }
 
     return () => {
-      document.body.style.overflow = ""; 
+      document.body.style.overflow = "";
       document.documentElement.style.overflowX = "";
     };
   }, [showMobileMenu]);
@@ -71,41 +71,37 @@ export default function Header() {
           </Link>
           <nav className="hidden md:flex items-center gap-8 text-base font-medium">
             <Link
-              className={`transition-colors ${
-                pathname === "/"
+              className={`transition-colors ${pathname === "/"
                   ? "text-[#BF0637]"
                   : "text-black hover:text-[#BF0637]"
-              }`}
+                }`}
               href="/"
             >
               Home
             </Link>
             <Link
-              className={`transition-colors ${
-                pathname === "/about"
+              className={`transition-colors ${pathname === "/about"
                   ? "text-[#BF0637]"
                   : "text-black hover:text-[#BF0637]"
-              }`}
+                }`}
               href="/about"
             >
               About
             </Link>
             <Link
-              className={`transition-colors ${
-                pathname === "/contact"
+              className={`transition-colors ${pathname === "/contact"
                   ? "text-[#BF0637]"
                   : "text-black hover:text-[#BF0637]"
-              }`}
+                }`}
               href="/contact"
             >
               Contact
             </Link>
             <Link
-              className={`transition-colors ${
-                pathname === "/news-and-media"
+              className={`transition-colors ${pathname === "/news-and-media"
                   ? "text-[#BF0637]"
                   : "text-black hover:text-[#BF0637]"
-              }`}
+                }`}
               href="/news-and-media"
             >
               News and Media
@@ -118,11 +114,10 @@ export default function Header() {
               <button
                 type="button"
                 onClick={() => setShowShopDropdown((v) => !v)}
-                className={`transition-colors flex items-center gap-1 ${
-                  pathname === "/shop" || pathname === "/merch" || pathname?.startsWith("/merch/")
+                className={`transition-colors flex items-center gap-1 ${pathname === "/shop" || pathname === "/merch" || pathname?.startsWith("/merch/")
                     ? "text-[#BF0637]"
                     : "text-black hover:text-[#BF0637]"
-                }`}
+                  }`}
                 aria-expanded={showShopDropdown}
                 aria-haspopup="true"
                 aria-label="Shop menu"
@@ -137,22 +132,20 @@ export default function Header() {
                   <Link
                     href="/merch"
                     onClick={() => setShowShopDropdown(false)}
-                    className={`block px-4 py-2.5 text-sm font-medium transition-colors ${
-                      pathname === "/merch" || pathname?.startsWith("/merch/")
+                    className={`block px-4 py-2.5 text-sm font-medium transition-colors ${pathname === "/merch" || pathname?.startsWith("/merch/")
                         ? "text-[#BF0637] bg-red-50/50"
                         : "text-slate-700 hover:bg-slate-50 hover:text-[#BF0637]"
-                    }`}
+                      }`}
                   >
                     Merchandise
                   </Link>
                   <Link
                     href="/shop"
                     onClick={() => setShowShopDropdown(false)}
-                    className={`block px-4 py-2.5 text-sm font-medium transition-colors ${
-                      pathname === "/shop"
+                    className={`block px-4 py-2.5 text-sm font-medium transition-colors ${pathname === "/shop"
                         ? "text-[#BF0637] bg-red-50/50"
                         : "text-slate-700 hover:bg-slate-50 hover:text-[#BF0637]"
-                    }`}
+                      }`}
                   >
                     Supplies
                   </Link>
@@ -198,33 +191,35 @@ export default function Header() {
                     <button
                       type="button"
                       onClick={() => setShowAccountDropdown((v) => !v)}
-                      className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-50 text-black hover:text-[#BF0637] hover:bg-red-50 transition-colors font-medium border border-slate-200"
+                      className="flex items-center gap-2 text-black hover:text-[#BF0637] transition-colors"
                       aria-expanded={showAccountDropdown}
                       aria-haspopup="true"
                       aria-label="Account menu"
                     >
-                      {user.profilePictureUrl ? (
-                        <img src={user.profilePictureUrl} alt="Profile" className="w-6 h-6 rounded-full object-cover" />
-                      ) : (
-                        <span className="text-lg leading-none">👤</span>
-                      )}
-                      <span className="hidden sm:inline">
-                        {user.fullName ? `${fullNameToFirstLast(user.fullName).firstName || user.fullName}` : "Dashboard"}
+                      <span className="font-medium">
+                        {user.fullName ? `${fullNameToFirstLast(user.fullName).firstName || user.fullName}'s account` : "Account"}
                       </span>
-                      <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                       </svg>
                     </button>
                     {showAccountDropdown && (
                       <div className="absolute right-0 top-full mt-1 w-48 py-1 bg-white rounded-lg shadow-xl border border-slate-200/80 z-50">
                         <Link
-                          href="/dashboard"
+                          href="/profile"
                           onClick={() => setShowAccountDropdown(false)}
-                          className={`block px-4 py-2.5 text-sm font-medium transition-colors ${
-                            pathname === "/dashboard" ? "text-[#BF0637] bg-red-50/50" : "text-slate-700 hover:bg-slate-50 hover:text-[#BF0637]"
-                          }`}
+                          className={`block px-4 py-2.5 text-sm font-medium transition-colors ${pathname === "/profile" ? "text-[#BF0637] bg-red-50/50" : "text-slate-700 hover:bg-slate-50 hover:text-[#BF0637]"
+                            }`}
                         >
-                          Dashboard
+                          Profile
+                        </Link>
+                        <Link
+                          href="/account/orders"
+                          onClick={() => setShowAccountDropdown(false)}
+                          className={`block px-4 py-2.5 text-sm font-medium transition-colors ${pathname === "/account/orders" ? "text-[#BF0637] bg-red-50/50" : "text-slate-700 hover:bg-slate-50 hover:text-[#BF0637]"
+                            }`}
+                        >
+                          Orders
                         </Link>
                         <button
                           type="button"
@@ -287,11 +282,10 @@ export default function Header() {
       {/* Slide-in menu - outside header to avoid padding issues */}
       <div
         ref={menuRef}
-        className={`fixed top-0 h-full w-80 max-w-[85vw] bg-white/95 backdrop-blur-md md:hidden z-50 shadow-2xl transition-all duration-300 ease-in-out ${
-          showMobileMenu
+        className={`fixed top-0 h-full w-80 max-w-[85vw] bg-white/95 backdrop-blur-md md:hidden z-50 shadow-2xl transition-all duration-300 ease-in-out ${showMobileMenu
             ? "right-0 opacity-100 pointer-events-auto"
             : "-right-full opacity-0 pointer-events-none"
-        }`}
+          }`}
       >
         <div className="flex flex-col h-full">
           {/* Menu Header */}
@@ -324,27 +318,24 @@ export default function Header() {
           <nav className="flex flex-col flex-1 p-4 overflow-y-auto">
             <div className="flex flex-col gap-1">
               <Link
-                className={`px-4 py-2.5 rounded-lg font-medium text-base ${
-                  pathname === "/about" ? "text-[#BF0637] bg-red-50" : "text-black hover:bg-slate-100 hover:text-[#BF0637]"
-                }`}
+                className={`px-4 py-2.5 rounded-lg font-medium text-base ${pathname === "/about" ? "text-[#BF0637] bg-red-50" : "text-black hover:bg-slate-100 hover:text-[#BF0637]"
+                  }`}
                 href="/about"
                 onClick={() => setShowMobileMenu(false)}
               >
                 About
               </Link>
               <Link
-                className={`px-4 py-2.5 rounded-lg font-medium text-base ${
-                  pathname === "/contact" ? "text-[#BF0637] bg-red-50" : "text-black hover:bg-slate-100 hover:text-[#BF0637]"
-                }`}
+                className={`px-4 py-2.5 rounded-lg font-medium text-base ${pathname === "/contact" ? "text-[#BF0637] bg-red-50" : "text-black hover:bg-slate-100 hover:text-[#BF0637]"
+                  }`}
                 href="/contact"
                 onClick={() => setShowMobileMenu(false)}
               >
                 Contact
               </Link>
               <Link
-                className={`px-4 py-2.5 rounded-lg font-medium text-base ${
-                  pathname === "/news-and-media" ? "text-[#BF0637] bg-red-50" : "text-black hover:bg-slate-100 hover:text-[#BF0637]"
-                }`}
+                className={`px-4 py-2.5 rounded-lg font-medium text-base ${pathname === "/news-and-media" ? "text-[#BF0637] bg-red-50" : "text-black hover:bg-slate-100 hover:text-[#BF0637]"
+                  }`}
                 href="/news-and-media"
                 onClick={() => setShowMobileMenu(false)}
               >
@@ -388,9 +379,8 @@ export default function Header() {
                     <Link
                       href="/profile"
                       onClick={() => setShowMobileMenu(false)}
-                      className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium ${
-                        pathname === "/profile" ? "bg-[#BF0637] text-white" : "bg-slate-100 text-slate-800 hover:bg-slate-200"
-                      }`}
+                      className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium ${pathname === "/profile" ? "bg-[#BF0637] text-white" : "bg-slate-100 text-slate-800 hover:bg-slate-200"
+                        }`}
                     >
                       <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -400,9 +390,8 @@ export default function Header() {
                     <Link
                       href="/account/orders"
                       onClick={() => setShowMobileMenu(false)}
-                      className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium ${
-                        pathname === "/account/orders" ? "bg-[#BF0637] text-white" : "bg-slate-100 text-slate-800 hover:bg-slate-200"
-                      }`}
+                      className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium ${pathname === "/account/orders" ? "bg-[#BF0637] text-white" : "bg-slate-100 text-slate-800 hover:bg-slate-200"
+                        }`}
                     >
                       <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
