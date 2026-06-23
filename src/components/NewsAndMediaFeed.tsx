@@ -1,74 +1,41 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
-export type GDACSFeature = {
-  type: string;
-  properties: {
-    eventtype: string;
-    eventid: number;
-    episodeid: number;
-    name: string;
-    description: string;
-    htmldescription: string;
-    icon: string;
-    iconoverall: string;
-    url: {
-      report: string;
-      details: string;
-    };
-    alertlevel: string; // Red, Orange, Green
-    alertscore: number;
-    country: string;
-    fromdate: string;
-    todate: string;
-    severitydata: {
-      severity: number;
-      severitytext: string;
-      severityunit: string;
-    };
-  };
+export type NewsDataArticle = {
+  article_id: string;
+  link: string;
+  title: string;
+  description: string | null;
+  content: string | null;
+  pubDate: string;
+  image_url: string | null;
+  source_name: string;
+  source_icon: string | null;
+  creator?: string[] | null;
+  keywords?: string[] | null;
+  category?: string[] | null;
+  language?: string;
+  country?: string[];
 };
 
-type GDACSFeedResponse = {
-  type: string;
-  features: GDACSFeature[];
+type NewsDataResponse = {
+  status: string;
+  totalResults: number;
+  results: NewsDataArticle[];
+  nextPage: string | null;
 };
 
-// Helper colors for alert levels
-const ALERT_COLORS: Record<string, { bar: string; chip: string; cardBg: string }> = {
-  Red: {
-    bar: "bg-red-600",
-    chip: "bg-red-100 text-red-800 ring-red-500/20",
-    cardBg: "from-red-600/[0.08] to-white",
-  },
-  Orange: {
-    bar: "bg-orange-500",
-    chip: "bg-orange-100 text-orange-800 ring-orange-500/20",
-    cardBg: "from-orange-500/[0.08] to-white",
-  },
-  Green: {
-    bar: "bg-emerald-500",
-    chip: "bg-emerald-100 text-emerald-800 ring-emerald-500/20",
-    cardBg: "from-emerald-500/[0.08] to-white",
-  },
-};
-
-const DEFAULT_ALERT_COLOR = {
-  bar: "bg-slate-500",
-  chip: "bg-slate-100 text-slate-800 ring-slate-500/20",
-  cardBg: "from-slate-500/[0.08] to-white",
-};
-
-// Event type readable names
-const EVENT_TYPES: Record<string, string> = {
-  EQ: "Earthquake",
-  TC: "Tropical Cyclone",
-  FL: "Flood",
-  VO: "Volcano",
-  DR: "Drought",
-  WF: "Wildfire",
-};
+const DISASTER_FILTERS = [
+  "All",
+  "Earthquake",
+  "Flood",
+  "Hurricane",
+  "Tornado",
+  "Tsunami",
+  "Wildfire",
+  "Landslide",
+];
 
 function formatAbsolute(dateStr: string): string {
   if (!dateStr) return "Time not available";
@@ -101,101 +68,158 @@ function ExternalIcon({ className }: { className?: string }) {
   );
 }
 
-// Strip simple HTML tags if htmldescription has them
 function stripHtml(html: string) {
-  return html.replace(/<[^>]*>?/gm, '');
+  if (!html) return "";
+  let text = html.replace(/<[^>]*>?/gm, '');
+  return text.replace(/ONLY AVAILABLE IN PAID PLANS/gi, 'Click "Read Full Story on Original Site" to view complete details.');
 }
 
-function NewsListItem({ item }: { item: GDACSFeature }) {
-  const [expanded, setExpanded] = useState(false);
-  const alertStyle = ALERT_COLORS[item.properties.alertlevel] || DEFAULT_ALERT_COLOR;
-  const eventName = EVENT_TYPES[item.properties.eventtype] || item.properties.eventtype;
-  
-  const text = stripHtml(item.properties.htmldescription || item.properties.description);
-  const hasSeverity = !!item.properties.severitydata?.severitytext;
-  const isLong = text.length > 80 || hasSeverity;
+function ArticleModal({ article, onClose }: { article: NewsDataArticle; onClose: () => void }) {
+  if (!article) return null;
+
+  const text = stripHtml(article.description || article.content || "");
 
   return (
-    <article className="group flex flex-col sm:flex-row rounded-xl border border-slate-200 bg-white overflow-hidden shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-300">
-      <div className={`w-full sm:w-1.5 ${alertStyle.bar} shrink-0 h-1.5 sm:h-auto`} />
-      <div className="flex flex-col flex-1 p-4 relative">
-        <div className="flex justify-between items-start mb-2">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ring-1 ${alertStyle.chip}`}>
-              <span className={`w-1.5 h-1.5 rounded-full ${alertStyle.bar}`}></span>
-              {item.properties.alertlevel}
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-sm overflow-y-auto">
+      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto flex flex-col">
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 z-20 p-2 bg-white/70 hover:bg-white text-slate-600 hover:text-slate-900 rounded-full shadow-sm backdrop-blur transition-colors"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+        {article.image_url && (
+          <div className="w-full h-64 sm:h-80 shrink-0 bg-slate-100 relative">
+            <img src={article.image_url} alt={article.title} className="w-full h-full object-cover" />
+          </div>
+        )}
+
+        <div className="p-6 sm:p-8 flex-1">
+          <div className="flex flex-wrap items-center gap-3 mb-4">
+            {article.source_icon && (
+              <img src={article.source_icon} alt={article.source_name} className="w-6 h-6 object-contain rounded shadow-sm" />
+            )}
+            <span className="inline-flex items-center rounded-full bg-slate-900/5 px-3 py-1 text-xs font-bold text-slate-700 ring-1 ring-slate-200/80 uppercase tracking-wider">
+              {article.source_name}
             </span>
-            <span className="inline-flex items-center rounded-full bg-slate-900/5 px-2 py-0.5 text-[10px] font-semibold text-slate-700 ring-1 ring-slate-200/80">
-              {eventName}
+            <span className="text-sm font-medium text-slate-500 flex items-center gap-1.5 ml-auto">
+              {formatAbsolute(article.pubDate)}
             </span>
           </div>
-          {item.properties.icon && (
-            <img src={item.properties.icon} alt={eventName} className="w-6 h-6 object-contain drop-shadow-sm" />
-          )}
-        </div>
 
-        <h3 className="text-lg font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#BF0637] transition-colors">
-          <a
-            href={item.properties.url?.report}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:underline decoration-[#BF0637]/40 underline-offset-2"
-          >
-            {item.properties.name || `${eventName} in ${item.properties.country}`}
-          </a>
-        </h3>
-        
-        <div className={`text-sm text-slate-600 mb-2 leading-relaxed transition-all duration-300 ${expanded ? '' : 'line-clamp-2'}`}>
-          <p>{text}</p>
-          {expanded && (
-            <div className="mt-3 flex flex-col sm:flex-row gap-4">
-              {hasSeverity && (
-                <div className="flex-1 p-2 bg-slate-50 rounded-md border border-slate-100">
-                  <span className="font-semibold text-slate-700 block text-xs uppercase mb-0.5 tracking-wider">Severity</span>
-                  <p className="text-slate-600 text-sm">{item.properties.severitydata.severitytext}</p>
-                </div>
-              )}
-              <div className="flex-1 p-2 bg-slate-50 rounded-md border border-slate-100">
-                <span className="font-semibold text-slate-700 block text-xs uppercase mb-0.5 tracking-wider">Event Period</span>
-                <p className="text-slate-600 text-sm">
-                  {formatAbsolute(item.properties.fromdate)} — {formatAbsolute(item.properties.todate)}
-                </p>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight tracking-tight mb-6">
+            {article.title}
+          </h2>
+
+          <div className="flex flex-wrap gap-2 mb-6">
+            {article.category && article.category.map((cat, i) => (
+              <span key={i} className="px-2 py-1 bg-slate-100 text-slate-600 text-[10px] sm:text-xs rounded-md uppercase font-bold tracking-wider">{cat}</span>
+            ))}
+            {article.country && article.country.map((c, i) => (
+              <span key={i} className="px-2 py-1 bg-blue-50 text-blue-600 text-[10px] sm:text-xs rounded-md uppercase font-bold tracking-wider">{c}</span>
+            ))}
+            {article.language && (
+              <span className="px-2 py-1 bg-emerald-50 text-emerald-600 text-[10px] sm:text-xs rounded-md uppercase font-bold tracking-wider">{article.language}</span>
+            )}
+          </div>
+
+          <div className="prose prose-slate max-w-none text-slate-700 leading-relaxed mb-8 text-base sm:text-lg">
+            <p>{text}</p>
+          </div>
+
+          {article.creator && article.creator.length > 0 && (
+            <div className="mb-4 text-sm text-slate-500">
+              <strong className="text-slate-700">Creators:</strong> {article.creator.join(", ")}
+            </div>
+          )}
+
+          {article.keywords && article.keywords.length > 0 && (
+            <div className="mb-8">
+              <strong className="text-slate-700 block text-sm mb-2">Keywords:</strong>
+              <div className="flex flex-wrap gap-2">
+                {article.keywords.map((kw, i) => (
+                  <span key={i} className="px-2 py-1 bg-slate-50 border border-slate-100 text-slate-500 text-xs rounded-md">{kw}</span>
+                ))}
               </div>
             </div>
           )}
+
+          <div className="border-t border-slate-100 pt-6 flex justify-end">
+            <a
+              href={article.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#BF0637] px-8 py-3 text-sm font-bold text-white shadow-md shadow-[#BF0637]/25 hover:bg-[#a00530] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#BF0637] focus-visible:ring-offset-2 hover:-translate-y-0.5"
+            >
+              Read Full Story on Original Site
+              <ExternalIcon className="w-4 h-4 opacity-90" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function NewsListItem({ item, onReadMore }: { item: NewsDataArticle; onReadMore: (article: NewsDataArticle) => void }) {
+  const text = stripHtml(item.description || item.content || "");
+  const isLong = text.length > 100;
+
+  return (
+    <article className="group flex flex-col sm:flex-row rounded-xl border border-slate-200 bg-white overflow-hidden shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-300">
+      {item.image_url ? (
+        <div className="w-full sm:w-48 h-48 sm:h-auto shrink-0 overflow-hidden bg-slate-100 relative">
+          <img src={item.image_url} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+        </div>
+      ) : (
+        <div className="w-full sm:w-1.5 bg-slate-200 shrink-0 h-1.5 sm:h-auto" />
+      )}
+
+      <div className="flex flex-col flex-1 p-4 sm:p-5 relative">
+        <div className="flex items-center gap-2 mb-3">
+          {item.source_icon && (
+            <img src={item.source_icon} alt={item.source_name} className="w-5 h-5 object-contain rounded" />
+          )}
+          <span className="text-xs font-bold text-slate-500 uppercase tracking-wide">
+            {item.source_name}
+          </span>
+          {item.category && item.category[0] && (
+            <span className="ml-auto text-[10px] font-bold text-slate-400 uppercase tracking-wider hidden sm:block">
+              {item.category[0]}
+            </span>
+          )}
+        </div>
+
+        <h3 className="text-lg font-bold text-slate-900 leading-snug mb-2 group-hover:text-[#BF0637] transition-colors cursor-pointer" onClick={() => onReadMore(item)}>
+          {item.title}
+        </h3>
+
+        <div className={`text-sm text-slate-600 mb-3 leading-relaxed transition-all duration-300 line-clamp-2`}>
+          <p>{text}</p>
         </div>
 
         {isLong && (
-          <button 
-            onClick={() => setExpanded(!expanded)} 
-            className="text-xs text-[#BF0637] font-bold self-start mb-2 flex items-center gap-1 hover:bg-red-50 px-2 py-1 -ml-2 rounded transition-colors"
+          <button
+            onClick={() => onReadMore(item)}
+            className="text-xs text-[#BF0637] font-bold self-start mb-3 flex items-center gap-1 hover:bg-red-50 px-2 py-1 -ml-2 rounded transition-colors"
           >
-            {expanded ? "Read Less" : "Read More"}
-            <svg className={`w-3.5 h-3.5 transition-transform ${expanded ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            Read More
+            <svg className={`w-3.5 h-3.5`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
             </svg>
           </button>
         )}
 
         <div className="mt-auto pt-3 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-slate-500">
-          <span className="font-semibold text-slate-700 flex items-center gap-1.5">
-            <svg className="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-            {item.properties.country}
+          <span className="font-medium text-slate-500">
+            {formatAbsolute(item.pubDate)}
           </span>
           <div className="flex items-center gap-3">
-            <span>{relativeTime(item.properties.fromdate)}</span>
-            <a
-              href={item.properties.url?.report}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-[#BF0637] hover:text-[#a00530] font-semibold"
-            >
-              Open Report
-              <ExternalIcon className="w-3.5 h-3.5" />
-            </a>
+            <span>{relativeTime(item.pubDate)}</span>
           </div>
         </div>
       </div>
@@ -204,157 +228,142 @@ function NewsListItem({ item }: { item: GDACSFeature }) {
 }
 
 export default function NewsAndMediaFeed() {
-  const [items, setItems] = useState<GDACSFeature[]>([]);
+  const [articles, setArticles] = useState<NewsDataArticle[]>([]);
+  const [nextPage, setNextPage] = useState<string | null>(null);
   const [status, setStatus] = useState<"loading" | "ok" | "empty" | "error">("loading");
-  
-  // Filters
-  const [eventTypeFilter, setEventTypeFilter] = useState<string>("all");
-  const [alertFilter, setAlertFilter] = useState<string>("all");
-  const [showOldDisasters, setShowOldDisasters] = useState<boolean>(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [activeFilter, setActiveFilter] = useState<string>("All");
+
+  // Modal state
+  const [selectedArticle, setSelectedArticle] = useState<NewsDataArticle | null>(null);
+
+  const fetchNews = async (pageToFetch: string | null, filter: string, isLoadMore: boolean) => {
+    try {
+      if (isLoadMore) {
+        setIsLoadingMore(true);
+      } else {
+        setStatus("loading");
+      }
+
+      const cacheKey = `news_cache_data_${filter}`;
+      const cacheTimeKey = `news_cache_time_${filter}`;
+      const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
+
+      // Check cache if it's the first page load
+      if (!isLoadMore) {
+        const cachedData = localStorage.getItem(cacheKey);
+        const cachedTime = localStorage.getItem(cacheTimeKey);
+
+        if (cachedData && cachedTime) {
+          const age = Date.now() - parseInt(cachedTime, 10);
+          if (age < TWENTY_FOUR_HOURS) {
+            const parsedData: NewsDataResponse = JSON.parse(cachedData);
+            const cachedArticles = parsedData.results || [];
+            setArticles(cachedArticles);
+            setNextPage(parsedData.nextPage || null);
+            setStatus(cachedArticles.length ? "ok" : "empty");
+            return;
+          } else {
+            // Cache expired
+            localStorage.removeItem(cacheKey);
+            localStorage.removeItem(cacheTimeKey);
+          }
+        }
+      }
+
+      const baseUrl = process.env.NEXT_PUBLIC_NEWSAPI_URL;
+      if (!baseUrl) throw new Error("NewsData API URL not configured.");
+
+      let qInTitle = "earthquake OR flood OR hurricane OR tornado OR tsunami OR wildfire OR landslide";
+
+      if (filter !== "All") {
+        qInTitle = filter.toLowerCase();
+      }
+
+      let url = `${baseUrl}&country=us&language=en&qInTitle=${encodeURIComponent(qInTitle)}`;
+      if (pageToFetch) {
+        url += `&page=${pageToFetch}`;
+      }
+
+      const res = await fetch(url);
+      if (!res.ok) throw new Error("Failed to fetch news data");
+
+      const data: NewsDataResponse = await res.json();
+
+      if (data.status !== "success") {
+        throw new Error("API returned non-success status");
+      }
+
+      const fetchedArticles = data.results || [];
+
+      if (isLoadMore) {
+        setArticles(prev => [...prev, ...fetchedArticles]);
+      } else {
+        setArticles(fetchedArticles);
+        // Save to cache for the initial page
+        localStorage.setItem(cacheKey, JSON.stringify(data));
+        localStorage.setItem(cacheTimeKey, Date.now().toString());
+      }
+
+      setNextPage(data.nextPage || null);
+
+      if (!isLoadMore) {
+        setStatus(fetchedArticles.length ? "ok" : "empty");
+      }
+    } catch (err) {
+      console.error("Error fetching news:", err);
+      if (!isLoadMore) setStatus("error");
+    } finally {
+      setIsLoadingMore(false);
+    }
+  };
 
   useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        setStatus("loading");
-        const baseUrl = process.env.NEXT_PUBLIC_GDACS_API_URL;
-        if (!baseUrl) throw new Error("GDACS API URL not configured.");
+    fetchNews(null, activeFilter, false);
+  }, [activeFilter]);
 
-        const endpoint = showOldDisasters ? "/SEARCH" : "/LATEST";
-        const res = await fetch(`${baseUrl}${endpoint}`);
-        if (!res.ok) throw new Error("Failed to fetch GDACS data");
-        
-        const data: GDACSFeedResponse = await res.json();
-        if (cancelled) return;
-
-        const features = data.features || [];
-        
-        // Sort by date (descending)
-        const sorted = [...features].sort((a, b) => {
-          return new Date(b.properties.fromdate).getTime() - new Date(a.properties.fromdate).getTime();
-        });
-
-        setItems(sorted);
-        setStatus(sorted.length ? "ok" : "empty");
-      } catch (err) {
-        console.error("Error fetching GDACS:", err);
-        if (!cancelled) setStatus("error");
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [showOldDisasters]);
-
-  // Compute available event types for the filter
-  const availableEventTypes = useMemo(() => {
-    const types = new Set<string>();
-    items.forEach((item) => {
-      if (item.properties.eventtype) types.add(item.properties.eventtype);
-    });
-    return Array.from(types).sort();
-  }, [items]);
-
-  // Compute filtered items
-  const filtered = useMemo(() => {
-    return items.filter((item) => {
-      const matchType = eventTypeFilter === "all" || item.properties.eventtype === eventTypeFilter;
-      const matchAlert = alertFilter === "all" || item.properties.alertlevel === alertFilter;
-      return matchType && matchAlert;
-    });
-  }, [items, eventTypeFilter, alertFilter]);
-
-  const featured = filtered[0];
-  const rest = filtered.slice(1);
+  const featured = articles[0];
+  const rest = articles.slice(1);
 
   return (
-    <div className="pb-16 sm:pb-20">
+    <div className="pb-16 sm:pb-20 relative">
+      {/* Article Modal */}
+      {selectedArticle && (
+        <ArticleModal article={selectedArticle} onClose={() => setSelectedArticle(null)} />
+      )}
+
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Title and Subheading at the Top */}
         <div className="flex flex-col gap-2 mb-6 mt-10">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                Global Disaster Alerts
+                Disaster News Feed
               </h2>
               <p className="text-slate-600 text-lg max-w-2xl leading-relaxed mt-2">
-                Real-time monitoring from the Global Disaster Alert and Coordination System (GDACS).
+                Latest updates on natural disasters and emergencies across the US.
               </p>
             </div>
-            <label className="flex items-center gap-2 cursor-pointer bg-white border border-slate-200 px-4 py-2 rounded-lg shadow-sm hover:bg-slate-50 transition-colors self-start sm:self-auto shrink-0">
-              <input
-                type="checkbox"
-                className="w-4 h-4 text-[#BF0637] rounded focus:ring-[#BF0637]"
-                checked={showOldDisasters}
-                onChange={(e) => setShowOldDisasters(e.target.checked)}
-              />
-              <span className="text-sm font-bold text-slate-700">Include Historical Disasters</span>
-            </label>
           </div>
         </div>
-        
-        {/* Filters Below Subheading */}
-        <div className="flex flex-col sm:flex-row gap-6 mb-10 pb-6 border-b border-slate-200">
-          {/* Event Type Filter */}
-          <div className="flex flex-col gap-2 flex-1">
-            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Event Type</label>
-            <div className="flex overflow-x-auto pb-2 scrollbar-hide gap-2">
-              <button
-                onClick={() => setEventTypeFilter("all")}
-                className={`whitespace-nowrap rounded-lg px-4 py-2 text-sm font-semibold transition-colors ring-1 ring-inset ${
-                  eventTypeFilter === "all"
-                    ? "bg-slate-900 text-white ring-slate-900 shadow-md"
-                    : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-50"
-                }`}
-              >
-                All Events
-              </button>
-              {availableEventTypes.map((t) => (
-                <button
-                  key={t}
-                  onClick={() => setEventTypeFilter(t)}
-                  className={`whitespace-nowrap rounded-lg px-4 py-2 text-sm font-semibold transition-colors ring-1 ring-inset ${
-                    eventTypeFilter === t
-                      ? "bg-[#BF0637] text-white ring-[#BF0637] shadow-md"
-                      : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-50"
-                  }`}
-                >
-                  {EVENT_TYPES[t] || t}
-                </button>
-              ))}
-            </div>
-          </div>
 
-          {/* Alert Level Filter */}
-          <div className="flex flex-col gap-2 shrink-0">
-            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Alert Level</label>
-            <div className="flex overflow-x-auto pb-2 scrollbar-hide gap-2">
+        {/* Filters Below Subheading */}
+        <div className="flex flex-col gap-2 mb-10 pb-6 border-b border-slate-200">
+          <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Filter by Disaster Type</label>
+          <div className="flex overflow-x-auto pb-2 scrollbar-hide gap-2">
+            {DISASTER_FILTERS.map((t) => (
               <button
-                onClick={() => setAlertFilter("all")}
-                className={`whitespace-nowrap rounded-lg px-4 py-2 text-sm font-semibold transition-colors ring-1 ring-inset ${
-                  alertFilter === "all"
-                    ? "bg-slate-900 text-white ring-slate-900 shadow-md"
+                key={t}
+                onClick={() => setActiveFilter(t)}
+                className={`whitespace-nowrap rounded-lg px-4 py-2 text-sm font-semibold transition-colors ring-1 ring-inset ${activeFilter === t
+                    ? "bg-[#BF0637] text-white ring-[#BF0637] shadow-md"
                     : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-50"
-                }`}
-              >
-                All Alerts
-              </button>
-              {["Red", "Orange", "Green"].map((level) => (
-                <button
-                  key={level}
-                  onClick={() => setAlertFilter(level)}
-                  className={`flex items-center gap-2 whitespace-nowrap rounded-lg px-4 py-2 text-sm font-semibold transition-colors ring-1 ring-inset ${
-                    alertFilter === level
-                      ? "bg-slate-800 text-white ring-slate-800 shadow-md"
-                      : "bg-white text-slate-700 ring-slate-200 hover:bg-slate-50"
                   }`}
-                >
-                  <span className={`w-2.5 h-2.5 rounded-full ${level === 'Red' ? 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]' : level === 'Orange' ? 'bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.6)]' : 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]'}`}></span>
-                  {level}
-                </button>
-              ))}
-            </div>
+              >
+                {t}
+              </button>
+            ))}
           </div>
         </div>
 
@@ -363,9 +372,9 @@ export default function NewsAndMediaFeed() {
             <div className="rounded-2xl border border-slate-200 bg-white p-12 sm:p-16 shadow-sm">
               <div className="mx-auto max-w-md text-center">
                 <div className="mx-auto mb-6 h-12 w-12 animate-spin rounded-full border-2 border-[#BF0637] border-t-transparent" aria-hidden />
-                <p className="text-lg font-semibold text-slate-900">Loading GDACS Live Feed</p>
+                <p className="text-lg font-semibold text-slate-900">Loading News Feed</p>
                 <p className="mt-2 text-sm text-slate-600">
-                  Pulling the latest global disaster data...
+                  Fetching the latest updates...
                 </p>
               </div>
             </div>
@@ -375,17 +384,17 @@ export default function NewsAndMediaFeed() {
             <div className="rounded-2xl border border-red-200 bg-red-50/80 p-8 sm:p-10 text-center">
               <p className="text-lg font-semibold text-red-900">We couldn&apos;t load the feed</p>
               <p className="mt-2 text-sm text-red-800/90 max-w-lg mx-auto">
-                The GDACS API is temporarily unavailable. Please refresh the page in a few minutes.
+                The news API is temporarily unavailable or misconfigured. Please try again later.
               </p>
             </div>
           </div>
-        ) : status === "empty" || filtered.length === 0 ? (
+        ) : status === "empty" || articles.length === 0 ? (
           <div className="py-16">
             <div className="rounded-2xl border border-slate-200 bg-white p-12 text-center shadow-sm">
-              <p className="text-lg font-semibold text-slate-900">No events found</p>
+              <p className="text-lg font-semibold text-slate-900">No news found</p>
               <p className="mt-2 text-slate-500">Try adjusting your filters to see more results.</p>
-              <button 
-                onClick={() => { setEventTypeFilter("all"); setAlertFilter("all"); }}
+              <button
+                onClick={() => setActiveFilter("All")}
                 className="mt-4 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 font-medium rounded-lg transition-colors"
               >
                 Clear Filters
@@ -396,66 +405,94 @@ export default function NewsAndMediaFeed() {
           <div className="flex flex-col gap-6">
             {/* Featured Top Story */}
             {featured && (
-              <article className="mb-4 rounded-3xl border border-slate-200/90 bg-white shadow-xl shadow-slate-200/50 overflow-hidden">
-                <div className="flex h-1.5 w-full">
-                  <div className={`w-1/3 ${(ALERT_COLORS[featured.properties.alertlevel] || DEFAULT_ALERT_COLOR).bar}`} />
-                  <div className="flex-1 bg-gradient-to-r from-slate-200 to-slate-400" />
-                </div>
-                <div className={`bg-gradient-to-br ${(ALERT_COLORS[featured.properties.alertlevel] || DEFAULT_ALERT_COLOR).cardBg} p-6 sm:p-10 lg:p-12 relative`}>
-                  
-                  {/* GDACS Icon in background */}
-                  {featured.properties.icon && (
-                    <img 
-                      src={featured.properties.icon} 
-                      alt="" 
-                      className="absolute top-10 right-10 w-32 h-32 opacity-10 object-contain pointer-events-none hidden sm:block" 
+              <article className="mb-4 rounded-3xl border border-slate-200/90 bg-white shadow-xl shadow-slate-200/50 overflow-hidden flex flex-col md:flex-row group">
+                {featured.image_url ? (
+                  <div className="w-full md:w-2/5 h-64 md:h-auto shrink-0 bg-slate-100 overflow-hidden relative">
+                    <img
+                      src={featured.image_url}
+                      alt={featured.title}
+                      className="w-full h-full object-cover absolute inset-0 group-hover:scale-105 transition-transform duration-700 cursor-pointer"
+                      onClick={() => setSelectedArticle(featured)}
                     />
-                  )}
+                  </div>
+                ) : (
+                  <div className="w-full md:w-2 bg-gradient-to-b from-[#BF0637] to-red-400 shrink-0 h-2 md:h-auto" />
+                )}
 
-                  <div className="flex flex-wrap items-center gap-2 mb-4 relative z-10">
-                    <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide ring-1 ${(ALERT_COLORS[featured.properties.alertlevel] || DEFAULT_ALERT_COLOR).chip}`}>
-                      <span className={`w-2 h-2 rounded-full ${(ALERT_COLORS[featured.properties.alertlevel] || DEFAULT_ALERT_COLOR).bar}`}></span>
-                      {featured.properties.alertlevel} Alert
+                <div className="flex-1 bg-gradient-to-br from-slate-50 to-white p-6 sm:p-10 relative flex flex-col">
+                  <div className="flex items-center gap-2 mb-4 relative z-10">
+                    {featured.source_icon && (
+                      <img src={featured.source_icon} alt={featured.source_name} className="w-6 h-6 object-contain rounded-md shadow-sm" />
+                    )}
+                    <span className="inline-flex items-center rounded-full bg-slate-900/5 px-3 py-1 text-xs font-bold text-slate-700 ring-1 ring-slate-200/80 uppercase tracking-wider">
+                      {featured.source_name}
                     </span>
-                    <span className="inline-flex items-center rounded-full bg-slate-900/5 px-3 py-1 text-xs font-semibold text-slate-700 ring-1 ring-slate-200/80">
-                      {EVENT_TYPES[featured.properties.eventtype] || featured.properties.eventtype}
-                    </span>
-                    <span className="text-xs font-medium text-slate-500 flex items-center gap-1.5">
-                      <span className="font-semibold text-slate-700">{featured.properties.country}</span>
-                      <span className="text-slate-300">|</span>
-                      {relativeTime(featured.properties.fromdate)}
+                    <span className="text-xs font-medium text-slate-500 flex items-center gap-1.5 ml-auto">
+                      {relativeTime(featured.pubDate)}
                     </span>
                   </div>
-                  
-                  <h3 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 leading-tight tracking-tight mb-4 relative z-10 max-w-4xl">
-                    {featured.properties.name || `${EVENT_TYPES[featured.properties.eventtype] || 'Event'} in ${featured.properties.country}`}
+
+                  <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight tracking-tight mb-4 relative z-10 group-hover:text-[#BF0637] transition-colors duration-300 cursor-pointer" onClick={() => setSelectedArticle(featured)}>
+                    {featured.title}
                   </h3>
-                  
-                  <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-3xl mb-8 relative z-10">
-                    {stripHtml(featured.properties.htmldescription || featured.properties.description)}
+
+                  <p className={`text-base text-slate-600 leading-relaxed mb-4 relative z-10 transition-all duration-300 line-clamp-3`}>
+                    {stripHtml(featured.description || featured.content || "")}
                   </p>
-                  
-                  <div className="flex flex-col sm:flex-row gap-4 relative z-10">
-                    <a
-                      href={featured.properties.url?.report}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#BF0637] px-6 py-3.5 text-sm font-bold text-white shadow-md shadow-[#BF0637]/25 hover:bg-[#a00530] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#BF0637] focus-visible:ring-offset-2"
+
+                  {stripHtml(featured.description || featured.content || "").length > 150 && (
+                    <button
+                      onClick={() => setSelectedArticle(featured)}
+                      className="text-sm text-[#BF0637] font-bold self-start mb-6 relative z-10 flex items-center gap-1 hover:bg-red-50 px-3 py-1.5 -ml-3 rounded-lg transition-colors"
                     >
-                      Read Full Report
-                      <ExternalIcon className="w-4 h-4 opacity-90" />
-                    </a>
+                      Read More
+                      <svg className={`w-4 h-4`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                      </svg>
+                    </button>
+                  )}
+
+                  <div className="mt-auto relative z-10">
+                    <button
+                      onClick={() => setSelectedArticle(featured)}
+                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#BF0637] px-6 py-3 text-sm font-bold text-white shadow-md shadow-[#BF0637]/25 hover:bg-[#a00530] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#BF0637] focus-visible:ring-offset-2 hover:-translate-y-0.5"
+                    >
+                      Read Full Article
+                      <svg className="w-4 h-4 opacity-90" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                      </svg>
+                    </button>
                   </div>
                 </div>
               </article>
             )}
 
             {/* List of remaining events */}
-            <div className="flex flex-col gap-3">
-              {rest.map((item, idx) => (
-                <NewsListItem key={`${item.properties.eventid}-${idx}`} item={item} />
+            <div className="flex flex-col gap-4">
+              {rest.map((item) => (
+                <NewsListItem key={item.article_id} item={item} onReadMore={setSelectedArticle} />
               ))}
             </div>
+
+            {/* Show More Button */}
+            {nextPage && (
+              <div className="mt-8 flex justify-center">
+                <button
+                  onClick={() => fetchNews(nextPage, activeFilter, true)}
+                  disabled={isLoadingMore}
+                  className="inline-flex items-center gap-2 px-8 py-3.5 bg-slate-900 text-white font-bold text-sm rounded-xl shadow-lg shadow-slate-900/20 hover:bg-slate-800 focus:ring-4 focus:ring-slate-900/20 transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+                >
+                  {isLoadingMore ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      Loading More...
+                    </>
+                  ) : (
+                    "Show More News"
+                  )}
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>
