@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+﻿import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 // Routes that should NEVER be redirected to maintenance
@@ -15,7 +15,6 @@ const BYPASS_PREFIXES = [
 
 const BYPASS_EXTENSIONS = ['.ico', '.png', '.jpg', '.jpeg', '.svg', '.webp', '.gif', '.woff', '.woff2', '.ttf', '.css', '.js', '.map']
 
-// Cookie used to persist maintenance state between requests as a last resort.
 const MAINTENANCE_COOKIE = 'r3sults_maintenance_active'
 
 function shouldBypass(pathname: string): boolean {
@@ -24,101 +23,44 @@ function shouldBypass(pathname: string): boolean {
   return false
 }
 
-// Admin dashboard URL - where maintenance config is managed
-const ADMIN_DASHBOARD_URL =
-  process.env.ADMIN_DASHBOARD_URL ||
-  process.env.NEXT_PUBLIC_ADMIN_DASHBOARD_URL ||
-  'https://results-admin-dashboard.vercel.app'
-
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // Skip maintenance check for bypassed paths
   if (shouldBypass(pathname)) {
     return NextResponse.next()
   }
 
   const maintenanceUrl = new URL('/maintenance', request.url)
 
-  try {
-    let config: any = null
+  // LAYER 1: Environment variable (instant, zero latency, set in Vercel dashboard)
+  // This is the primary and most reliable source of truth.
+  // Set MAINTENANCE_MODE=1 in Vercel project env vars to enable global maintenance.
+  const envMaintenance = process.env.MAINTENANCE_MODE === '1' || process.env.MAINTENANCE_MODE === 'true'
 
-    const isDev = process.env.NODE_ENV !== 'production'
-    const timeoutMs = isDev ? 500 : 1500
+  if (envMaintenance) {
+    const response = NextResponse.redirect(maintenanceUrl, 307)
+    response.cookies.set(MAINTENANCE_COOKIE, '1', {
+      path: '/',
+      maxAge: 120,
+      sameSite: 'strict',
+      httpOnly: true,
+    })
+    return response
+  }
 
-    // ── Primary: Admin Dashboard API ─────────────────────────────────────────
-    try {
-      const configRes = await fetch(`${ADMIN_DASHBOARD_URL}/api/public/results-com-maintenance`, {
-        cache: 'no-store',
-        signal: AbortSignal.timeout(timeoutMs),
-        headers: { 'Accept': 'application/json' },
-      })
-      if (configRes.ok) {
-        config = await configRes.json()
-      }
-    } catch {
-      // Primary fetch failed — try local API next
-    }
+  // If env var explicitly says OFF, clear any stale cookie and allow through
+  // so that disabling maintenance via env var ALWAYS works instantly.
+  if (process.env.MAINTENANCE_MODE === '0' || process.env.MAINTENANCE_MODE === 'false') {
+    const response = NextResponse.next()
+    response.cookies.delete(MAINTENANCE_COOKIE)
+    return response
+  }
 
-    // ── Secondary: Local /api/maintenance-status ──────────────────────────────
-    // Same-origin route — always reachable, no cold-start issues. Acts as a
-    // reliable fallback so turning maintenance OFF is always reflected quickly.
-    if (!config) {
-      try {
-        const localUrl = new URL('/api/maintenance-status', request.url)
-        const localRes = await fetch(localUrl.toString(), {
-          cache: 'no-store',
-          signal: AbortSignal.timeout(2000),
-          headers: { 'Accept': 'application/json' },
-        })
-        if (localRes.ok) {
-          config = await localRes.json()
-        }
-      } catch {
-        // Local fetch also failed — fall through to cookie as last resort
-      }
-    }
-
-    if (config) {
-      // We have fresh config — evaluate maintenance state
-      const normalizedPath = pathname.length > 1 ? pathname.replace(/\/$/, '') : pathname
-      const isInMaintenance =
-        config.globalMaintenance === true ||
-        (config.routes && config.routes[normalizedPath] === true)
-
-      if (isInMaintenance) {
-        // Redirect and stamp the persistence cookie (refreshed on every block)
-        const response = NextResponse.redirect(maintenanceUrl, 307)
-        response.cookies.set(MAINTENANCE_COOKIE, '1', {
-          path: '/',
-          maxAge: 60, // seconds – re-stamped each blocked request
-          sameSite: 'strict',
-          httpOnly: true,
-        })
-        return response
-      }
-
-      // Maintenance is OFF — clear cookie and let the user through
-      const response = NextResponse.next()
-      response.cookies.delete(MAINTENANCE_COOKIE)
-      return response
-    }
-
-    // ── Last resort: Cookie fallback ──────────────────────────────────────────
-    // Both API calls failed. Use the persisted cookie to decide.
-    const maintenanceCookie = request.cookies.get(MAINTENANCE_COOKIE)
-    if (maintenanceCookie?.value === '1') {
-      return NextResponse.redirect(maintenanceUrl, 307)
-    }
-
-  } catch (error) {
-    console.error('[Middleware] Maintenance check failed:', error)
-
-    // On unexpected error also fall back to cookie check
-    const maintenanceCookie = request.cookies.get(MAINTENANCE_COOKIE)
-    if (maintenanceCookie?.value === '1') {
-      return NextResponse.redirect(maintenanceUrl, 307)
-    }
+  // LAYER 2: Cookie fallback (for returning users when env var not set)
+  // Only used as a last resort when MAINTENANCE_MODE env var is not configured.
+  const maintenanceCookie = request.cookies.get(MAINTENANCE_COOKIE)
+  if (maintenanceCookie?.value === '1') {
+    return NextResponse.redirect(maintenanceUrl, 307)
   }
 
   return NextResponse.next()
@@ -129,4 +71,3 @@ export const config = {
     '/((?!_next/static|_next/image|favicon.ico).*)',
   ],
 }
-
