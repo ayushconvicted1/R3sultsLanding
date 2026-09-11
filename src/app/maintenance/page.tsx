@@ -158,7 +158,6 @@ export default function MaintenancePage() {
                 priority
                 style={{ width: 'clamp(160px, 18vw, 240px)', height: 'auto' }}
               />
-              <div className="foundation-label">Foundation</div>
             </div>
 
             <div className="uc-badge">

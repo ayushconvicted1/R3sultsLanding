@@ -62,6 +62,10 @@ export default function Header() {
     };
   }, [showMobileMenu]);
 
+  if (pathname === "/maintenance") {
+    return null;
+  }
+
   return (
     <>
       <header className="w-[90%] ml-[5%] mt-[10px] rounded-md fixed top-0 z-50 bg-white/100 backdrop-blur-xl border-b border-white/10">
